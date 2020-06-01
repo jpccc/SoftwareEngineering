@@ -30,7 +30,7 @@
             <th>按课程名:</th>
             <th><input type="text" name="by_name"></th>
             <th><input type="submit" value="查询" class="button"></th>
-            <th>${error}</th>
+            <th class="error">${error}</th>
         </tr>
     </form>
 </table>
@@ -48,6 +48,7 @@
         <th>时间戳</th>
         <th>学生数</th>
         <th>当前状态</th>
+        <th>...</th>
     </tr>
     <c:if test="${not empty list}">
         <c:forEach items="${list}" var="course">

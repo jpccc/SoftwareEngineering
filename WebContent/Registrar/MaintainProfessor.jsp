@@ -15,16 +15,10 @@
 </head>
 <body>
 <h1>管理教授档案</h1>
-<%
-    //test session professor
-    java.util.Date utilDate = new SimpleDateFormat("yyyy-MM-dd").parse("1970-01-01");
-    Date birthday = new Date(utilDate.getTime());
-    request.getSession().setAttribute("professor",new Professor("P1234561","josh",birthday,1,"1",1,"123456"));
-%>
-<form class="modifyinfo" action="/RegistrarServlet?method=modifyProfessor&id=${professor.id}" method="post">
+<form class="modifyinfo" action="/SoftwareEngineering_war/RegistrarServlet?method=modifyProfessor&id=${professor.p_id}" method="post">
     <div class="inputbox" >
-        id<br><input type="text" class="password" name="p_id" value="${professor.id}" disabled><br>
-        姓名<br><input type="text" class="password" name="p_name" value="${professor.name}"><br>
+        id<br><input type="text" class="password" name="p_id" value="${professor.p_id}" disabled><br>
+        姓名<br><input type="text" class="password" name="p_name" value="${professor.p_name}"><br>
         生日<br><input type="Date" class="password" name="birthday" value="${professor.birthday}"><br>
         identify number<br><input type="text" class="password" name="identify_num" value="${professor.identify_num}" ><br>
         状态<br><input type="text" class="password" name="status" value="${professor.status}"><br>
@@ -33,10 +27,20 @@
     </div>
     <br>
     <input type="submit" value="修改" class="button">
+    <br>
     <br><br>
     <div class="error">
         ${error}
     </div>
+    <br>
+    <input type="button" value="删除" class="button" style="background-color: red;color: white" onclick="firm()"/>
 </form>
 </body>
+<script language="javascript">
+    function firm() {
+        if (confirm("确定删除？")) {
+            location.href = "/SoftwareEngineering_war/RegistrarServlet?method=deleteProfessor&id=${professor.p_id}";
+        }
+    }
+</script>
 </html>

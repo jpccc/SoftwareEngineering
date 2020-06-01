@@ -30,7 +30,7 @@
             <th>按姓名:</th>
             <th><input type="text" name="by_name"></th>
             <th><input type="submit" value="查询" class="button"></th>
-            <th>${error}</th>
+            <th class="error">${error}</th>
         </tr>
     </form>
 </table>
@@ -45,6 +45,7 @@
         <th>状态</th>
         <th>院系id</th>
         <th>密码</th>
+        <th>...</th>
     </tr>
     <c:if test="${not empty list}">
         <c:forEach items="${list}" var="professor">
@@ -56,7 +57,7 @@
                 <th>${professor.status}</th>
                 <th>${professor.dept_id}</th>
                 <th>${professor.password}</th>
-                <th><a href="/SoftwareEngineering_war/Professor?method=modify&id=${professor.p_id}">编辑信息</a></th>
+                <th><a href="/SoftwareEngineering_war/RegistrarServlet?method=modify&id=${professor.p_id}">编辑信息</a></th>
             </tr>
         </c:forEach>
     </c:if>

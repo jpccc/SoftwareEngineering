@@ -52,7 +52,10 @@ public class RegistrarServlet extends BaseServlet {
         if(professor.getP_id().equals("null")){
             professor = new Professor(p_id,p_name,birthday,identify_num,status,dept_id,password);
             professorDAO.insert(professor);
-            resp.sendRedirect("/SoftwareEngineering_war/Registrar/SearchProfessor.jsp");
+            List<Professor> list = new ArrayList<Professor>();
+            list.add(professor);
+            req.setAttribute("list", list);
+            req.getRequestDispatcher("/Registrar/SearchProfessor.jsp").forward(req, resp);
         }else{
             req.setAttribute("error", "id已存在！");
             req.getRequestDispatcher("/Registrar/NewProfessor.jsp").forward(req, resp);
@@ -61,22 +64,27 @@ public class RegistrarServlet extends BaseServlet {
 
     }
 
+    public boolean notBlank(String string){
+        if(string != null && !string.equals(""))
+            return true;
+        else return false;
+    }
     public void searchProfessor(HttpServletRequest req, HttpServletResponse resp) throws Exception {
         String idString=req.getParameter("by_id");
         String name=req.getParameter("by_name");
         List<Professor> list=new ArrayList<Professor>();
         ProfessorDAO professorDAO = new ProfessorDAOImpl();
-        if(!formatCheck(idString)&&!formatCheck(name)){
+        if(!notBlank(idString)&&!notBlank(name)){
             list=professorDAO.showAll();
         }
-        if(formatCheck(idString)&&!formatCheck(name)){
+        if(notBlank(idString)&&!notBlank(name)){
             //only id
             Professor professor = professorDAO.findById(idString);
             if (professor.getP_id().equals(idString)){//found!
                 list.add(professor);
             }//not found add nothing!
         }
-        if(!formatCheck(idString)&&formatCheck(name)){
+        if(!notBlank(idString)&&notBlank(name)){
             //only name
             List<Professor> resultList = professorDAO.findByName(name);
             for(Professor professor:resultList){
@@ -133,6 +141,24 @@ public class RegistrarServlet extends BaseServlet {
         ProfessorDAO professorDAO=new ProfessorDAOImpl();
         Professor professor = new Professor(p_id,p_name,birthday,identify_num,status,dept_id,password);
         professorDAO.update(professor);
+        List<Professor> list = new ArrayList<Professor>();
+        list.add(professor);
+        req.setAttribute("list", list);
+        req.getRequestDispatcher("/Registrar/SearchProfessor.jsp").forward(req, resp);
+    }
+    public void deleteProfessor(HttpServletRequest req, HttpServletResponse resp) throws Exception {
+        String p_id = req.getParameter("id");
+
+        ProfessorDAO professorDAO=new ProfessorDAOImpl();
+        Professor professor = professorDAO.findById(p_id);
+        if(!professor.getP_id().equals("null")){
+            professorDAO.delete(p_id);
+            resp.sendRedirect("/SoftwareEngineering_war/Registrar/SearchProfessor.jsp");
+        }else{
+            req.setAttribute("error", "id不存在！");
+            req.getRequestDispatcher("/Registrar/SearchProfessor.jsp").forward(req, resp);
+            return;
+        }
         resp.sendRedirect("/SoftwareEngineering_war/Registrar/SearchProfessor.jsp");
     }
 }
