@@ -1,0 +1,19 @@
+body{
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+.button {
+    border-color: #34495e;
+    background-color:#34495e;
+    color: antiquewhite;
+    width: 100px;
+    height: 40px;
+    font-size: 18px;
+    border-radius: 5px;
+}
+
+.button:hover {
+    opacity: .9;
+}
