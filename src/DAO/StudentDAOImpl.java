@@ -1,6 +1,5 @@
 package DAO;
 
-import Beans.Professor;
 import Beans.Student;
 
 import java.sql.Connection;
