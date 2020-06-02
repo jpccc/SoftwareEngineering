@@ -1,0 +1,1 @@
+Controller,可以放入Servlet执行逻辑，向jsp提供数据并进行跳转，为C组件

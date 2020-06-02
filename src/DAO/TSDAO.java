@@ -1,4 +1,4 @@
-package dao;
+package DAO;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -18,7 +18,7 @@ public class TSDAO {
         }
     }
 	public Connection getConnection() throws SQLException {
-        return DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/how2java?characterEncoding=UTF-8", "root",
+        return DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/registration?characterEncoding=utf-8&useSSL=false&useUnicode=true&serverTimezone=UTC", "root",
                 "root");
     }
 	
@@ -29,6 +29,7 @@ public class TSDAO {
    
             ResultSet rs= s.executeQuery(sql);
             String result="";
+            System.out.println("result:" + result);
             if(rs.next()) {
             	result=rs.getString(1);
             	System.out.println("result:" + result);
