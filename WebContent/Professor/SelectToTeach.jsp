@@ -1,4 +1,4 @@
-<%@ page import="java.util.Date" %>
+fg<%@ page import="java.util.Date" %>
 <%@ page import="java.text.SimpleDateFormat" %><%--
   Created by IntelliJ IDEA.
   User: mlixi
