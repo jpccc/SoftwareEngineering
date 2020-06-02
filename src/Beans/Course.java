@@ -14,7 +14,7 @@ public class Course {
     String professor_id;
     int student_count;
     String status;
-
+    
     public int getReg_id() {
         return reg_id;
     }
