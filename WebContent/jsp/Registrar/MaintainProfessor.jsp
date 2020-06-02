@@ -10,7 +10,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <link rel="stylesheet" type="text/css" href="/SoftwareEngineering_war/Registrar/css/form.css" />
+    <link rel="stylesheet" type="text/css" href="/SoftwareEngineering_war/jsp/Registrar/css/form.css" />
     <title>Title</title>
 </head>
 <body>

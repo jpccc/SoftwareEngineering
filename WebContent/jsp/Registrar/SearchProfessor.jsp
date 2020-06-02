@@ -10,7 +10,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <html>
 <head>
-    <link rel="stylesheet" type="text/css" href="/SoftwareEngineering_war/Registrar/css/form.css" />
+    <link rel="stylesheet" type="text/css" href="/SoftwareEngineering_war/jsp/Registrar/css/form.css" />
     <title>教授信息</title>
 </head>
 <body>
