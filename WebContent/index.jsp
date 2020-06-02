@@ -1,5 +1,5 @@
-<%@ page import="Beans.StudentInfo" %>
-<%@ page import="com.lxb.Professor.Professor" %>
+<%@ page import="Beans.Student" %>
+<%@ page import="Beans.Professor" %>
 <%@ page import="java.sql.Connection" %>
 <%@ page import="DAO.DruidManager" %>
 <%@ page import="java.sql.SQLException" %>
@@ -13,7 +13,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%
-    StudentInfo student= (StudentInfo) session.getAttribute("studentInfo");
+    Student student= (Student) session.getAttribute("studentInfo");
     if(student!=null)request.getRequestDispatcher("/WEB-INF/jsp/StudentPage.jsp").forward(request,response);
     Professor professor= (Professor) session.getAttribute("professorInfo");
     if(professor!=null)request.getRequestDispatcher("/WEB-INF/jsp/ProfessorPage.jsp").forward(request,response);

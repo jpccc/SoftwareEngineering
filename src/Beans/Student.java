@@ -3,8 +3,8 @@ package Beans;
 import java.io.Serializable;
 import java.sql.Date;
 
-public class StudentInfo implements Serializable {
-    public StudentInfo(){
+public class Student implements Serializable {
+    public Student(){
         s_id=null;
         s_name=null;
         birthday=null;
@@ -12,6 +12,7 @@ public class StudentInfo implements Serializable {
         status=null;
         dept_id=-1;
         graduate_date=null;
+        password=null;
     }
     private String s_id;
     private String s_name;
@@ -20,6 +21,7 @@ public class StudentInfo implements Serializable {
     private String status;
     private int dept_id;
     private Date graduate_date;
+    private String password;
 
     public String getS_id() {
         return s_id;
@@ -75,5 +77,13 @@ public class StudentInfo implements Serializable {
 
     public void setGraduate_date(Date graduate_date) {
         this.graduate_date = graduate_date;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

@@ -1,18 +1,13 @@
-package com.lxb.Servlet;
+package Controller;
 
-import com.lxb.Professor.Professor;
-import com.lxb.Professor.ProfessorDAO;
-import com.lxb.Professor.ProfessorDAOImpl;
+import Beans.Professor;
+import DAO.ProfessorDAO;
+import DAO.ProfessorDAOImpl;
 
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
 import java.sql.Date;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;

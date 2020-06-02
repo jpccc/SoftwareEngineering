@@ -3,7 +3,7 @@
   <display-name>SoftwareEngineering</display-name>
   <servlet>
     <servlet-name>RegistrarServlet</servlet-name>
-    <servlet-class>com.lxb.Servlet.RegistrarServlet</servlet-class>
+    <servlet-class>Controller.RegistrarServlet</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>LoginServlet</servlet-name>

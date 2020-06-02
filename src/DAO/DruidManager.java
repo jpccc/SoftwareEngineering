@@ -3,6 +3,8 @@ package DAO;
 import com.alibaba.druid.pool.DruidDataSource;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
@@ -25,6 +27,19 @@ public class DruidManager {
      */
     public static Connection getConnection() throws SQLException {
         return getDruidDataSource().getConnection();
+    }
+
+    /**
+     * 辅助释放资源
+     * @param conn 数据库连接
+     * @param st statement对象
+     * @param rs 结果集
+     * @throws SQLException 关闭过程中可能报出异常
+     */
+    public static void close(Connection conn,  PreparedStatement st,ResultSet rs) throws SQLException {
+        rs.close();
+        st.close();
+        conn.close();
     }
 
     private static DruidDataSource getDruidDataSource(){
@@ -61,6 +76,4 @@ public class DruidManager {
 
         return druidDataSource;
     }
-
-
 }

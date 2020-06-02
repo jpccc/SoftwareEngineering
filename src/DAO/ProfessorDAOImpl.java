@@ -1,6 +1,6 @@
-package com.lxb.Professor;
+package DAO;
 
-import com.lxb.JDBCUtil;
+import Beans.Professor;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

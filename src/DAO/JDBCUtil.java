@@ -1,4 +1,4 @@
-package com.lxb;
+package DAO;
 
 import java.sql.*;
 
