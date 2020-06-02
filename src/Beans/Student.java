@@ -3,21 +3,22 @@ package Beans;
 import java.io.Serializable;
 import java.sql.Date;
 
-public class Student implements Serializable {
+public class Student extends User implements Serializable {
     public Student(){
         s_id=null;
         s_name=null;
         birthday=null;
-        identify_num=0;
+        identify_num=null;
         status=null;
         dept_id=-1;
         graduate_date=null;
         password=null;
+        type=User.USER_STUDENT;
     }
     private String s_id;
     private String s_name;
     private Date birthday;
-    private int identify_num;
+    private String identify_num;
     private String status;
     private int dept_id;
     private Date graduate_date;
@@ -47,11 +48,11 @@ public class Student implements Serializable {
         this.birthday = birthday;
     }
 
-    public int getIdentify_num() {
+    public String getIdentify_num() {
         return identify_num;
     }
 
-    public void setIdentify_num(int identify_num) {
+    public void setIdentify_num(String identify_num) {
         this.identify_num = identify_num;
     }
 

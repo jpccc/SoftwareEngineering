@@ -1,4 +1,4 @@
-<%--
+<%@ page import="Beans.Student" %><%--
   Created by IntelliJ IDEA.
   User: 李睿宸
   Date: 2020/6/2
@@ -11,6 +11,11 @@
     <title>学生页面</title>
 </head>
 <body>
-
+这里是学生页面
+<%Student student= (Student) session.getAttribute("user");%>
+<%=student.getS_name()%>
+<%=student.getStatus()%>
+<%=student.getBirthday()%>
+<%=student.getIdentify_num()%>
 </body>
 </html>
