@@ -1,4 +1,4 @@
-package com.lxb.Professor;
+package Beans;
 
 import java.sql.Date;
 

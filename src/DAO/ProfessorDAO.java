@@ -1,4 +1,6 @@
-package com.lxb.Professor;
+package DAO;
+
+import Beans.Professor;
 
 import java.util.List;
 

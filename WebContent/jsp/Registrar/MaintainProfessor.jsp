@@ -1,4 +1,4 @@
-<%@ page import="com.lxb.Professor.Professor" %>
+<%@ page import="Beans.Professor" %>
 <%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="java.sql.Date" %><%--
   Created by IntelliJ IDEA.
