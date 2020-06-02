@@ -8,7 +8,7 @@ public class Student implements Serializable {
         s_id=null;
         s_name=null;
         birthday=null;
-        identify_num=null;
+        identify_num=0;
         status=null;
         dept_id=-1;
         graduate_date=null;
@@ -17,7 +17,7 @@ public class Student implements Serializable {
     private String s_id;
     private String s_name;
     private Date birthday;
-    private String identify_num;
+    private int identify_num;
     private String status;
     private int dept_id;
     private Date graduate_date;
@@ -47,11 +47,11 @@ public class Student implements Serializable {
         this.birthday = birthday;
     }
 
-    public String getIdentify_num() {
+    public int getIdentify_num() {
         return identify_num;
     }
 
-    public void setIdentify_num(String identify_num) {
+    public void setIdentify_num(int identify_num) {
         this.identify_num = identify_num;
     }
 
@@ -86,4 +86,6 @@ public class Student implements Serializable {
     public void setPassword(String password) {
         this.password = password;
     }
+    
+    
 }

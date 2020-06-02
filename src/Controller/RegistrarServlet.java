@@ -34,12 +34,12 @@ public class RegistrarServlet extends BaseServlet {
         //格式再判断
         if (!formatCheck(p_id)) {
             req.setAttribute("error", "id格式有误！");
-            req.getRequestDispatcher("/Registrar/NewProfessor.jsp").forward(req, resp);
+            req.getRequestDispatcher("/jsp/Registrar/NewProfessor.jsp").forward(req, resp);
             return;
         }
         if (!formatCheck(password)) {
             req.setAttribute("error", "密码格式有误！");
-            req.getRequestDispatcher("/Registrar/NewProfessor.jsp").forward(req, resp);
+            req.getRequestDispatcher("/jsp/Registrar/NewProfessor.jsp").forward(req, resp);
             return;
         }
         ProfessorDAO professorDAO=new ProfessorDAOImpl();
@@ -50,10 +50,10 @@ public class RegistrarServlet extends BaseServlet {
             List<Professor> list = new ArrayList<Professor>();
             list.add(professor);
             req.setAttribute("list", list);
-            req.getRequestDispatcher("/Registrar/SearchProfessor.jsp").forward(req, resp);
+            req.getRequestDispatcher("/jsp/Registrar/SearchProfessor.jsp").forward(req, resp);
         }else{
             req.setAttribute("error", "id已存在！");
-            req.getRequestDispatcher("/Registrar/NewProfessor.jsp").forward(req, resp);
+            req.getRequestDispatcher("/jsp/Registrar/NewProfessor.jsp").forward(req, resp);
             return;
         }
 
@@ -91,7 +91,7 @@ public class RegistrarServlet extends BaseServlet {
         }
         HttpSession session = req.getSession();
         session.setAttribute("list",list);
-        resp.sendRedirect("/SoftwareEngineering_war/Registrar/SearchProfessor.jsp");
+        resp.sendRedirect("/SoftwareEngineering_war/jsp/Registrar/SearchProfessor.jsp");
     }
 
     public void modify(HttpServletRequest req, HttpServletResponse resp) throws Exception {
@@ -103,10 +103,10 @@ public class RegistrarServlet extends BaseServlet {
                 Professor professor = professorDAO.findById(id);
                 HttpSession session=req.getSession();
                 req.setAttribute("professor", professor);
-                req.getRequestDispatcher("/Registrar/MaintainProfessor.jsp").forward(req,resp);
+                req.getRequestDispatcher("/jsp/Registrar/MaintainProfessor.jsp").forward(req,resp);
             }else{
                 req.setAttribute("error", "id错误无法修改");
-                req.getRequestDispatcher("/Registrar/searchProfessor.jsp").forward(req,resp);
+                req.getRequestDispatcher("/jsp/Registrar/SearchProfessor.jsp").forward(req,resp);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -125,12 +125,12 @@ public class RegistrarServlet extends BaseServlet {
         //格式再判断
         if (!formatCheck(p_id)) {
             req.setAttribute("error", "id格式有误！");
-            req.getRequestDispatcher("/Registrar/MaintainProfessor.jsp").forward(req, resp);
+            req.getRequestDispatcher("/jsp/Registrar/MaintainProfessor.jsp").forward(req, resp);
             return;
         }
         if (!formatCheck(password)) {
             req.setAttribute("error", "密码格式有误！");
-            req.getRequestDispatcher("/Registrar/MaintainProfessor.jsp").forward(req, resp);
+            req.getRequestDispatcher("/jsp/Registrar/MaintainProfessor.jsp").forward(req, resp);
             return;
         }
         ProfessorDAO professorDAO=new ProfessorDAOImpl();
@@ -139,7 +139,7 @@ public class RegistrarServlet extends BaseServlet {
         List<Professor> list = new ArrayList<Professor>();
         list.add(professor);
         req.setAttribute("list", list);
-        req.getRequestDispatcher("/Registrar/SearchProfessor.jsp").forward(req, resp);
+        req.getRequestDispatcher("/jsp/Registrar/SearchProfessor.jsp").forward(req, resp);
     }
     public void deleteProfessor(HttpServletRequest req, HttpServletResponse resp) throws Exception {
         String p_id = req.getParameter("id");
@@ -148,12 +148,12 @@ public class RegistrarServlet extends BaseServlet {
         Professor professor = professorDAO.findById(p_id);
         if(!professor.getP_id().equals("null")){
             professorDAO.delete(p_id);
-            resp.sendRedirect("/SoftwareEngineering_war/Registrar/SearchProfessor.jsp");
+            resp.sendRedirect("/SoftwareEngineering_war/jsp/Registrar/SearchProfessor.jsp");
         }else{
             req.setAttribute("error", "id不存在！");
-            req.getRequestDispatcher("/Registrar/SearchProfessor.jsp").forward(req, resp);
+            req.getRequestDispatcher("/jsp/Registrar/SearchProfessor.jsp").forward(req, resp);
             return;
         }
-        resp.sendRedirect("/SoftwareEngineering_war/Registrar/SearchProfessor.jsp");
+        resp.sendRedirect("/SoftwareEngineering_war/jsp/Registrar/SearchProfessor.jsp");
     }
 }

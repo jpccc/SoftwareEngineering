@@ -72,6 +72,7 @@
                 <div class="styled-input__circle"></div>
             </div>
             <input type="submit" class="styled-button"> <span class="styled-button__real-text-holder"> <span class="styled-button__real-text">Submit</span> <span class="styled-button__moving-block face"> <span class="styled-button__text-holder"> <span class="styled-button__text">Submit</span> </span> </span><span class="styled-button__moving-block back"> <span class="styled-button__text-holder"> <span class="styled-button__text">Submit</span> </span> </span> </span> </input>
+            <div class="error" style="color: red;font-size: medium">${error}</div>
         </div>
     </form>
 </main>

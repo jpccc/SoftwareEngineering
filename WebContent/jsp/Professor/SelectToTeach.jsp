@@ -10,7 +10,7 @@ fg<%@ page import="java.util.Date" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <html>
 <head>
-    <link rel="stylesheet" type="text/css" href="/SoftwareEngineering_war/Professor/css/searchAndForm.css" />
+    <link rel="stylesheet" type="text/css" href="/SoftwareEngineering_war/jsp/Professor/css/searchAndForm.css" />
     <title>教师选课页面</title>
 </head>
 <body>
