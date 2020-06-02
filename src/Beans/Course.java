@@ -1,19 +1,33 @@
 package Beans;
 
+import java.io.Serializable;
 import java.sql.Date;
 
-public class Course {
-    int reg_id;
-    String course_id;
-    int dept_id;
-    String course_name;
-    Date start_date;
-    Date end_date;
-    int weekday;
-    int timeslot_id;
-    String professor_id;
-    int student_count;
-    String status;
+public class Course implements Serializable {
+    public Course(){
+        reg_id=-1;
+        course_id=null;
+        dept_id=-1;
+        course_name=null;
+        start_date=null;
+        end_date=null;
+        weekday=-1;
+        timeslot_id=-1;
+        professor_id=null;
+        student_count=0;
+        status=null;
+    }
+    private int reg_id;
+    private String course_id;
+    private int dept_id;
+    private String course_name;
+    private Date start_date;
+    private Date end_date;
+    private int weekday;
+    private int timeslot_id;
+    private String professor_id;
+    private int student_count;
+    private String status;
 
     public int getReg_id() {
         return reg_id;

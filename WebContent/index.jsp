@@ -4,7 +4,9 @@
 <%@ page import="DAO.DruidManager" %>
 <%@ page import="java.sql.SQLException" %>
 <%@ page import="java.sql.PreparedStatement" %>
-<%@ page import="java.sql.ResultSet" %><%--
+<%@ page import="java.sql.ResultSet" %>
+<%@ page import="Beans.User" %>
+<%@ page import="Beans.Registration" %><%--
   Created by IntelliJ IDEA.
   User: 李睿宸
   Date: 2020/6/1
@@ -13,10 +15,48 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%
-    Student student= (Student) session.getAttribute("studentInfo");
-    if(student!=null)request.getRequestDispatcher("/WEB-INF/jsp/StudentPage.jsp").forward(request,response);
-    Professor professor= (Professor) session.getAttribute("professorInfo");
-    if(professor!=null)request.getRequestDispatcher("/WEB-INF/jsp/ProfessorPage.jsp").forward(request,response);
+    Connection conn=null;
+    PreparedStatement ps=null;
+    ResultSet rs=null;
+    Registration registration=new Registration();
+    String sql="select * from registration where reg_id=(select max(reg_id) from registration)";
+    try {
+        conn=DruidManager.getConnection();
+        ps=conn.prepareStatement(sql);
+        rs=ps.executeQuery();
+        while(rs.next()){
+            registration.setReg_id(rs.getInt("reg_id"));
+            registration.setStatus(rs.getString("status"));
+            registration.setYear(rs.getInt("year"));
+            registration.setSemester(rs.getString("semester"));
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }finally {
+        try {
+            DruidManager.close(conn,ps,rs);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    session.setAttribute("registration",registration);
+    User user= (User) session.getAttribute("user");
+    if(user!=null){
+        switch (user.type){
+            case User.USER_STUDENT:{
+                request.getRequestDispatcher("/jsp/Student/StudentPage.jsp").forward(request,response);
+                break;
+            }
+            case User.USER_PROFESSOR:{
+                request.getRequestDispatcher("/jsp/Professor/ProfessorPage.jsp").forward(request,response);
+                break;
+            }
+            case User.USER_REGISTERER:{
+                request.getRequestDispatcher("/jsp/Registerer/RegistererPage.jsp").forward(request,response);
+                break;
+            }
+        }
+    }
 %>
 <html >
 <head>
@@ -27,29 +67,6 @@
 
 <body>
 <main>
-    <%
-        Connection conn=null;
-        try {
-            conn= DruidManager.getConnection();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        System.out.println("Connection is:"+(conn==null));
-        if(conn!=null) {
-            try {
-                PreparedStatement ps=conn.prepareStatement("show tables;");
-                ResultSet rs=ps.executeQuery();
-                while(rs.next()){
-                    System.out.println(rs.getString(1));
-                }
-                rs.close();
-                ps.close();
-                conn.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-    %>
     <form class="form" action="LoginServlet" method="post">
         <div class="form__cover"></div>
         <div class="form__loader">
@@ -76,6 +93,7 @@
         </div>
     </form>
 </main>
+
 <script  src="js/login_index.js"></script>
 </body>
 </html>

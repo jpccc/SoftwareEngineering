@@ -6,6 +6,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * DRUID连接池的工具类，调用其类方法getConnection获取连接，一定要记得及时释放资源，否则可能阻塞
@@ -37,10 +39,11 @@ public class DruidManager {
      * @throws SQLException 关闭过程中可能报出异常
      */
     public static void close(Connection conn,  PreparedStatement st,ResultSet rs) throws SQLException {
-        rs.close();
-        st.close();
-        conn.close();
+        if(rs!=null)rs.close();
+        if(st!=null)st.close();
+        if(conn!=null)conn.close();
     }
+
 
     private static DruidDataSource getDruidDataSource(){
         if(druidDataSource==null){

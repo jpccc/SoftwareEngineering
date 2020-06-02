@@ -60,3 +60,25 @@ setTimeout(function () {
 setTimeout(function () {
     document.body.classList.add('document-loaded');
 }, 1800);
+
+//定位提交按钮
+var inputSet=document.getElementsByTagName("input");
+var inputElement = inputSet[2];
+//为提交按钮添加单击事件
+inputElement.onclick = function(){
+        //定位<form>标签，forms表示document对象中所有表单的集合，通过下标引用不同的表单，从0开始
+        var username=inputSet[0].value
+        var password= inputSet[1].value
+        console.log(username)
+        console.log(password)
+        if(username==""||(username[0]!='S'&&username[0]!='P'&&username[0]!='R')){
+            alert("用户名为空或非法")
+        }else if(password==""){
+            alert("请输入密码")
+        }
+        else {
+            var formElement = document.getElementsByTagName("form")[0];
+            //提交表单，提交到action属性指定的地方
+            formElement.submit();
+        }
+    }

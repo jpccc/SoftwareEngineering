@@ -1,13 +1,14 @@
 package Beans;
 
+import java.io.Serializable;
 import java.sql.Date;
 
-public class Professor {
-    String p_id;
-    String p_name;
-    String password;
-    Date birthday;
-    int identify_num;
+public class Professor extends User implements Serializable {
+    private String p_id;
+    private String p_name;
+    private String password;
+    private Date birthday;
+    private int identify_num;
 
     public String getP_id() {
         return p_id;
@@ -75,6 +76,7 @@ public class Professor {
         identify_num=_identify_num;
         status=_status;
         dept_id=_dept_id;
+        type=User.USER_PROFESSOR;
     }
     public Professor(){
         p_id = "null";
