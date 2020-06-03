@@ -28,7 +28,7 @@ public class Course implements Serializable {
     private String professor_id;
     private int student_count;
     private String status;
-
+    
     public int getReg_id() {
         return reg_id;
     }
