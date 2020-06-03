@@ -8,6 +8,11 @@ public class Professor extends User implements Serializable {
     private String p_name;
     private String password;
     private Date birthday;
+    private String status;
+    private int dept_id;
+    /**
+     * 身份证件，考虑到身份证中有生日信息，生日信息可从身份证获取
+     */
     private int identify_num;
 
     public String getP_id() {
@@ -66,8 +71,7 @@ public class Professor extends User implements Serializable {
         this.dept_id = dept_id;
     }
 
-    String status;
-    int dept_id;
+
     public Professor(String _id, String _name, Date _birthday, int _identify_num, String _status, int _dept_id, String _password){
         p_id=_id;
         p_name=_name;
