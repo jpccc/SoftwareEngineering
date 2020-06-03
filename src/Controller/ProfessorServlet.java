@@ -2,6 +2,7 @@ package Controller;
 
 import Beans.Course;
 import Beans.Professor;
+import Beans.Registration;
 import DAO.CourseDAO;
 import DAO.CourseDAOImpl;
 
@@ -39,9 +40,9 @@ public class ProfessorServlet extends BaseServlet {
         return conflictList;
     }
     public void getCourseList(HttpServletRequest req, HttpServletResponse resp) throws Exception {
-        Object Oreg_id=req.getSession().getAttribute("registration");
-        if(Oreg_id!=null){
-            int reg_id = Integer.parseInt(Oreg_id.toString());
+        Registration registration = (Registration) req.getSession().getAttribute("registration");
+        if(registration!=null){
+            int reg_id = registration.getReg_id();
             CourseDAO courseDAO = new CourseDAOImpl();
             Professor professor = (Professor) req.getSession().getAttribute("professor");
             if(professor!=null){
@@ -113,9 +114,9 @@ public class ProfessorServlet extends BaseServlet {
     public void deSelectAll(HttpServletRequest req, HttpServletResponse resp) throws Exception {
         CourseDAO courseDAO = new CourseDAOImpl();
         Professor professor = (Professor) req.getSession().getAttribute("professor");
-        int reg_id = Integer.parseInt(req.getSession().getAttribute("registration").toString()) ;
+        Registration registration = (Registration) req.getSession().getAttribute("registration");
         if(professor!=null){
-            List<Course> slist = courseDAO.findSelected(professor.getP_id(),reg_id);
+            List<Course> slist = courseDAO.findSelected(professor.getP_id(),registration.getReg_id());
             if(slist.size()!=0){
                 for(Course course:slist) {
                     course.setStatus("0");

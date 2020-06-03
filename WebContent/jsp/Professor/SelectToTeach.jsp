@@ -2,7 +2,8 @@
 <%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="Beans.Professor" %>
 <%@ page import="Beans.Course" %>
-<%@ page import="java.util.List" %><%--
+<%@ page import="java.util.List" %>
+<%@ page import="Beans.Registration" %><%--
   Created by IntelliJ IDEA.
   User: mlixi
   Date: 2020/6/1
@@ -30,7 +31,9 @@
         java.sql.Date birthday = new java.sql.Date(utilDate.getTime());
         Professor professor = new Professor("P1234567","NIKO",birthday,1,"0",1,"123456");
         request.getSession().setAttribute("professor",professor);
-        request.getSession().setAttribute("registration","2");
+        Registration registration = new Registration();
+        registration.setReg_id(2);
+        request.getSession().setAttribute("registration",registration);
     %>
     当前时间：<%=now %>
 </div>
