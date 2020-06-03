@@ -15,31 +15,33 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%
-    Connection conn=null;
-    PreparedStatement ps=null;
-    ResultSet rs=null;
-    Registration registration=new Registration();
-    String sql="select * from registration where reg_id=(select max(reg_id) from registration)";
-    try {
-        conn=DruidManager.getConnection();
-        ps=conn.prepareStatement(sql);
-        rs=ps.executeQuery();
-        while(rs.next()){
-            registration.setReg_id(rs.getInt("reg_id"));
-            registration.setStatus(rs.getString("status"));
-            registration.setYear(rs.getInt("year"));
-            registration.setSemester(rs.getString("semester"));
-        }
-    } catch (SQLException e) {
-        e.printStackTrace();
-    }finally {
+    if(session.getAttribute("registration")==null){//获取最新的注册信息
+        Connection conn=null;
+        PreparedStatement ps=null;
+        ResultSet rs=null;
+        Registration registration=new Registration();
+        String sql="select * from registration where reg_id=(select max(reg_id) from registration)";
         try {
-            DruidManager.close(conn,ps,rs);
+            conn=DruidManager.getConnection();
+            ps=conn.prepareStatement(sql);
+            rs=ps.executeQuery();
+            while(rs.next()){
+                registration.setReg_id(rs.getInt("reg_id"));
+                registration.setStatus(rs.getString("status"));
+                registration.setYear(rs.getInt("year"));
+                registration.setSemester(rs.getString("semester"));
+            }
         } catch (SQLException e) {
             e.printStackTrace();
+        }finally {
+            try {
+                DruidManager.close(conn,ps,rs);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
+        session.setAttribute("registration",registration);
     }
-    session.setAttribute("registration",registration);
     User user= (User) session.getAttribute("user");
     if(user!=null){
         switch (user.type){

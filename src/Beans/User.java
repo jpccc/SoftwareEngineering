@@ -1,5 +1,8 @@
 package Beans;
 
+/**
+ * 用来表明用户身份的父类，仅为了避免直接使用Object
+ */
 public class User {
     User(){
         type=USER_UNKNOWN;
