@@ -1,7 +1,7 @@
 package DAO;
 
 import Beans.Course;
-import Beans.Professor;
+import Beans.Grade;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -12,4 +12,7 @@ public interface CourseDAO {
     public List<Course> findTaught(String p_id,int reg_id);
     public void update(Course course) throws Exception;
     public Course findById(String course_id) throws SQLException;
+    public Course findCourse(String course_id,int reg_id);
+    public List<Grade> queryStudents4Course(int reg_id, String course_id);
+    public void saveGrades(List<Grade> grades);
 }
