@@ -50,9 +50,9 @@ public class CloseRigisDAO {
             Map<String,ArrayList<String>> primaryList=new HashMap<String,ArrayList<String>>();
             Map<String,ArrayList<String>> alternateList=new HashMap<String,ArrayList<String>>();
             while(rs.next()) {
-            	String student_id=rs.getString(1);
-            	String course_id=rs.getString(2);
-            	String select_status=rs.getString(3);
+            	String student_id=rs.getString("student_id");
+            	String course_id=rs.getString("course_id");
+            	String select_status=rs.getString("select_status");
             	ArrayList<String> primary=primaryList.get(student_id);
             	ArrayList<String> alternate=alternateList.get(student_id);
             	if(primary==null) {
@@ -68,9 +68,6 @@ public class CloseRigisDAO {
             	}
             	if(select_status.equals("alternate")) {
             		alternate.add(course_id);
-            	}
-            	for(String co : primary) {
-            		System.out.println("primary:"+co);
             	}
             }
             
@@ -154,6 +151,28 @@ public class CloseRigisDAO {
             		"and course_info.student_count>=3;";
             result=s.executeUpdate(sql);           
             System.out.println("result:commit in schedule count=" + result);
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+		return false;
+	}
+	public boolean deleteCourse(String course) {
+		try (Connection c = getConnection(); Statement s = c.createStatement();) {	
+            String sql = "delete from course_info where course_id="+course+';';
+            int result=s.executeUpdate(sql);           
+            System.out.println("result:delete count=" + result);
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+		return false;
+	}
+	public boolean deleteSelection(String course) {
+		try (Connection c = getConnection(); Statement s = c.createStatement();) {	
+            String sql = "delete from selection where course_id="+course+';';
+            int result=s.executeUpdate(sql);           
+            System.out.println("result:delete count=" + result);
             return true;
         } catch (SQLException e) {
             e.printStackTrace();
