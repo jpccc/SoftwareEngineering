@@ -12,17 +12,146 @@ import java.util.List;
 
 public class CourseDAOImpl implements CourseDAO{
     @Override
-    public List<Course> findQualified(int dept_id, int timeslot_id) {
+    public List<Course> findQualified(int dept_id, int reg_id) throws SQLException {
         List<Course> all = new ArrayList<Course>();
-
+        Connection conn=null;
+        PreparedStatement ps=null;
+        ResultSet rs=null;
+        String sql="select * from course_info where dept_id=? and reg_id=? and status=0";
+        try {
+            conn=JDBCUtil.getMysqlConnection();
+            ps=conn.prepareStatement(sql);
+            ps.setInt(1,dept_id);
+            ps.setInt(2,reg_id);
+            rs=ps.executeQuery();
+            while(rs.next()){
+                Course course=new Course();
+                course.setReg_id(rs.getInt("reg_id"));
+                course.setCourse_id(rs.getString("course_id"));
+                course.setDept_id(rs.getInt("dept_id"));
+                course.setCourse_name(rs.getString("course_name"));
+                course.setStart_date(rs.getDate("start_date"));
+                course.setEnd_date(rs.getDate("end_date"));
+                course.setWeekday(rs.getInt("weekday"));
+                course.setTimeslot_id(rs.getInt("timeslot_id"));
+                course.setProfessor_id(rs.getString("professor_id"));
+                course.setStudent_count(rs.getInt("student_count"));
+                course.setStatus(rs.getString("status"));
+                all.add(course);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }catch (ClassNotFoundException e){
+            e.printStackTrace();
+        }finally {
+            conn.close();
+        }
         return all;
     }
 
     @Override
-    public List<Course> findSelected(String p_id) {
-        List<Course> all = new ArrayList<>();
-
+    public List<Course> findSelected(String p_id,int reg_id) throws SQLException {
+        List<Course> all = new ArrayList<Course>();
+        Connection conn=null;
+        PreparedStatement ps=null;
+        ResultSet rs=null;
+        String sql="select * from course_info where professor_id=? and reg_id=? and status=1";
+        try {
+            conn=JDBCUtil.getMysqlConnection();
+            ps=conn.prepareStatement(sql);
+            ps.setString(1,p_id);
+            ps.setInt(2,reg_id);
+            rs=ps.executeQuery();
+            while(rs.next()){
+                Course course=new Course();
+                course.setReg_id(rs.getInt("reg_id"));
+                course.setCourse_id(rs.getString("course_id"));
+                course.setDept_id(rs.getInt("dept_id"));
+                course.setCourse_name(rs.getString("course_name"));
+                course.setStart_date(rs.getDate("start_date"));
+                course.setEnd_date(rs.getDate("end_date"));
+                course.setWeekday(rs.getInt("weekday"));
+                course.setTimeslot_id(rs.getInt("timeslot_id"));
+                course.setProfessor_id(rs.getString("professor_id"));
+                course.setStudent_count(rs.getInt("student_count"));
+                course.setStatus(rs.getString("status"));
+                all.add(course);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }catch (ClassNotFoundException e){
+            e.printStackTrace();
+        }finally {
+            conn.close();
+        }
         return all;
+    }
+
+    @Override
+    public void update(Course course) throws Exception {
+        String sql = "update course_info set reg_id=?,dept_id=?,course_name=?,start_date=?,end_date=?,weekday=?,timeslot_id=?,professor_id=?,student_count=?,status=? where course_id=?";
+        PreparedStatement preparedStatement = null;
+        Connection conn = null;
+        try {
+            conn = JDBCUtil.getMysqlConnection();
+            preparedStatement = conn.prepareStatement(sql);
+            preparedStatement.setInt(1,course.getReg_id());
+            preparedStatement.setInt(2,course.getDept_id());
+            preparedStatement.setString(3,course.getCourse_name());
+            preparedStatement.setDate(4,course.getStart_date());
+            preparedStatement.setDate(5,course.getEnd_date());
+            preparedStatement.setInt(6,course.getWeekday());
+            preparedStatement.setInt(7,course.getTimeslot_id());
+            preparedStatement.setString(8,course.getProfessor_id());
+            preparedStatement.setInt(9,course.getStudent_count());
+            preparedStatement.setString(10,course.getStatus());
+            preparedStatement.setString(11,course.getCourse_id());
+            preparedStatement.executeUpdate();
+            preparedStatement.close();
+        } catch (Exception e) {
+            throw new Exception("update course操作出现异常");
+        } finally {
+            if(conn!=null) {
+                conn.close();
+            }
+        }
+    }
+
+    @Override
+    public Course findById(String course_id) throws SQLException {
+        String sql = "select * from course_info where course_id=?";
+        PreparedStatement ps = null;
+        Connection conn=null;
+        Course course = new Course();
+        try {
+            conn=JDBCUtil.getMysqlConnection();
+            ps=conn.prepareStatement(sql);
+            ps.setString(1,course_id);
+            ResultSet rSet = ps.executeQuery();
+            if (rSet.next()) {
+                course.setReg_id(rSet.getInt(1));
+                course.setCourse_id(rSet.getString(2));
+                course.setDept_id(rSet.getInt(3));
+                course.setCourse_name(rSet.getString(4));
+                course.setStart_date(rSet.getDate(5));
+                course.setEnd_date(rSet.getDate(6));
+                course.setWeekday(rSet.getInt(7));
+                course.setTimeslot_id(rSet.getInt(8));
+                course.setProfessor_id(rSet.getString(9));
+                course.setStudent_count(rSet.getInt(10));
+                course.setStatus(rSet.getString(11));
+            }
+            else{
+                course.setCourse_id("-1");
+            }
+            rSet.close();
+            ps.close();
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            conn.close();
+        }
+        return course;
     }
 
     @Override
