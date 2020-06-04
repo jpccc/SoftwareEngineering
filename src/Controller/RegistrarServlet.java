@@ -1,8 +1,10 @@
 package Controller;
 
 import Beans.Professor;
+import Beans.Registerer;
 import DAO.ProfessorDAO;
 import DAO.ProfessorDAOImpl;
+import DAO.RegistererDAOImpl;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -42,19 +44,26 @@ public class RegistrarServlet extends BaseServlet {
             req.getRequestDispatcher("/jsp/Registrar/NewProfessor.jsp").forward(req, resp);
             return;
         }
-        ProfessorDAO professorDAO=new ProfessorDAOImpl();
-        Professor professor = professorDAO.findById(p_id);
-        if(professor.getP_id().equals("null")){
-            professor = new Professor(p_id,p_name,birthday,identify_num,status,dept_id,password);
-            professorDAO.insert(professor);
-            List<Professor> list = new ArrayList<Professor>();
-            list.add(professor);
-            req.setAttribute("list", list);
-            req.getRequestDispatcher("/jsp/Registrar/SearchProfessor.jsp").forward(req, resp);
+        Registerer registerer = (Registerer) req.getSession().getAttribute("user");
+        Registerer server_register = new RegistererDAOImpl().findById(registerer.getR_id());
+        if(registerer.getPassword().equals(server_register.getPassword())) {
+            ProfessorDAO professorDAO = new ProfessorDAOImpl();
+            Professor professor = professorDAO.findById(p_id);
+            if (professor.getP_id().equals("null")) {
+                professor = new Professor(p_id, p_name, birthday, identify_num, status, dept_id, password);
+                professorDAO.insert(professor);
+                List<Professor> list = new ArrayList<Professor>();
+                list.add(professor);
+                req.setAttribute("list", list);
+                req.getRequestDispatcher("/jsp/Registrar/SearchProfessor.jsp").forward(req, resp);
+            } else {
+                req.setAttribute("error", "id已存在！");
+                req.getRequestDispatcher("/jsp/Registrar/NewProfessor.jsp").forward(req, resp);
+                return;
+            }
         }else{
-            req.setAttribute("error", "id已存在！");
-            req.getRequestDispatcher("/jsp/Registrar/NewProfessor.jsp").forward(req, resp);
-            return;
+            req.setAttribute("error", "登录信息有误！");
+            req.getRequestDispatcher("/index.jsp").forward(req, resp);
         }
 
     }
@@ -102,7 +111,7 @@ public class RegistrarServlet extends BaseServlet {
             if(formatCheck(id)) {
                 Professor professor = professorDAO.findById(id);
                 HttpSession session=req.getSession();
-                req.setAttribute("professor", professor);
+                req.setAttribute("user", professor);
                 req.getRequestDispatcher("/jsp/Registrar/MaintainProfessor.jsp").forward(req,resp);
             }else{
                 req.setAttribute("error", "id错误无法修改");
@@ -133,27 +142,40 @@ public class RegistrarServlet extends BaseServlet {
             req.getRequestDispatcher("/jsp/Registrar/MaintainProfessor.jsp").forward(req, resp);
             return;
         }
-        ProfessorDAO professorDAO=new ProfessorDAOImpl();
-        Professor professor = new Professor(p_id,p_name,birthday,identify_num,status,dept_id,password);
-        professorDAO.update(professor);
-        List<Professor> list = new ArrayList<Professor>();
-        list.add(professor);
-        req.setAttribute("list", list);
-        req.getRequestDispatcher("/jsp/Registrar/SearchProfessor.jsp").forward(req, resp);
+        Registerer registerer = (Registerer) req.getSession().getAttribute("user");
+        Registerer server_register = new RegistererDAOImpl().findById(registerer.getR_id());
+        if(registerer.getPassword().equals(server_register.getPassword())) {
+            ProfessorDAO professorDAO = new ProfessorDAOImpl();
+            Professor professor = new Professor(p_id, p_name, birthday, identify_num, status, dept_id, password);
+            professorDAO.update(professor);
+            List<Professor> list = new ArrayList<Professor>();
+            list.add(professor);
+            req.setAttribute("list", list);
+            req.getRequestDispatcher("/jsp/Registrar/SearchProfessor.jsp").forward(req, resp);
+        }else{
+            req.setAttribute("error", "登录信息有误！");
+            req.getRequestDispatcher("/index.jsp").forward(req, resp);
+        }
     }
     public void deleteProfessor(HttpServletRequest req, HttpServletResponse resp) throws Exception {
         String p_id = req.getParameter("id");
-
-        ProfessorDAO professorDAO=new ProfessorDAOImpl();
-        Professor professor = professorDAO.findById(p_id);
-        if(!professor.getP_id().equals("null")){
-            professorDAO.delete(p_id);
+        Registerer registerer = (Registerer) req.getSession().getAttribute("user");
+        Registerer server_register = new RegistererDAOImpl().findById(registerer.getR_id());
+        if(registerer.getPassword().equals(server_register.getPassword())) {
+            ProfessorDAO professorDAO = new ProfessorDAOImpl();
+            Professor professor = professorDAO.findById(p_id);
+            if (!professor.getP_id().equals("null")) {
+                professorDAO.delete(p_id);
+                resp.sendRedirect("/SoftwareEngineering_war/jsp/Registrar/SearchProfessor.jsp");
+            } else {
+                req.setAttribute("error", "id不存在！");
+                req.getRequestDispatcher("/jsp/Registrar/SearchProfessor.jsp").forward(req, resp);
+                return;
+            }
             resp.sendRedirect("/SoftwareEngineering_war/jsp/Registrar/SearchProfessor.jsp");
         }else{
-            req.setAttribute("error", "id不存在！");
-            req.getRequestDispatcher("/jsp/Registrar/SearchProfessor.jsp").forward(req, resp);
-            return;
+            req.setAttribute("error", "登录信息有误！");
+            req.getRequestDispatcher("/index.jsp").forward(req, resp);
         }
-        resp.sendRedirect("/SoftwareEngineering_war/jsp/Registrar/SearchProfessor.jsp");
     }
 }
