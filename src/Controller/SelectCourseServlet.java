@@ -46,22 +46,37 @@ public class SelectCourseServlet extends HttpServlet {
 			String op=request.getParameter("op");
 			response.getWriter().println(op);
 			String id=(String)request.getParameter("op");
-			if( op!=null&& op.equals("add") ){
+			
+			if( op!=null&& op.equals("addxxx") ){
 				id=(String)request.getParameter("id");
+				
 				System.out.println(id);
 				CourseSelection course_selection=new CourseSelection();
+				
+				
+				
 				course_selection.set_student_id("li");
 				course_selection.set_course_id(id);
-				course_selection.set_reg_id(001);
-				select_course_dao.add_course_selection(course_selection);
-				request.setAttribute("message", "add success");
+				course_selection.set_reg_id(12);
+				
+				List<CourseSelection> schedule=new ArrayList<CourseSelection>();
+				schedule=select_course_dao.get_schedule("li");
+				System.out.println(select_course_dao.no_conflict(schedule,course_selection));
+				if(select_course_dao.no_conflict(schedule,course_selection).equals("yes")) {
+					
+					
+					select_course_dao.add_course_selection(course_selection);
+					request.setAttribute("message", "add success");
+				}
+				
+				request.getRequestDispatcher("jsp/Student/add_course.jsp").forward(request, response);
 				
 			}
 
-			if( op!=null&& op.equals("delete")){
+			if( op!=null&& op.equals("deletexxx")){
 				id=(String)request.getParameter("id");
 				System.out.println(id);
-				select_course_dao.delete_course_selection(id, 001);
+				select_course_dao.delete_course_selection(id, 12);
 				request.setAttribute("message", "delete success");
 				
 			}
@@ -80,13 +95,80 @@ public class SelectCourseServlet extends HttpServlet {
 		        }
 				request.setAttribute("c", s);
 				System.out.println(s);
+				request.getRequestDispatcher("jsp/Student/add_course.jsp").forward(request, response);
+			}
+			
+			if(op!=null&& op.contentEquals("add")) {
+				for(int i=0;i<10;i++){
+					String str=request.getParameter(String.valueOf(i));
+				    System.out.println(request.getParameter(String.valueOf(i)));
+				    if(str!=null) {
+				    	System.out.println("pri: "+request.getParameter("primary"+i));
+				    	System.out.println("sec: "+request.getParameter("second"+i));
+				    	
+				    	String [] arr = str.split("\\s+");
+				    	String course_id=arr[0];
+				    	int reg_id=Integer.valueOf(arr[1]);
+				    	
+				    	System.out.println("arr0 " +arr[0]);
+				    	System.out.println("arr1 "+arr[1]);
+				    	
+				    	CourseSelection course_selection=new CourseSelection();
+						course_selection.set_student_id("li");
+						course_selection.set_course_id(course_id);
+						course_selection.set_reg_id(reg_id);
+						if(request.getParameter("primary"+i)!=null && request.getParameter("primary"+i).equals("primary")) {
+							course_selection.set_select_status("primary");
+						}
+						if(request.getParameter("second"+i)!=null && request.getParameter("second"+i).equals("second")) {
+							course_selection.set_select_status("second");
+						}
+						/*
+						List<CourseSelection> schedule=new ArrayList<CourseSelection>();
+						schedule=select_course_dao.get_schedule("li");
+						System.out.println(select_course_dao.no_conflict(schedule,course_selection));
+						if(select_course_dao.no_conflict(schedule,course_selection).equals("yes")) {
+							select_course_dao.add_course_selection(course_selection);
+							request.setAttribute("message", "add success");
+						}
+						*/
+						select_course_dao.add_course_selection(course_selection);
+						request.setAttribute("message", "add success");
+				    }
+				}
+				request.getRequestDispatcher("jsp/Student/add_course.jsp").forward(request, response);
 			}
 			
 			
+			if(op!=null&& op.contentEquals("delete")) {
+				for(int i=0;i<10;i++){
+					String str=request.getParameter(String.valueOf(i));
+				    System.out.println(request.getParameter(String.valueOf(i)));
+				    if(str!=null) {
+				    	String [] arr = str.split("\\s+");
+				    	System.out.println("arr0 " +arr[0]);
+				    	System.out.println("arr1 "+arr[1]);
+				    }
+				    
+				    if(str!=null) {
+				    	String [] arr = str.split("\\s+");
+				    	System.out.println(arr[0]);
+				    	System.out.println(arr[1]);
+				    	String course_id=arr[0];
+				    	System.out.println(course_id);
+				    	int reg_id=Integer.valueOf(arr[1]);
+				    	System.out.println(reg_id);
+				    	
+						select_course_dao.delete_course_selection(course_id, reg_id);
+						request.setAttribute("message", "delete success");
+				    }
+				    
+				}
+				request.getRequestDispatcher("jsp/Student/show_schedule.jsp").forward(request, response);
+			}
 			
-			
-			request.getRequestDispatcher("jsp/Student/schedule.jsp").forward(request, response);
-			
+			//request.getRequestDispatcher("jsp/Student/schedule.jsp").forward(request, response);
+			//request.getRequestDispatcher("test.jsp").forward(request, response);
 			 
 			
 			
