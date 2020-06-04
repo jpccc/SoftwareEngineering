@@ -3,7 +3,10 @@
 <%@ page import="Beans.Professor" %>
 <%@ page import="Beans.Registration" %>
 <%@ page import="Beans.Grade" %>
-<%@ page import="java.util.List" %><%--
+<%@ page import="java.util.List" %>
+<%@ page import="Beans.Course" %>
+<%@ page import="DAO.CourseDAO" %>
+<%@ page import="DAO.CourseDAOImpl" %><%--
   Created by IntelliJ IDEA.
   User: 李睿宸
   Date: 2020/6/2
@@ -20,6 +23,13 @@
 <html>
 <head>
     <title>提交成绩</title>
+    <script type="text/javascript">
+        function saveGrades() {
+            let form = document.getElementsByTagName("form")[1];
+            form.action="/SoftwareEngineering_war/GradesServlet?method=saveGrades";
+            form.submit();
+        }
+    </script>
 </head>
 <body>
 <div class="time_display" >
@@ -30,21 +40,20 @@
         //professor test
         java.util.Date utilDate = new SimpleDateFormat("yyyy-MM-dd").parse("2020-01-01");
         java.sql.Date birthday = new java.sql.Date(utilDate.getTime());
-        Professor professor = new Professor("P1234567","NIKO",birthday,1,"0",1,"123456");
-        request.getSession().setAttribute("professor",professor);
         Registration reg= (Registration) session.getAttribute("selectReg");
     %>
     当前时间：<%=now %>
 </div>
-<form action="/GradesServlet?method=queryCourses" method="post">
+<form action="/SoftwareEngineering_war/GradesServlet?method=queryCourses" method="post">
     <input type="text" name="year" value="<%=reg.getYear()%>"/>
     <input type="text" name="semester" value="<%=reg.getSemester()%>"/>
     <input type="submit" value="查询"/>
 </form>
 <div class="error" style="color: red;font-size: medium">${queryError}</div>
 <div class="scroll_table">
-    <table border="1" cellpadding=“0” cellspacing="0" align="center" width="70%">
+
         <c:if test="${not empty courseList}">
+            <table border="1" cellpadding=“0” cellspacing="0" align="center" width="70%">
             <tr style="background-color: red">
                 <th>注册号</th>
                 <th>课程号</th>
@@ -59,45 +68,45 @@
                     <th>${course.dept_id}</th>
                     <th>${course.course_name}</th>
                     <th>${course.status}</th>
-                    <th><a href="/GradesServlet?method=queryStudents&course_name=${course.course_name}
-                    &course_id=${course.course_id}&reg_id=${course.reg_id}">修改成绩</a></th>
+                    <th><a href="/SoftwareEngineering_war/GradesServlet?method=queryStudents&course_id=${course.course_id}&registration_id=${course.reg_id}">修改成绩</a></th>
                 </tr>
             </c:forEach>
+            </table>
         </c:if>
 
         <c:if test="${not empty gradeList}">
-            <form id="gradeForm" action="/GradesServlet?method=submitGrades">
+            <form id="gradeForm" action="/SoftwareEngineering_war/GradesServlet?method=submitGrades" method="post">
+                <table border="1" cellpadding=“0” cellspacing="0" align="center" width="70%">
                 <tr>
                     <th>学生ID</th>
+                    <th>学生姓名</th>
                     <th>课程名称</th>
                     <th>学生成绩</th>
                 </tr>
                <%
-                   String course_name=request.getParameter("course_name");
-                   List<Grade> gradeList= (List<Grade>) request.getAttribute("gradeList");
-                   for(int i=0;i<gradeList.size();i++){
-                       out.println("<tr>");
-                       out.println("<td>"+gradeList.get(i).getStudent_id()+"</td>");
-                       out.println("<td>"+course_name+"</td>");
-                       if(gradeList.get(i).getGrade()==null)
-                           out.println("<td><input type='text' name='grade"+i+"'/></td>");
-                       else out.println("<td><input type='text' name='grade"+i
-                               +"' value='"+gradeList.get(i).getGrade()
-                               +"'/></td>");
+                   String course_name= null;
+                   List<Grade> grades= (List<Grade>) session.getAttribute("gradeList");
+                   if(grades.size()>0){
+                       CourseDAO courseDAO=new CourseDAOImpl();
+                       Course course=courseDAO.findCourse(grades.get(0).getCourse_id(),reg.getReg_id());
+                       course_name=course.getCourse_name();
                    }
                %>
+                    <c:forEach begin="0" varStatus="status" var="grade" items="${gradeList}">
+                        <tr>
+                            <td>${grade.student_id}</td>
+                            <td>${grade.student_name}</td>
+                            <td><%=course_name%></td>
+                            <td>
+                                    <input type="text" name="grade${status.index}" value="${grade.grade}"/>
+                            </td>
+                        </tr>
+                    </c:forEach>
                 <input type="button" onclick="saveGrades()" value="保存"/>
                 <input type="submit" value="提交"/>
+                </table>
             </form>
         </c:if>
-    </table>
 </div>
 </body>
-<script type="javascript">
-    function saveGrades() {
-        let form=document.getElementById("gradeForm");
-        form.action="/GradesServlet?method=saveGrades";
-        form.submit();
-    }
-</script>
 </html>

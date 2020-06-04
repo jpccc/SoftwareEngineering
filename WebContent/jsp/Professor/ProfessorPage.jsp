@@ -11,6 +11,6 @@
     <title>教师页面</title>
 </head>
 <body>
-
+<a href="/SoftwareEngineering_war/jsp/Professor/SubmitGrades.jsp">提交成绩</a>
 </body>
 </html>

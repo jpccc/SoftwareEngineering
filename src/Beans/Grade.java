@@ -10,6 +10,7 @@ public class Grade implements Serializable {
         grade=null;
     }
     private String student_id;
+    private  String student_name;
     private String course_id;
     private int reg_id;
     private String grade;
@@ -44,5 +45,13 @@ public class Grade implements Serializable {
 
     public void setGrade(String grade) {
         this.grade = grade;
+    }
+
+    public String getStudent_name() {
+        return student_name;
+    }
+
+    public void setStudent_name(String student_name) {
+        this.student_name = student_name;
     }
 }

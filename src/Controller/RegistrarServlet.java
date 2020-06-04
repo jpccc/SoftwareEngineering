@@ -28,7 +28,7 @@ public class RegistrarServlet extends BaseServlet {
         String time = req.getParameter("birthday");
         java.util.Date utilDate = new SimpleDateFormat("yyyy-MM-dd").parse(time);
         Date birthday = new Date(utilDate.getTime());
-        int identify_num = Integer.parseInt(req.getParameter("identify_num"));
+        String identify_num = req.getParameter("identify_num");
         String status = req.getParameter("status");
         int dept_id = Integer.parseInt(req.getParameter("dept_id"));
         String password = req.getParameter("password");
@@ -127,7 +127,7 @@ public class RegistrarServlet extends BaseServlet {
         String time = req.getParameter("birthday");
         java.util.Date utilDate = new SimpleDateFormat("yyyy-MM-dd").parse(time);
         Date birthday = new Date(utilDate.getTime());
-        int identify_num = Integer.parseInt(req.getParameter("identify_num"));
+        String identify_num = req.getParameter("identify_num");
         String status = req.getParameter("status");
         int dept_id = Integer.parseInt(req.getParameter("dept_id"));
         String password = req.getParameter("password");

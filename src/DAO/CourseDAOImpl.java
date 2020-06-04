@@ -55,7 +55,7 @@ public class CourseDAOImpl implements CourseDAO{
         Connection conn=null;
         PreparedStatement ps=null;
         ResultSet rs=null;
-        String sql="select * from course_info where professor_id=? and reg_id=? and status=1";
+        String sql="select * from course_info where professor_id=? and reg_id=? ";
         try {
             conn=JDBCUtil.getMysqlConnection();
             ps=conn.prepareStatement(sql);
@@ -156,7 +156,7 @@ public class CourseDAOImpl implements CourseDAO{
 
     @Override
     public Course findCourse(String course_id, int reg_id) {
-        Course res=null;
+        Course res=new Course();
         Connection conn=null;
         PreparedStatement ps=null;
         ResultSet rs=null;
@@ -167,7 +167,7 @@ public class CourseDAOImpl implements CourseDAO{
             ps.setInt(1,reg_id);
             ps.setString(2,course_id);
             rs=ps.executeQuery();
-            while(rs.next()){
+            if(rs.next()){
                 res.setReg_id(rs.getInt("reg_id"));
                 res.setCourse_id(rs.getString("course_id"));
                 res.setDept_id(rs.getInt("dept_id"));
@@ -179,6 +179,8 @@ public class CourseDAOImpl implements CourseDAO{
                 res.setProfessor_id(rs.getString("professor_id"));
                 res.setStudent_count(rs.getInt("student_count"));
                 res.setStatus(rs.getString("status"));
+            }else{
+                res.setCourse_id("null");
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -198,7 +200,8 @@ public class CourseDAOImpl implements CourseDAO{
         Connection conn=null;
         PreparedStatement ps=null;
         ResultSet rs=null;
-        String sql="select * from selection where reg_id=? and course_id=?";
+        String sql="select * from selection,student_info " +
+                "where reg_id=? and course_id=? and selection.student_id = student_info.s_id";
         try {
             conn=DruidManager.getConnection();
             ps=conn.prepareStatement(sql);
@@ -211,6 +214,7 @@ public class CourseDAOImpl implements CourseDAO{
                 grade.setStudent_id(rs.getString("student_id"));
                 grade.setCourse_id(rs.getString("course_id"));
                 grade.setGrade(rs.getString("grade"));
+                grade.setStudent_name(rs.getString("s_name"));
                 res.add(grade);
             }
         } catch (SQLException e) {
@@ -229,7 +233,7 @@ public class CourseDAOImpl implements CourseDAO{
     public void saveGrades(List<Grade> grades) {
         Connection conn=null;
         PreparedStatement ps=null;
-        String sql="update selection set grade=? where reg_id=? and course_id=?";
+        String sql="update selection set grade=? where reg_id=? and course_id=? and student_id=?";
         try {
             conn=DruidManager.getConnection();
             ps=conn.prepareStatement(sql);
@@ -237,6 +241,7 @@ public class CourseDAOImpl implements CourseDAO{
                 ps.setString(1,grade.getGrade());
                 ps.setInt(2,grade.getReg_id());
                 ps.setString(3,grade.getCourse_id());
+                ps.setString(4,grade.getStudent_id());
                 ps.executeUpdate();
             }
         } catch (SQLException e) {

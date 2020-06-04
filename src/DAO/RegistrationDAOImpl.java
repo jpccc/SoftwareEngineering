@@ -13,7 +13,7 @@ public class RegistrationDAOImpl implements RegistrationDAO {
         Connection conn=null;
         PreparedStatement ps=null;
         ResultSet rs=null;
-        Registration registration=new Registration();
+        Registration registration=null;
         String sql="select * from registration where year=? and semester=?";
         try {
             conn=DruidManager.getConnection();
@@ -22,6 +22,7 @@ public class RegistrationDAOImpl implements RegistrationDAO {
             ps.setString(2,semester);
             rs=ps.executeQuery();
             while(rs.next()){
+                registration=new Registration();
                 registration.setReg_id(rs.getInt("reg_id"));
                 registration.setStatus(rs.getString("status"));
                 registration.setYear(rs.getInt("year"));
@@ -50,11 +51,13 @@ public class RegistrationDAOImpl implements RegistrationDAO {
             conn=DruidManager.getConnection();
             ps=conn.prepareStatement(sql);
             rs=ps.executeQuery();
-            while(rs.next()){
+            if(rs.next()){
                 registration.setReg_id(rs.getInt("reg_id"));
                 registration.setStatus(rs.getString("status"));
                 registration.setYear(rs.getInt("year"));
                 registration.setSemester(rs.getString("semester"));
+            }else{
+                registration.setReg_id(-1);
             }
         } catch (SQLException e) {
             e.printStackTrace();

@@ -69,8 +69,8 @@
                 <div class="styled-input__placeholder"> <span class="styled-input__placeholder-text">Password</span> </div>
                 <div class="styled-input__circle"></div>
             </div>
-            <div>
-            <button type="submit" class="styled-button" id="submit"> <span class="styled-button__real-text-holder"> <span class="styled-button__real-text">Submit</span> <span class="styled-button__moving-block face"> <span class="styled-button__text-holder"> <span class="styled-button__text">Submit</span> </span> </span><span class="styled-button__moving-block back"> <span class="styled-button__text-holder"> <span class="styled-button__text">Submit</span> </span> </span> </span> </button>
+            <div id="submit">
+            <button type="button" class="styled-button" > <span class="styled-button__real-text-holder"> <span class="styled-button__real-text">Submit</span> <span class="styled-button__moving-block face"> <span class="styled-button__text-holder"> <span class="styled-button__text">Submit</span> </span> </span><span class="styled-button__moving-block back"> <span class="styled-button__text-holder"> <span class="styled-button__text">Submit</span> </span> </span> </span> </button>
             </div>
             <div class="error" style="color: #ff0000;font-size: medium">${error}</div>
         </div>

@@ -84,14 +84,14 @@ public class StudentDAOImpl implements StudentDAO{
         Connection conn=null;
         PreparedStatement ps=null;
         ResultSet rs=null;
-        Student student=new Student();
+        Student student= new Student();
         String sql="select * from student_info where s_id=?";
         try {
             conn= DruidManager.getConnection();
             ps=conn.prepareStatement(sql);
             ps.setString(1,s_id);
             rs=ps.executeQuery();
-            while(rs.next()){
+            if(rs.next()){
                 student.setS_id(rs.getString("s_id"));
                 student.setS_name(rs.getString("s_name"));
                 student.setBirthday(rs.getDate("birthday"));
@@ -100,6 +100,8 @@ public class StudentDAOImpl implements StudentDAO{
                 student.setDept_id(rs.getInt("dept_id"));
                 student.setGraduate_date(rs.getDate("graduate_date"));
                 student.setPassword(rs.getString("password"));
+            }else{
+                student.setS_id("null");
             }
         } catch (SQLException e) {
             e.printStackTrace();

@@ -3,6 +3,7 @@ package Controller;
 import Beans.Professor;
 import Beans.Registerer;
 import Beans.Student;
+import DAO.ProfessorDAO;
 import DAO.ProfessorDAOImpl;
 import DAO.RegistererDAOImpl;
 import DAO.StudentDAOImpl;
@@ -20,25 +21,31 @@ import java.sql.SQLException;
 
 public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
         String username=request.getParameter("username");
         String password=request.getParameter("password");
         if(username==null||password==null){
             request.setAttribute("error","网络错误，请重试");
             request.getRequestDispatcher("index.jsp").forward(request,response);
+            return;
         }else{
             switch(username.charAt(0)){
                 case 'P':{
-                    ProfessorDAOImpl pro=new ProfessorDAOImpl();
-                    Professor professor=null;
+                    ProfessorDAO professorDAO=new ProfessorDAOImpl();
+                    Professor pro=null;
                     try {
-                        professor=pro.findById(username);
+                        pro=professorDAO.findById(username);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-                    if(professor!=null&&professor.getPassword().equals(password)){
-                        request.getSession().setAttribute("user",professor);
+                    if(pro!=null
+                            &&!pro.getP_id().equals("null")
+                            &&pro.getPassword().equals(password)){
+                        request.getSession().setAttribute("user",pro);
                         request.getRequestDispatcher("/jsp/Professor/ProfessorPage.jsp")
                                 .forward(request,response);
+                        return;
                     }
                     break;
                 }
@@ -50,10 +57,13 @@ public class LoginServlet extends HttpServlet {
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-                    if(student!=null&&student.getPassword().equals(password)) {
+                    if(student!=null
+                            &&!student.getS_id().equals("null")
+                            &&student.getPassword().equals(password)) {
                         request.getSession().setAttribute("user",student);
                         request.getRequestDispatcher("/jsp/Student/StudentPage.jsp")
                                 .forward(request,response);
+                        return;
                     }
                     break;
                 }
@@ -65,9 +75,13 @@ public class LoginServlet extends HttpServlet {
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-                    if(registerer!=null&&registerer.getPassword().equals(password)) {
+                    if(registerer!=null
+                            &&!registerer.getR_id().equals("null")
+                            &&registerer.getPassword().equals(password)) {
+                        request.getSession().setAttribute("user",registerer);
                         request.getRequestDispatcher("/jsp/Registerer/RegistererPage.jsp")
                                 .forward(request, response);
+                        return;
                     }
                     break;
                 }

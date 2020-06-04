@@ -17,16 +17,20 @@ import java.util.List;
 
 public class GradesServlet extends BaseServlet {
     public void queryCourses(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
         int year = Integer.parseInt(request.getParameter("year"));
         String semester = request.getParameter("semester");
         RegistrationDAO regDao = new RegistrationDAOImpl();
         Registration reg = regDao.queryByTime(year, semester);
-        if (reg == null) {
+        if (reg == null||(reg.getReg_id()==-1)) {
             request.setAttribute("queryError", "查询此次注册失败，请重新输入");
             request.getRequestDispatcher("/jsp/Professor/SubmitGrades.jsp").forward(request, response);
-        } else if (reg.getStatus().equals("open")){//如果还在选课阶段
+            return;
+        } else if (reg.getStatus()!=null&&reg.getStatus().equals("open")){//如果还在选课阶段
             request.setAttribute("queryError", "本次课程注册还在进行中，请重新查询");
             request.getRequestDispatcher("/jsp/Professor/SubmitGrades.jsp").forward(request, response);
+            return;
         }else  request.removeAttribute("queryError");
         CourseDAO courseDAO = new CourseDAOImpl();
         HttpSession session = request.getSession();
@@ -47,9 +51,11 @@ public class GradesServlet extends BaseServlet {
     }
 
     public void queryStudents(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
         HttpSession session=request.getSession();
-        request.setAttribute("course_name",request.getParameter("course_name"));
-        int reg_id=Integer.parseInt(request.getParameter("reg_id"));
+        String reg=request.getParameter("registration_id");
+        int reg_id=Integer.parseInt(reg);
         Professor pro= (Professor) session.getAttribute("user");
         CourseDAO courseDAO=new CourseDAOImpl();
         List<Grade> grades = null;
@@ -63,53 +69,63 @@ public class GradesServlet extends BaseServlet {
         }
     }
     public void saveGrades(HttpServletRequest request,HttpServletResponse response)throws ServletException, IOException{
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
         HttpSession session=request.getSession();
-        List<Grade> grades= (List<Grade>) session.getAttribute("gradeList");
+        List<Grade> grades= getNewGrades(request);
         CourseDAO courseDAO=new CourseDAOImpl();
         courseDAO.saveGrades(grades);
-        if(grades.size()>0){
+        if(grades!=null&&grades.size()>0){
             Course course=courseDAO.findCourse(grades.get(0).getCourse_id(),grades.get(0).getReg_id());
             course.setStatus("saved");
             try {
                 courseDAO.update(course);
+                session.removeAttribute("gradeList");
             } catch (Exception e) {
                 e.printStackTrace();
                 request.setAttribute("queryError", "保存失败");
                 request.getRequestDispatcher("/jsp/Professor/SubmitGrades.jsp").forward(request, response);
+                return;
             }
         }
-        session.removeAttribute("gradeList");
         request.getRequestDispatcher("/jsp/Professor/SubmitGrades.jsp").forward(request, response);
     }
 
     public void submitGrades(HttpServletRequest request,HttpServletResponse response)throws ServletException, IOException{
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
         HttpSession session=request.getSession();
-        List<Grade> grades= (List<Grade>) session.getAttribute("gradeList");
+        List<Grade> grades= getNewGrades(request);
         if(!checkGrades(grades)){
             request.setAttribute("queryError", "非法成绩信息！请检查后重新提交！");
             request.getRequestDispatcher("/jsp/Professor/SubmitGrades.jsp").forward(request, response);
-        }
-        CourseDAO courseDAO=new CourseDAOImpl();
-        courseDAO.saveGrades(grades);
-        if(grades.size()>0){
-            Course course=courseDAO.findCourse(grades.get(0).getCourse_id(),grades.get(0).getReg_id());
-            course.setStatus("submit");
-            try {
-                courseDAO.update(course);
-            } catch (Exception e) {
-                e.printStackTrace();
-                request.setAttribute("queryError", "提交失败");
-                request.getRequestDispatcher("/jsp/Professor/SubmitGrades.jsp").forward(request, response);
+            return;
+        }else{
+            CourseDAO courseDAO=new CourseDAOImpl();
+            courseDAO.saveGrades(grades);
+            if(grades!=null&&grades.size()>0){
+                Course course=courseDAO.findCourse(grades.get(0).getCourse_id(),grades.get(0).getReg_id());
+                course.setStatus("submit");
+                try {
+                    courseDAO.update(course);
+                    session.removeAttribute("gradeList");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    request.setAttribute("queryError", "提交失败");
+                    request.getRequestDispatcher("/jsp/Professor/SubmitGrades.jsp").forward(request, response);
+                    return;
+                }
             }
         }
-        session.removeAttribute("gradeList");
         request.getRequestDispatcher("/jsp/Professor/SubmitGrades.jsp").forward(request, response);
     }
     private List<Grade> getNewGrades(HttpServletRequest request){
         HttpSession session=request.getSession();
         List<Grade> grades= (List<Grade>) session.getAttribute("gradeList");
-        for(int i=0;i<grades.size();i++){
-            grades.get(i).setGrade(request.getParameter("grade"+i));
+        if(grades!=null){
+            for(int i=0;i<grades.size();i++){
+                grades.get(i).setGrade(request.getParameter("grade"+i));
+            }
         }
         return grades;
     }
