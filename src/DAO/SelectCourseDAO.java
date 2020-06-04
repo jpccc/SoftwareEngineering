@@ -11,4 +11,7 @@ public interface SelectCourseDAO {
 	public void delete_course_selection(String course_id,int reg_id) throws Exception;
 	public List<Course> get_all_courses();
 	public List<Course> check_course(String course_id);
+	public Course check_course(String course_id,int reg_id);
+	public String no_conflict(List<CourseSelection> schedule,CourseSelection course_selection);
+	public String satisfy_prerequire(CourseSelection course_selection);
 }

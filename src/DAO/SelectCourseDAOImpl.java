@@ -17,7 +17,6 @@ public class SelectCourseDAOImpl implements SelectCourseDAO{
         String sql="select * from selection where student_id=?";
         try {
         	conn=JDBCUtil.getMysqlConnection();
-        	
     		System.out.println("Success connect Mysql server!");
 			ps=conn.prepareStatement(sql);
 	        ps.setString(1,s_id);
@@ -154,6 +153,8 @@ public class SelectCourseDAOImpl implements SelectCourseDAO{
             rs=ps.executeQuery();
             while(rs.next()){
                 Course course=new Course();
+                //-1
+                //list --size=0;
                 if(rs.getObject("reg_id")!=null)course.setReg_id(rs.getInt("reg_id"));
                 course.setCourse_id(rs.getString("course_id"));
                 course.setDept_id(rs.getInt("dept_id"));
@@ -177,5 +178,82 @@ public class SelectCourseDAOImpl implements SelectCourseDAO{
             }
         }
         return res;
+	}
+
+
+
+	
+
+
+
+	@Override
+	public Course check_course(String course_id, int reg_id) {
+		Course res=new Course();
+        Connection conn=null;
+        PreparedStatement ps=null;
+        ResultSet rs=null;
+        String sql="select * from course_info where course_id=? and reg_id=?";
+        try {
+        	conn=JDBCUtil.getMysqlConnection();
+            ps=conn.prepareStatement(sql);
+            ps.setString(1,course_id);
+            ps.setInt(2, reg_id);
+            rs=ps.executeQuery();
+            while(rs.next()){
+                Course course=new Course();
+                course.setReg_id(rs.getInt("reg_id"));
+                course.setCourse_id(rs.getString("course_id"));
+                course.setDept_id(rs.getInt("dept_id"));
+                course.setCourse_name(rs.getString("course_name"));
+                course.setStart_date(rs.getDate("start_date"));
+                course.setEnd_date(rs.getDate("end_date"));
+                course.setWeekday(rs.getInt("weekday"));
+                course.setTimeslot_id(rs.getInt("timeslot_id"));
+                course.setProfessor_id(rs.getString("professor_id"));
+                course.setStudent_count(rs.getInt("student_count"));
+                course.setStatus(rs.getString("status"));
+                res=course;
+                System.out.println(course.getCourse_id());
+                break;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }finally {
+            try {
+                DruidManager.close(conn,ps,rs);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        System.out.println(res.getCourse_id());
+        return res;
+	}
+
+
+
+	@Override
+	public String no_conflict(List<CourseSelection> schedule, CourseSelection course_selection) {
+		int []a=new int[100];
+		int scan=0;
+		int future_time_slot=check_course(course_selection.get_course_id(),course_selection.get_reg_id()).getTimeslot_id();
+		for (int i = 0; i < schedule.size(); i++) {
+			String course_id=schedule.get(i).get_course_id();
+			int reg_id=schedule.get(i).get_reg_id();
+			Course course=check_course(course_id,reg_id);
+			if(course.getCourse_id()!=null) {
+				if(course.getTimeslot_id()==future_time_slot) {
+					return "no";
+				}
+			}
+		}
+		return "yes";
+	}
+
+
+
+	@Override
+	public String satisfy_prerequire(CourseSelection course_selection) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

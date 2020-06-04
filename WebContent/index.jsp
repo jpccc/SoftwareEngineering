@@ -6,7 +6,8 @@
 <%@ page import="java.sql.PreparedStatement" %>
 <%@ page import="java.sql.ResultSet" %>
 <%@ page import="Beans.User" %>
-<%@ page import="Beans.Registration" %><%--
+<%@ page import="Beans.Registration" %>
+<%@ page import="DAO.RegistrationDAOImpl" %><%--
   Created by IntelliJ IDEA.
   User: 李睿宸
   Date: 2020/6/1
@@ -16,30 +17,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%
     if(session.getAttribute("registration")==null){//获取最新的注册信息
-        Connection conn=null;
-        PreparedStatement ps=null;
-        ResultSet rs=null;
-        Registration registration=new Registration();
-        String sql="select * from registration where reg_id=(select max(reg_id) from registration)";
-        try {
-            conn=DruidManager.getConnection();
-            ps=conn.prepareStatement(sql);
-            rs=ps.executeQuery();
-            while(rs.next()){
-                registration.setReg_id(rs.getInt("reg_id"));
-                registration.setStatus(rs.getString("status"));
-                registration.setYear(rs.getInt("year"));
-                registration.setSemester(rs.getString("semester"));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }finally {
-            try {
-                DruidManager.close(conn,ps,rs);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
+        RegistrationDAOImpl regDao=new RegistrationDAOImpl();
+        Registration registration=regDao.queryLatest();
         session.setAttribute("registration",registration);
     }
     User user= (User) session.getAttribute("user");
@@ -90,8 +69,10 @@
                 <div class="styled-input__placeholder"> <span class="styled-input__placeholder-text">Password</span> </div>
                 <div class="styled-input__circle"></div>
             </div>
-            <input type="submit" class="styled-button"> <span class="styled-button__real-text-holder"> <span class="styled-button__real-text">Submit</span> <span class="styled-button__moving-block face"> <span class="styled-button__text-holder"> <span class="styled-button__text">Submit</span> </span> </span><span class="styled-button__moving-block back"> <span class="styled-button__text-holder"> <span class="styled-button__text">Submit</span> </span> </span> </span> </input>
-            <div class="error" style="color: red;font-size: medium">${error}</div>
+            <div id="submit">
+            <button type="button" class="styled-button" > <span class="styled-button__real-text-holder"> <span class="styled-button__real-text">Submit</span> <span class="styled-button__moving-block face"> <span class="styled-button__text-holder"> <span class="styled-button__text">Submit</span> </span> </span><span class="styled-button__moving-block back"> <span class="styled-button__text-holder"> <span class="styled-button__text">Submit</span> </span> </span> </span> </button>
+            </div>
+            <div class="error" style="color: #ff0000;font-size: medium">${error}</div>
         </div>
     </form>
 </main>

@@ -13,7 +13,7 @@ public class Professor extends User implements Serializable {
     /**
      * 身份证件，考虑到身份证中有生日信息，生日信息可从身份证获取
      */
-    private int identify_num;
+    private String identify_num;
 
     public String getP_id() {
         return p_id;
@@ -47,11 +47,11 @@ public class Professor extends User implements Serializable {
         this.birthday = birthday;
     }
 
-    public int getIdentify_num() {
+    public String getIdentify_num() {
         return identify_num;
     }
 
-    public void setIdentify_num(int identify_num) {
+    public void setIdentify_num(String identify_num) {
         this.identify_num = identify_num;
     }
 
@@ -72,7 +72,7 @@ public class Professor extends User implements Serializable {
     }
 
 
-    public Professor(String _id, String _name, Date _birthday, int _identify_num, String _status, int _dept_id, String _password){
+    public Professor(String _id, String _name, Date _birthday, String _identify_num, String _status, int _dept_id, String _password){
         p_id=_id;
         p_name=_name;
         password=_password;

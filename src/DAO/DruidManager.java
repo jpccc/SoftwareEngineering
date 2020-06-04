@@ -17,7 +17,7 @@ import java.util.HashMap;
  * 使用时请自行修改其中的数据库用户名，url和密码
  */
 public class DruidManager {
-    private static final String DB_URL = "jdbc:mysql://localhost:3306/course_selection"; // 数据库连接URL
+    private static final String DB_URL = "jdbc:mysql://localhost:3306/course_selection?useSSL=false&serverTimezone=UTC"; // 数据库连接URL
     private static final String DB_USERNAME = "root"; // 数据库用户名
     private static final String DB_PASSWORD = "010233"; // 数据库密码
     private static DruidDataSource druidDataSource=null;//连接池DataSource

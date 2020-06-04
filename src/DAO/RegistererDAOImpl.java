@@ -30,9 +30,11 @@ public class RegistererDAOImpl implements RegistererDAO {
             ps=conn.prepareStatement(sql);
             ps.setString(1,r_id);
             rs=ps.executeQuery();
-            while(rs.next()){
+            if(rs.next()){
                 registerer.setR_id(rs.getString("r_id"));
                 registerer.setPassword(rs.getString("password"));
+            }else{
+                registerer.setR_id("null");
             }
         } catch (SQLException e) {
             e.printStackTrace();
