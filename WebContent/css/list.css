@@ -26,6 +26,19 @@
 .btn_btn-primary {
     background-color: #45a049;
 }
+.btn_btn-list{
+    width: 80%;
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+.btn_btn-list {
+    background-color: #5f8d5f;
+}
 .table_info{
     width: 70%;
     margin-left:200px;

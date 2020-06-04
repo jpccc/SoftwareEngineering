@@ -65,7 +65,7 @@ setTimeout(function () {
 var inputSet=document.getElementsByTagName("input");
 var inputElement = inputSet[2];
 //为提交按钮添加单击事件
-inputElement.onclick = function(){
+document.getElementById("submit").onclick= function(){
         //定位<form>标签，forms表示document对象中所有表单的集合，通过下标引用不同的表单，从0开始
         var username=inputSet[0].value
         var password= inputSet[1].value
