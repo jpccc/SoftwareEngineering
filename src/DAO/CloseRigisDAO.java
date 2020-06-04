@@ -2,6 +2,7 @@ package DAO;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -24,9 +25,8 @@ public class CloseRigisDAO {
                 "root");
     }
 	public Map<String,Boolean> getCourseList() {
-		try (Connection c = getConnection(); Statement s = c.createStatement();) {	
-			String sql = "select course_id from course_info where `reg_id`=0";			   
-            ResultSet rs= s.executeQuery(sql);        
+		try (Connection c = getConnection(); PreparedStatement s = c.prepareStatement("select course_id from course_info;");) {			   
+            ResultSet rs= s.executeQuery();        
             Map<String,Boolean> courseList=new HashMap<String,Boolean>();
             while(rs.next()) {
             	Course course=new Course();
@@ -41,9 +41,8 @@ public class CloseRigisDAO {
 		return null;
 	}
 	public Map<String,Schedule> getScheduleList(){
-		try (Connection c = getConnection(); Statement s = c.createStatement();) {	
-			String sql = "select student_id,course_id,select_status from selection where `reg_id`=0";			   
-            ResultSet rs= s.executeQuery(sql);        
+		try (Connection c = getConnection(); PreparedStatement s = c.prepareStatement("select student_id,course_id,select_status from selection;");) {				   
+            ResultSet rs= s.executeQuery();        
             Map<String,Schedule> List=new HashMap<String,Schedule>();
             Map<String,ArrayList<String>> primaryList=new HashMap<String,ArrayList<String>>();
             Map<String,ArrayList<String>> alternateList=new HashMap<String,ArrayList<String>>();
@@ -82,11 +81,9 @@ public class CloseRigisDAO {
 		return null;
 	}
 	public boolean haveTeacher(String course_id) {		
-		try (Connection c = getConnection(); Statement s = c.createStatement();) {
-			   
-            String sql = "select professor_id from course_info where course_id="+course_id+";"; 
-            ResultSet rs= s.executeQuery(sql);
-            Map<String,Boolean> courseList=new HashMap<String,Boolean>();
+		try (Connection c = getConnection(); PreparedStatement s = c.prepareStatement("select professor_id from course_info where course_id= ? ;");) {
+			s.setString(1, course_id);   
+            ResultSet rs= s.executeQuery();
             if(rs.next()) {
             	String result=rs.getString(1);
             	System.out.println("result:" + result);
@@ -98,10 +95,8 @@ public class CloseRigisDAO {
 		return false;
 	}
 	public Map<String,Integer> getStudentCountList() {
-		try (Connection c = getConnection(); Statement s = c.createStatement();) {
-			   
-            String sql = "select course_id,student_count from course_info; ";
-            ResultSet rs= s.executeQuery(sql);        
+		try (Connection c = getConnection(); PreparedStatement s = c.prepareStatement("select course_id,student_count from course_info;");) {			
+            ResultSet rs= s.executeQuery();        
             Map<String,Integer> List=new HashMap<String,Integer>();
             while(rs.next()) {
             	List.put(rs.getString(1), rs.getInt(2));
@@ -112,35 +107,10 @@ public class CloseRigisDAO {
         }
 		return null;
 	}
-	public boolean checkInProgress() {
-		try (Connection c = getConnection(); Statement s = c.createStatement();) {
-			   
-            String sql = "select `status` from Registration where `reg_id`=0";
-   
-            ResultSet rs= s.executeQuery(sql);
-            String result="";
-            System.out.println("result:" + result);
-            if(rs.next()) {
-            	result=rs.getString(1);
-            	System.out.println("result:" + result);
-            }
-            if(result.equals("InProgress")) {
-            		return true;
-            }
-            else if(result.equals("notInProgress")){
-            		return false;
-            }else {
-            	throw new SQLException();
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-		return false;
-	}
-	public boolean deleteCourse(String course) {
-		try (Connection c = getConnection(); Statement s = c.createStatement();) {	
-            String sql = "delete from course_info where course_id="+course+';';
-            int result=s.executeUpdate(sql);           
+	public boolean deleteCourse(String course_id) {
+		try (Connection c = getConnection(); PreparedStatement s = c.prepareStatement("delete from course_info where course_id= ? ;");) {	
+			s.setString(1, course_id);
+            int result=s.executeUpdate();           
             System.out.println("result:delete count=" + result);
             return true;
         } catch (SQLException e) {
@@ -148,10 +118,10 @@ public class CloseRigisDAO {
         }
 		return false;
 	}
-	public boolean deleteSelection(String course) {
-		try (Connection c = getConnection(); Statement s = c.createStatement();) {	
-            String sql = "delete from selection where course_id="+course+';';
-            int result=s.executeUpdate(sql);           
+	public boolean deleteSelection(String course_id) {
+		try (Connection c = getConnection(); PreparedStatement s = c.prepareStatement("delete from selection where course_id= ? ;");) {	
+            s.setString(1, course_id);
+            int result=s.executeUpdate();           
             System.out.println("result:delete count=" + result);
             return true;
         } catch (SQLException e) {

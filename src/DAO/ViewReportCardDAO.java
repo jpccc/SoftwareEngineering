@@ -2,6 +2,7 @@ package DAO;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -23,9 +24,9 @@ public class ViewReportCardDAO {
                 "root");
     }
 	public Map<Course,Integer> getReportCard(String student_id){
-		try (Connection c = getConnection(); Statement s = c.createStatement();) {	
-			String sql = "select course_id,grade from selection where student_id="+student_id+';';	
-            ResultSet rs= s.executeQuery(sql);        
+		try (Connection c = getConnection();PreparedStatement s = c.prepareStatement("select course_id,grade from selection where student_id= ? ;"); ) {	
+			s.setString(1,student_id);
+            ResultSet rs= s.executeQuery();        
             Map<Course,Integer> ReportCard=new HashMap<Course,Integer>();
             while(rs.next()) {
             	String course_id=rs.getString("course_id");

@@ -1,6 +1,8 @@
 package Controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -43,8 +45,13 @@ public class ViewReportCardServlet extends HttpServlet {
 		for(Map.Entry<Course, Integer> entry : ReportCard.entrySet()) {
 			System.out.println("ReportCard: course_id="+entry.getKey().getCourse_id()+",grade="+entry.getValue());
 		}
-		
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		//´«Èëjsp
+		List<Course> courseList=new ArrayList<Course>(ReportCard.keySet());
+		List<Integer> gradeList=new ArrayList<Integer>(ReportCard.values());
+        request.setAttribute("CourseList", courseList);
+        request.setAttribute("GradeList", gradeList);
+        request.getRequestDispatcher("jsp/ViewReportCard.jsp").forward(request, response);
+		//response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
 	/**
