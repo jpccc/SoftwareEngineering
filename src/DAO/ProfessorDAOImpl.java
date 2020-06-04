@@ -20,7 +20,7 @@ public class ProfessorDAOImpl implements ProfessorDAO {
             preparedStatement.setString(1, professor.getP_id());
             preparedStatement.setString(2, professor.getP_name());
             preparedStatement.setDate(3, professor.getBirthday());
-            preparedStatement.setInt(4,professor.getIdentify_num());
+            preparedStatement.setString(4,professor.getIdentify_num());
             preparedStatement.setString(5, professor.getStatus());
             preparedStatement.setInt(6,professor.getDept_id());
             preparedStatement.setString(7,professor.getPassword());
@@ -45,7 +45,7 @@ public class ProfessorDAOImpl implements ProfessorDAO {
             preparedStatement = conn.prepareStatement(sql);
             preparedStatement.setString(1, professor.getP_name());
             preparedStatement.setDate(2, professor.getBirthday());
-            preparedStatement.setInt(3,professor.getIdentify_num());
+            preparedStatement.setString(3,professor.getIdentify_num());
             preparedStatement.setString(4, professor.getStatus());
             preparedStatement.setInt(5,professor.getDept_id());
             preparedStatement.setString(6,professor.getPassword());
@@ -95,7 +95,7 @@ public class ProfessorDAOImpl implements ProfessorDAO {
                 professor.setP_id(rSet.getString(1));
                 professor.setP_name(rSet.getString(2));
                 professor.setBirthday(rSet.getDate(3));
-                professor.setIdentify_num(rSet.getInt(4));
+                professor.setIdentify_num(rSet.getString(4));
                 professor.setStatus(rSet.getString(5));
                 professor.setDept_id(rSet.getInt(6));
                 professor.setPassword(rSet.getString(7));
@@ -126,7 +126,7 @@ public class ProfessorDAOImpl implements ProfessorDAO {
                 professor.setP_id(rSet.getString(1));
                 professor.setP_name(rSet.getString(2));
                 professor.setBirthday(rSet.getDate(3));
-                professor.setIdentify_num(rSet.getInt(4));
+                professor.setIdentify_num(rSet.getString(4));
                 professor.setStatus(rSet.getString(5));
                 professor.setDept_id(rSet.getInt(6));
                 professor.setPassword(rSet.getString(7));
@@ -139,7 +139,7 @@ public class ProfessorDAOImpl implements ProfessorDAO {
         }catch (Exception e){
             e.printStackTrace();
         }finally {
-            conn.close();
+            if(conn!=null)conn.close();
         }
         return professor;
     }
@@ -159,7 +159,7 @@ public class ProfessorDAOImpl implements ProfessorDAO {
                 professor.setP_id(rSet.getString(1));
                 professor.setP_name(rSet.getString(2));
                 professor.setBirthday(rSet.getDate(3));
-                professor.setIdentify_num(rSet.getInt(4));
+                professor.setIdentify_num(rSet.getString(4));
                 professor.setStatus(rSet.getString(5));
                 professor.setDept_id(rSet.getInt(6));
                 professor.setPassword(rSet.getString(7));
@@ -170,7 +170,7 @@ public class ProfessorDAOImpl implements ProfessorDAO {
         } catch (Exception e) {
             throw new Exception("findAll操作出现异常");
         } finally {
-            conn.close();
+            if(conn==null)conn.close();
         }
         return all;
     }

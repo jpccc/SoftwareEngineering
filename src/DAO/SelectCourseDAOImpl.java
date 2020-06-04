@@ -17,7 +17,6 @@ public class SelectCourseDAOImpl implements SelectCourseDAO{
         String sql="select * from selection where student_id=?";
         try {
         	conn=JDBCUtil.getMysqlConnection();
-        	
     		System.out.println("Success connect Mysql server!");
 			ps=conn.prepareStatement(sql);
 	        ps.setString(1,s_id);
