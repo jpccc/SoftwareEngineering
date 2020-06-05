@@ -39,8 +39,7 @@
 	</div>
 </div>
 
-<div class="body">
-	<div class="navigate">
+<div class="navigate">
 		<input type="checkbox" id="sidemenu">
 		<aside id="list">
 			<h2>课程列表</h2>
@@ -49,10 +48,10 @@
 				<a href="##">
 					<li>学生首页</li>
 				</a>
-				<a href="##">
+				<a href="/SoftwareEngineering/jsp/Student/show_schedule.jsp">
 					<li>查询课表</li>
 				</a>
-				<a href="#">
+				<a href="##">
 					<li>others</li>
 				</a>
 				<a href="##">
@@ -61,6 +60,11 @@
 			</ul>
 		</aside>
 	</div>
+
+
+<form action="http://localhost:8080/SoftwareEngineering/SelectCourseServlet?op=add" method="post">
+<div class="body">
+	
 
 	<div class="table_one">
 		<table class="table_info" border="1">
@@ -94,14 +98,15 @@
 					<td><%=list.get(i).getWeekday()%></td>
 					<td><%=list.get(i).getWeekday()%></td>
 					<td><%=list.get(i).getStudent_count()%></td>
+					
 					<td>
-						<input  type="radio" checked="checked" value="first" name=<%=name%>
+						<input  type="radio" checked="checked" value="<%=list.get(i).getCourse_id() %>  <%=list.get(i).getReg_id() %> first" name=<%=name%>
 						/>首选
 						<%
 							response.getWriter().print(Integer.toString(name));
 
 						%>
-						<input  type="radio" value="second" name=<%=name%>
+						<input  type="radio" value="<%=list.get(i).getCourse_id() %>  <%=list.get(i).getReg_id() %> second" name=<%=name%>
 						/>
 						备选
 					</td>
@@ -117,11 +122,13 @@
 
 <div class="bottom">
 
-	<button  class="button_left" onclick="show()">功能</button>
+	
 	<br>
 	<button class="button_right">提交</button>
 
 </div>
 
+</form>
+<button  class="button_left" onclick="show()">功能</button>
 </body>
 </html>
