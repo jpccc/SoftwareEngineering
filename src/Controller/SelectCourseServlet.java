@@ -40,6 +40,7 @@ public class SelectCourseServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		 response.setCharacterEncoding("UTF-8");
 		try {
 			String s="";
 			SelectCourseDAO select_course_dao=new SelectCourseDAOImpl();
@@ -103,26 +104,20 @@ public class SelectCourseServlet extends HttpServlet {
 					String str=request.getParameter(String.valueOf(i));
 				    System.out.println(request.getParameter(String.valueOf(i)));
 				    if(str!=null) {
-				    	System.out.println("pri: "+request.getParameter("primary"+i));
-				    	System.out.println("sec: "+request.getParameter("second"+i));
+				    	System.out.println(str);
 				    	
 				    	String [] arr = str.split("\\s+");
 				    	String course_id=arr[0];
 				    	int reg_id=Integer.valueOf(arr[1]);
 				    	
-				    	System.out.println("arr0 " +arr[0]);
-				    	System.out.println("arr1 "+arr[1]);
+				    	String type=arr[2];
 				    	
 				    	CourseSelection course_selection=new CourseSelection();
 						course_selection.set_student_id("li");
 						course_selection.set_course_id(course_id);
 						course_selection.set_reg_id(reg_id);
-						if(request.getParameter("primary"+i)!=null && request.getParameter("primary"+i).equals("primary")) {
-							course_selection.set_select_status("primary");
-						}
-						if(request.getParameter("second"+i)!=null && request.getParameter("second"+i).equals("second")) {
-							course_selection.set_select_status("second");
-						}
+						course_selection.set_select_status(type);
+						
 						/*
 						List<CourseSelection> schedule=new ArrayList<CourseSelection>();
 						schedule=select_course_dao.get_schedule("li");
@@ -141,7 +136,7 @@ public class SelectCourseServlet extends HttpServlet {
 			
 			
 			if(op!=null&& op.contentEquals("delete")) {
-				for(int i=0;i<10;i++){
+				for(int i=0;i<300;i++){
 					String str=request.getParameter(String.valueOf(i));
 				    System.out.println(request.getParameter(String.valueOf(i)));
 				    if(str!=null) {

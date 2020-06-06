@@ -1,44 +1,104 @@
-<%@ page import="Beans.Student" %><%--
-  Created by IntelliJ IDEA.
-  User: 李睿宸
-  Date: 2020/6/2
-  Time: 8:47
-  To change this template use File | Settings | File Templates.
---%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page import="Beans.Student" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <html>
 <head>
     <title>学生页面</title>
-    <link rel="stylesheet" href="css/list.css">
-    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/user.css">
+    <script>
+        function show(){
+            var x=document.getElementById("sidemenu");
+
+            if(x.checked==true){
+                document.getElementById("list").style.left="-180px";
+                x.checked=false;
+            }
+            else{
+                document.getElementById("list").style.left=0;
+                x.checked=true;
+            }
+        }
+    </script>
 </head>
-<body>
-<div class="container" id="box">
-<table class="table_info" border="1">
-    <caption class="h3 text-info">学生信息表</caption>
-    <tr class="text-danger">
-        <th class="text-center">名字</th>
-        <th class="text-center">生日</th>
-        <th class="text-center">身份证</th>
-        <th class="text-center">Status</th>
-        <th class="text-center">公寓ID</th>
-    </tr>
-    <tr class="text-center" v-for="item in myData">
-        <%Student student= (Student) session.getAttribute("user");%>
-        <td><%=student.getS_name()%></td>
-        <td><%=student.getBirthday()%></td>
-        <td><%=student.getIdentify_num()%></td>
-        <td><%=student.getStatus()%></td>
-        <td>公寓ID</td>
-    </tr>
-</table>
-    <div class="form-group">
-        <input type="button" value="注册课程" class="btn_btn-primary">
-        <input type="button" value="查看分数" class="btn_btn-primary">
+<body background="<c:url value="images/stu_back.jpg"/>">
+<div class="head">
+    <div class="block_left">
+        <div>
+            <hr id="line_l">
+        </div>
     </div>
-    <div class="form-group">
-        <input type="button" value="查看我的课表" class="btn_btn-list">
+    <div class="block_right">
+        <div class="head_title">
+            <h2 id="title">学生信息表</h2>
+        </div>
+        <div class="inerblock_right">
+            <div>
+                <hr id="line_r">
+            </div>
+        </div>
     </div>
 </div>
+
+<div class="body">
+    <div class="navigate">
+        <input type="checkbox" id="sidemenu">
+        <aside id="list">
+            <h2>功能列表</h2>
+            <br/>
+            <ul id="sideul">
+                <a href="##">
+                    <li>首页</li>
+                </a>
+                <a href="##">
+                    <li>查询成绩</li>
+                </a>
+                <a href="jsp/Student/add_course.jsp">
+                    <li>选课</li>
+                </a>
+                <a href="jsp/Student/show_schedule.jsp">
+                    <li>查看课表</li>
+                </a>
+                <a href="##">
+                    <li>查看邮箱</li>
+                </a>
+            </ul>
+        </aside>
+    </div>
+
+    <div class="table_one">
+        <table class="table_info" border="1">
+            <caption>
+                <script>
+                    document.write(Date());
+                </script>
+            </caption>
+
+            <div class="table_final">
+                <tr class="text-propetty">
+                    <th height="57" class="text-center">名字</th>
+                    <th class="text-center">生日</th>
+                    <th class="text-center">身份证</th>
+                    <th class="text-center">Status</th>
+                    <th class="text-center">公寓ID</th>
+                </tr>
+                <tr class="text-value">
+                    <%Student student= (Student) session.getAttribute("user");%>
+                    <td height="62"><%=student.getS_name()%></td>
+                    <td><%=student.getBirthday()%></td>
+                    <td><%=student.getIdentify_num()%></td>
+                    <td><%=student.getStatus()%></td>
+                    <td>公寓ID</td>
+                </tr>
+            </div>
+        </table>
+    </div>
+</div>
+
+<div class="bottom">
+    <div class="bottom_left">
+        <button style="left: -18px; top: 377px;" onclick="show()">≡</button>
+    </div>
+</div>
+
 </body>
 </html>
