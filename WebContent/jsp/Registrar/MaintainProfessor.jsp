@@ -15,15 +15,15 @@
 </head>
 <body>
 <h1>管理教授档案</h1>
-<form class="modifyinfo" action="/SoftwareEngineering_war/RegistrarServlet?method=modifyProfessor&id=${user.p_id}" method="post">
+<form class="modifyinfo" action="/SoftwareEngineering_war/RegistrarServlet?method=modifyProfessor&id=${professor.p_id}" method="post">
     <div class="inputbox" >
-        id<br><input type="text" class="password" name="p_id" value="${user.p_id}" disabled><br>
-        姓名<br><input type="text" class="password" name="p_name" value="${user.p_name}"><br>
-        生日<br><input type="Date" class="password" name="birthday" value="${user.birthday}"><br>
-        identify number<br><input type="text" class="password" name="identify_num" value="${user.identify_num}" ><br>
-        状态<br><input type="text" class="password" name="status" value="${user.status}"><br>
-        部门id<br><input type="text" class="password" name="dept_id" value="${user.dept_id}"><br>
-        密码 <input type="text" class="password" name="password" value="${user.password}"><br>
+        id<br><input type="text" class="password" name="p_id" value="${professor.p_id}" disabled><br>
+        姓名<br><input type="text" class="password" name="p_name" value="${professor.p_name}"><br>
+        生日<br><input type="Date" class="password" name="birthday" value="${professor.birthday}"><br>
+        identify number<br><input type="text" class="password" name="identify_num" value="${professor.identify_num}" ><br>
+        状态<br><input type="text" class="password" name="status" value="${professor.status}"><br>
+        部门id<br><input type="text" class="password" name="dept_id" value="${professor.dept_id}"><br>
+        密码 <input type="text" class="password" name="password" value="${professor.password}"><br>
     </div>
     <br>
     <input type="submit" value="修改" class="button">
@@ -39,7 +39,7 @@
 <script language="javascript">
     function firm() {
         if (confirm("确定删除？")) {
-            location.href = "/SoftwareEngineering_war/RegistrarServlet?method=deleteProfessor&id=${user.p_id}";
+            location.href = "/SoftwareEngineering_war/RegistrarServlet?method=deleteProfessor&id=${professor.p_id}";
         }
     }
 </script>

@@ -111,7 +111,7 @@ public class RegistrarServlet extends BaseServlet {
             if(formatCheck(id)) {
                 Professor professor = professorDAO.findById(id);
                 HttpSession session=req.getSession();
-                req.setAttribute("user", professor);
+                req.setAttribute("professor", professor);
                 req.getRequestDispatcher("/jsp/Registrar/MaintainProfessor.jsp").forward(req,resp);
             }else{
                 req.setAttribute("error", "id错误无法修改");
