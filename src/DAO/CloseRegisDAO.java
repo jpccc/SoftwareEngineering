@@ -24,8 +24,9 @@ public class CloseRegisDAO {
         return DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/registration?characterEncoding=utf-8&useSSL=false&useUnicode=true&serverTimezone=UTC", "root",
                 "root");
     }
-	public Map<String,Boolean> getCourseList() {
-		try (Connection c = getConnection(); PreparedStatement s = c.prepareStatement("select course_id from course_info;");) {			   
+	public Map<String,Boolean> getCourseList(int reg_id) {
+		try (Connection c = getConnection(); PreparedStatement s = c.prepareStatement("select course_id from course_info where reg_id= ? ;");) {	
+			s.setInt(1, reg_id);
             ResultSet rs= s.executeQuery();        
             Map<String,Boolean> courseList=new HashMap<String,Boolean>();
             while(rs.next()) {
@@ -40,9 +41,10 @@ public class CloseRegisDAO {
         }
 		return null;
 	}
-	public Map<String,Schedule> getScheduleList(){
-		try (Connection c = getConnection(); PreparedStatement s = c.prepareStatement("select student_id,course_id,select_status from selection;");) {				   
-            ResultSet rs= s.executeQuery();        
+	public Map<String,Schedule> getScheduleList(int reg_id){
+		try (Connection c = getConnection(); PreparedStatement s = c.prepareStatement("select student_id,course_id,select_status from selection where reg_id= ? ;");) {				   
+            s.setInt(1, reg_id);
+			ResultSet rs= s.executeQuery();        
             Map<String,Schedule> List=new HashMap<String,Schedule>();
             Map<String,ArrayList<String>> primaryList=new HashMap<String,ArrayList<String>>();
             Map<String,ArrayList<String>> alternateList=new HashMap<String,ArrayList<String>>();
@@ -80,15 +82,16 @@ public class CloseRegisDAO {
         }
 		return null;
 	}
-	public Map<Course,Integer> getBill(String student_id){
-		try (Connection c = getConnection(); PreparedStatement s = c.prepareStatement("select course_id,cost from selection where student_id= ? ;");) {				   
+	public Map<Course,Integer> getBill(String student_id,int reg_id){
+		try (Connection c = getConnection(); PreparedStatement s = c.prepareStatement("select course_id,cost from selection where student_id= ? and reg_id= ? ;");) {				   
             s.setString(1, student_id);
+            s.setInt(2, reg_id);
 			ResultSet rs= s.executeQuery(); 
 			Map<Course,Integer> bill=new HashMap<Course,Integer>();
             while(rs.next()) {
             	String course_id=rs.getString("course_id");
             	int cost=rs.getInt("cost");
-            	Course course=getCourse(course_id);
+            	Course course=getCourse(course_id,reg_id);
             	bill.put(course, cost);
             }
             return bill;
@@ -97,9 +100,10 @@ public class CloseRegisDAO {
         }
 		return new HashMap<Course,Integer>();
 	}
-	public boolean haveTeacher(String course_id) {		
-		try (Connection c = getConnection(); PreparedStatement s = c.prepareStatement("select professor_id from course_info where course_id= ? ;");) {
-			s.setString(1, course_id);   
+	public boolean haveTeacher(String course_id,int reg_id) {		
+		try (Connection c = getConnection(); PreparedStatement s = c.prepareStatement("select professor_id from course_info where course_id= ? and reg_id= ? ;");) {
+			s.setString(1, course_id); 
+			s.setInt(2, reg_id);
             ResultSet rs= s.executeQuery();
             if(rs.next()) {
             	String result=rs.getString(1);
@@ -114,9 +118,10 @@ public class CloseRegisDAO {
         }
 		return false;
 	}
-	public Map<String,Integer> getStudentCountList() {
-		try (Connection c = getConnection(); PreparedStatement s = c.prepareStatement("select course_id,student_count from course_info;");) {			
-            ResultSet rs= s.executeQuery();        
+	public Map<String,Integer> getStudentCountList(int reg_id) {
+		try (Connection c = getConnection(); PreparedStatement s = c.prepareStatement("select course_id,student_count from course_info where reg_id= ? ;");) {			
+            s.setInt(1, reg_id);
+			ResultSet rs= s.executeQuery();        
             Map<String,Integer> List=new HashMap<String,Integer>();
             while(rs.next()) {
             	List.put(rs.getString(1), rs.getInt(2));
@@ -127,9 +132,10 @@ public class CloseRegisDAO {
         }
 		return null;
 	}
-	public Course getCourse(String course_id) {
-		try (Connection c = getConnection(); PreparedStatement s = c.prepareStatement("select * from course_info where course_id= ? ;");) {	
+	public Course getCourse(String course_id,int reg_id) {
+		try (Connection c = getConnection(); PreparedStatement s = c.prepareStatement("select * from course_info where course_id= ? and reg_id= ? ;");) {	
 			s.setString(1, course_id);
+			s.setInt(2, reg_id);
 			ResultSet rs= s.executeQuery(); 
 			Course course=new Course();
 			if(rs.next()) {
@@ -147,9 +153,22 @@ public class CloseRegisDAO {
         }
 		return null;
 	}
-	public boolean deleteCourse(String course_id) {
-		try (Connection c = getConnection(); PreparedStatement s = c.prepareStatement("delete from course_info where course_id= ? ;");) {	
+	public boolean deleteCourse(String course_id,int reg_id) {
+		try (Connection c = getConnection(); PreparedStatement s = c.prepareStatement("delete from course_info where course_id= ? and reg_id= ? ;");) {	
 			s.setString(1, course_id);
+            s.setInt(2, reg_id);
+			int result=s.executeUpdate();           
+            System.out.println("result:delete count=" + result);
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+		return false;
+	}
+	public boolean deleteSelection(String course_id,int reg_id) {
+		try (Connection c = getConnection(); PreparedStatement s = c.prepareStatement("delete from selection where course_id= ? and reg_id= ? ;");) {	
+            s.setString(1, course_id);
+            s.setInt(2, reg_id);
             int result=s.executeUpdate();           
             System.out.println("result:delete count=" + result);
             return true;
@@ -158,12 +177,15 @@ public class CloseRegisDAO {
         }
 		return false;
 	}
-	public boolean deleteSelection(String course_id) {
-		try (Connection c = getConnection(); PreparedStatement s = c.prepareStatement("delete from selection where course_id= ? ;");) {	
-            s.setString(1, course_id);
+	public boolean closeRegistration(int reg_id) {
+		try (Connection c = getConnection(); PreparedStatement s = c.prepareStatement("update registration set status='closed' where reg_id= ? ;");) {	
+            s.setInt(1, reg_id);
             int result=s.executeUpdate();           
             System.out.println("result:delete count=" + result);
-            return true;
+            if(result>0)
+            	return true;
+            else
+            	return false;
         } catch (SQLException e) {
             e.printStackTrace();
         }

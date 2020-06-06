@@ -11,8 +11,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import Beans.Course;
+import Beans.Registration;
 import Beans.Schedule;
 import DAO.CloseRegisDAO;
+import DAO.RegistrationDAO;
+import DAO.RegistrationDAOImpl;
 /**
  * Servlet implementation class CloseRegisServlet
  */
@@ -34,14 +37,22 @@ public class CloseRegisServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		System.out.println("enter servlet ");
-		CloseRegisDAO dao=new CloseRegisDAO();
-
-		Map<String,Boolean> courseList=dao.getCourseList();//保存课程id和是否commit的映射关系
-		Map<String,Integer> StudentCountList=dao.getStudentCountList();
-		Map<String,Schedule> ScheduleList=dao.getScheduleList();
+		//get registration
+		RegistrationDAO regDao = new RegistrationDAOImpl();
+		Registration reg=regDao.queryLatest();
+		int reg_id=reg.getReg_id();
+		//check if registration is open
+		if(reg.getStatus().equals("closed")) {
+			System.out.println("registration have been closed");
+			return;
+		}
+		CloseRegisDAO dao=new CloseRegisDAO();		
+		Map<String,Boolean> courseList=dao.getCourseList(reg_id);//保存课程id和是否commit的映射关系
+		Map<String,Integer> StudentCountList=dao.getStudentCountList(reg_id);
+		Map<String,Schedule> ScheduleList=dao.getScheduleList(reg_id);
 		//commit courses
 		for(Map.Entry<String,Boolean> entry : courseList.entrySet()) {
-			if(StudentCountList.get(entry.getKey())>=3&&dao.haveTeacher(entry.getKey())) {
+			if(StudentCountList.get(entry.getKey())>=3&&dao.haveTeacher(entry.getKey(),reg_id)) {
 				entry.setValue(true);
 			}
 		}
@@ -68,7 +79,7 @@ public class CloseRegisServlet extends HttpServlet {
 		}
 		//commit courses because of leveling
 		for(Map.Entry<String,Boolean> entry : courseList.entrySet()) {
-			if(StudentCountList.get(entry.getKey())>=3&&dao.haveTeacher(entry.getKey())) {
+			if(StudentCountList.get(entry.getKey())>=3&&dao.haveTeacher(entry.getKey(),reg_id)) {
 				entry.setValue(true);
 			}
 		}
@@ -86,12 +97,13 @@ public class CloseRegisServlet extends HttpServlet {
 		for(Map.Entry<String,Boolean> entry : courseList.entrySet()) {
 			if(entry.getValue()==false) {
 				String course=entry.getKey();
-				dao.deleteCourse(course);
-				dao.deleteSelection(course);
+				dao.deleteCourse(course,reg_id);
+				dao.deleteSelection(course,reg_id);
 			}
 		}
-		
-		
+		///close registration
+		dao.closeRegistration(reg_id);
+				
 		//debug print
 		for(Map.Entry<String,Schedule> entry : ScheduleList.entrySet()) {
 			System.out.println("enter schedule");
@@ -104,7 +116,7 @@ public class CloseRegisServlet extends HttpServlet {
 				System.out.println("alternate:"+alternateCourse);
 			}
 		}
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		System.out.println("close registration");
 	}
 
 	/**

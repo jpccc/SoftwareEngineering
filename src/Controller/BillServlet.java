@@ -12,8 +12,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import Beans.Course;
+import Beans.Registration;
 import Beans.Student;
 import DAO.CloseRegisDAO;
+import DAO.RegistrationDAO;
+import DAO.RegistrationDAOImpl;
 
 /**
  * Servlet implementation class BillServlet
@@ -35,12 +38,21 @@ public class BillServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		//get registration
+		RegistrationDAO regDao = new RegistrationDAOImpl();
+		Registration reg=regDao.queryLatest();
+		int reg_id=reg.getReg_id();
+		//check if registration is open
+		if(reg.getStatus().equals("open")) {
+			System.out.println("registration is still open");
+			return;
+		}
 		//获取学生id
 		Student student=(Student) request.getSession().getAttribute("user");
 		String student_id=student.getS_id();
 		//获取bill
 		CloseRegisDAO dao=new CloseRegisDAO();
-		Map<Course,Integer> bill=dao.getBill(student_id);
+		Map<Course,Integer> bill=dao.getBill(student_id,reg_id);
 		//计算总价格
 		int total_cost=0;
 		for(int cost : bill.values()) {

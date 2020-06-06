@@ -12,7 +12,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import Beans.Course;
+import Beans.Registration;
 import Beans.Student;
+import DAO.RegistrationDAO;
+import DAO.RegistrationDAOImpl;
 import DAO.ViewReportCardDAO;
 
 /**
@@ -35,12 +38,16 @@ public class ViewReportCardServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		//get registration
+		RegistrationDAO regDao = new RegistrationDAOImpl();
+		Registration reg=regDao.queryLatest();
+		int reg_id=reg.getReg_id();
 		//获取student_id
 		Student student=(Student) request.getSession().getAttribute("user");
 		String student_id=student.getS_id();
 		//获取ReportCard
 		ViewReportCardDAO dao=new ViewReportCardDAO();
-		Map<Course,Integer> ReportCard=dao.getReportCard(student_id);
+		Map<Course,Integer> ReportCard=dao.getReportCard(student_id,reg_id);
 		//debug print
 		for(Map.Entry<Course, Integer> entry : ReportCard.entrySet()) {
 			System.out.println("ReportCard: course_id="+entry.getKey().getCourse_id()+",grade="+entry.getValue());
@@ -51,7 +58,6 @@ public class ViewReportCardServlet extends HttpServlet {
         request.setAttribute("CourseList", courseList);
         request.setAttribute("GradeList", gradeList);
         request.getRequestDispatcher("jsp/Student/ViewReportCard.jsp").forward(request, response);
-		//response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
 	/**

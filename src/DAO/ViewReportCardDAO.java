@@ -23,14 +23,15 @@ public class ViewReportCardDAO {
         return DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/registration?characterEncoding=utf-8&useSSL=false&useUnicode=true&serverTimezone=UTC", "root",
                 "root");
     }
-	public Map<Course,Integer> getReportCard(String student_id){
-		try (Connection c = getConnection();PreparedStatement s = c.prepareStatement("select course_id,grade from selection where student_id= ? ;"); ) {	
+	public Map<Course,Integer> getReportCard(String student_id,int reg_id){
+		try (Connection c = getConnection();PreparedStatement s = c.prepareStatement("select course_id,grade from selection where student_id= ? and reg_id= ? ;"); ) {	
 			s.setString(1,student_id);
-            ResultSet rs= s.executeQuery();        
+            s.setInt(2, reg_id);
+			ResultSet rs= s.executeQuery();        
             Map<Course,Integer> ReportCard=new HashMap<Course,Integer>();
             while(rs.next()) {
             	String course_id=rs.getString("course_id");
-            	Course course=getCourseInfo(course_id);
+            	Course course=getCourseInfo(course_id,reg_id);
             	int grade=rs.getInt("grade");
             	ReportCard.put(course, grade);
             }
@@ -40,10 +41,11 @@ public class ViewReportCardDAO {
         }
 		return null;
 	}
-	public Course getCourseInfo(String course_id) {
-		try (Connection c = getConnection(); Statement s = c.createStatement();) {	
-			String sql = "select * from course_info where course_id="+course_id+';';	
-            ResultSet rs= s.executeQuery(sql);        
+	public Course getCourseInfo(String course_id,int reg_id) {
+		try (Connection c = getConnection(); PreparedStatement s = c.prepareStatement("select * from course_info where course_id= ? and reg_id= ? ;");) {	
+			s.setString(1, course_id);	
+			s.setInt(2, reg_id);
+            ResultSet rs= s.executeQuery();        
             if(rs.next()) {
             	Course course=new Course();
             	course.setCourse_id(rs.getString("course_id"));
