@@ -122,5 +122,6 @@
     <button class="button_right" onclick="submit()">提交</button>
     <button class="button_left" onclick="show()">功能</button>
 </div>
+${message }
 </body>
 </html>

@@ -13,5 +13,7 @@ public interface SelectCourseDAO {
 	public List<Course> check_course(String course_id);
 	public Course check_course(String course_id,int reg_id);
 	public String no_conflict(List<CourseSelection> schedule,CourseSelection course_selection);
-	public String satisfy_prerequire(CourseSelection course_selection);
+	public String satisfy_prerequire(List<CourseSelection> schedule,CourseSelection course_selection);
+	public Course check_course_from_selection(CourseSelection course_selection);
+	public String get_post_course_id(String course_id);
 }

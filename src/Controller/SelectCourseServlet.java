@@ -100,6 +100,8 @@ public class SelectCourseServlet extends HttpServlet {
 			}
 			
 			if(op!=null&& op.contentEquals("add")) {
+				List<CourseSelection> schedule=new ArrayList<CourseSelection>();
+                schedule=select_course_dao.get_schedule("li");
 				for(int i=0;i<10;i++){
 					String str=request.getParameter(String.valueOf(i));
 				    System.out.println(request.getParameter(String.valueOf(i)));
@@ -127,8 +129,13 @@ public class SelectCourseServlet extends HttpServlet {
 							request.setAttribute("message", "add success");
 						}
 						*/
-						select_course_dao.add_course_selection(course_selection);
-						request.setAttribute("message", "add success");
+						if(select_course_dao.satisfy_prerequire(schedule, course_selection).equals("yes")) {
+							select_course_dao.add_course_selection(course_selection);
+							request.setAttribute("message", "add success");
+						}else {
+							request.setAttribute("message", "not satisfy prev_require courses!");
+						}
+						
 				    }
 				}
 				request.getRequestDispatcher("jsp/Student/add_course.jsp").forward(request, response);

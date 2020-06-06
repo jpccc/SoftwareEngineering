@@ -251,9 +251,129 @@ public class SelectCourseDAOImpl implements SelectCourseDAO{
 
 
 
+
+
+
+
 	@Override
-	public String satisfy_prerequire(CourseSelection course_selection) {
-		// TODO Auto-generated method stub
-		return null;
+	public String satisfy_prerequire(List<CourseSelection> schedule, CourseSelection course_selection) {
+		Course res=new Course();
+        Connection conn=null;
+        PreparedStatement ps=null;
+        ResultSet rs=null;
+        String sql="select prev_course_id from prev_require where post_course_id=?";
+        try {
+        	conn=JDBCUtil.getMysqlConnection();
+            ps=conn.prepareStatement(sql);
+            ps.setString(1,course_selection.get_course_id());
+            rs=ps.executeQuery();
+            while(rs.next()){
+            	int flag=0;
+                String prev_course_id=rs.getString("prev_course_id");
+                for(int i=0;i<schedule.size();i++) {
+                	String selected_course_id=schedule.get(i).get_course_id();
+                	if(selected_course_id.equals(prev_course_id)) {
+                		flag=1;
+                	}
+                }
+                if(flag==0) {
+                	System.out.println("not finished prev_require courses!");
+                	return "no";
+                }
+            }
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }finally {
+            try {
+                DruidManager.close(conn,ps,rs);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        System.out.println(res.getCourse_id());
+        System.out.println("finished pre_require courses");
+        return "yes";
+		
+		
+	}
+
+
+
+	@Override
+	public Course check_course_from_selection(CourseSelection course_selection) {
+		Course res=new Course();
+        Connection conn=null;
+        PreparedStatement ps=null;
+        ResultSet rs=null;
+        String sql="select course_info.* from course_info,selection where course_info.course_id=selection.course_id and course_info.reg_id=selection.reg_id and "
+        		+ "selection.course_id=? and selection.reg_id=?";
+        try {
+        	conn=JDBCUtil.getMysqlConnection();
+            ps=conn.prepareStatement(sql);
+            ps.setString(1,course_selection.get_course_id());
+            ps.setInt(2, course_selection.get_reg_id());
+            rs=ps.executeQuery();
+            while(rs.next()){
+                Course course=new Course();
+                course.setReg_id(rs.getInt("reg_id"));
+                course.setCourse_id(rs.getString("course_id"));
+                course.setDept_id(rs.getInt("dept_id"));
+                course.setCourse_name(rs.getString("course_name"));
+                course.setStart_date(rs.getDate("start_date"));
+                course.setEnd_date(rs.getDate("end_date"));
+                course.setWeekday(rs.getInt("weekday"));
+                course.setTimeslot_id(rs.getInt("timeslot_id"));
+                course.setProfessor_id(rs.getString("professor_id"));
+                course.setStudent_count(rs.getInt("student_count"));
+                course.setStatus(rs.getString("status"));
+                res=course;
+                System.out.println(course.getCourse_id());
+                break;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }finally {
+            try {
+                DruidManager.close(conn,ps,rs);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        System.out.println(res.getCourse_id());
+        return res;
+	}
+
+
+
+	@Override
+	public String get_post_course_id(String course_id) {
+		String res=null;
+        Connection conn=null;
+        PreparedStatement ps=null;
+        ResultSet rs=null;
+        String sql="select post_course_id from prev_require where prev_course_id=?";
+        try {
+        	conn=JDBCUtil.getMysqlConnection();
+            ps=conn.prepareStatement(sql);
+            ps.setString(1,course_id);
+            rs=ps.executeQuery();
+            while(rs.next()){
+            	
+                String post_course_id=rs.getString("post_course_id");
+                res=post_course_id;
+                break;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }finally {
+            try {
+                DruidManager.close(conn,ps,rs);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        System.out.println(res);
+        return res;
 	}
 }

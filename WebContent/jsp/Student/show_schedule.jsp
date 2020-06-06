@@ -66,7 +66,7 @@
    </aside>
 </div>
 
-<form id="course_form" action="http://localhost:8080/SoftwareEngineering/SelectCourseServlet?op=add" method="post">
+<form id="course_form" action="http://localhost:8080/SoftwareEngineering/SelectCourseServlet?op=delete" method="post">
    <div class="body">
       <div class="table_one">
          <table class="table_info" border="1">
@@ -92,14 +92,15 @@
                   list=select_course_dao.get_schedule("li");
                   int name=0;
                   for (int i = 0; i < list.size(); i++) {
+                	  Course course=select_course_dao.check_course_from_selection(list.get(i));
                %>
                <tr class="text-value">
-                  <td height="62"><%=list.get(i).getCourse_name()%></td>
-                  <td><%=list.get(i).getStart_date()%></td>
-                  <td><%=list.get(i).getEnd_date()%></td>
-                  <td><%=list.get(i).getWeekday()%></td>
-                  <td><%=list.get(i).getWeekday()%></td>
-                  <td><%=list.get(i).getStudent_count()%></td>
+                  <td height="62"><%=course.getCourse_name()%></td>
+                  <td><%=course.getStart_date()%></td>
+                  <td><%=course.getEnd_date()%></td>
+                  <td><%=course.getWeekday()%></td>
+                  <td><%=course.getWeekday()%></td>
+                  <td><%=course.getStudent_count()%></td>
                   <td>
                      <input  type="radio"  value="<%=list.get(i).get_course_id()%> <%=list.get(i).get_reg_id() %> <%=list.get(i).get_student_id() %> <%=list.get(i).get_select_status() %>" name=<%=name%>
                      />删除
