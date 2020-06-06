@@ -13,19 +13,19 @@ import javax.servlet.http.HttpServletResponse;
 
 import Beans.Course;
 import Beans.Student;
-import DAO.ViewReportCardDAO;
+import DAO.CloseRegisDAO;
 
 /**
- * Servlet implementation class ViewReportCardServlet
+ * Servlet implementation class BillServlet
  */
-@WebServlet("/ViewReportCardServlet")
-public class ViewReportCardServlet extends HttpServlet {
+@WebServlet("/BillServlet")
+public class BillServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ViewReportCardServlet() {
+    public BillServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -35,22 +35,24 @@ public class ViewReportCardServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		//获取student_id
+		//获取学生id
 		Student student=(Student) request.getSession().getAttribute("user");
 		String student_id=student.getS_id();
-		//获取ReportCard
-		ViewReportCardDAO dao=new ViewReportCardDAO();
-		Map<Course,Integer> ReportCard=dao.getReportCard(student_id);
-		//debug print
-		for(Map.Entry<Course, Integer> entry : ReportCard.entrySet()) {
-			System.out.println("ReportCard: course_id="+entry.getKey().getCourse_id()+",grade="+entry.getValue());
+		//获取bill
+		CloseRegisDAO dao=new CloseRegisDAO();
+		Map<Course,Integer> bill=dao.getBill(student_id);
+		//计算总价格
+		int total_cost=0;
+		for(int cost : bill.values()) {
+			total_cost+=cost;
 		}
 		//传入jsp
-		List<Course> courseList=new ArrayList<Course>(ReportCard.keySet());
-		List<Integer> gradeList=new ArrayList<Integer>(ReportCard.values());
-        request.setAttribute("CourseList", courseList);
-        request.setAttribute("GradeList", gradeList);
-        request.getRequestDispatcher("jsp/Student/ViewReportCard.jsp").forward(request, response);
+		List<Course> courseList=new ArrayList<Course>(bill.keySet());
+		List<Integer> costList=new ArrayList<Integer>(bill.values());
+		request.setAttribute("CourseList", courseList);
+        request.setAttribute("CostList", costList);
+        request.setAttribute("TotalCost", total_cost);
+        request.getRequestDispatcher("jsp/Student/ShowBill.jsp").forward(request, response);
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
