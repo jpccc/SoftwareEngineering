@@ -6,107 +6,162 @@
 <%@ page import="java.util.List" %>
 <%@ page import="Beans.Course" %>
 <%@ page import="DAO.CourseDAO" %>
-<%@ page import="DAO.CourseDAOImpl" %><%--
-  Created by IntelliJ IDEA.
-  User: 李睿宸
-  Date: 2020/6/2
-  Time: 14:10
-  To change this template use File | Settings | File Templates.
---%>
+<%@ page import="DAO.CourseDAOImpl" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%
     if(session.getAttribute("selectReg")==null){
         session.setAttribute("selectReg",session.getAttribute("registration"));
     }
+    Registration reg= (Registration) session.getAttribute("selectReg");
 %>
 <html>
 <head>
-    <title>提交成绩</title>
-    <script type="text/javascript">
+    <title>成绩修改页面</title>
+    <link rel="stylesheet" href="css/user.css">
+    <script>
+        function show(){
+            var x=document.getElementById("sidemenu");
+
+            if(x.checked==true){
+                document.getElementById("list").style.left="-180px";
+                x.checked=false;
+            }
+            else{
+                document.getElementById("list").style.left=0;
+                x.checked=true;
+            }
+        }
         function saveGrades() {
             let form = document.getElementsByTagName("form")[1];
-            form.action="/SoftwareEngineering_war/GradesServlet?method=saveGrades";
+            form.action="/SoftwareEngineering/GradesServlet?method=saveGrades";
             form.submit();
+        }
+        function subGrades(){
+            var x = document.getElementById("gradeForm");
+            x.submit();
         }
     </script>
 </head>
-<body>
-<div class="time_display" >
-    <%
-        Date d = new Date();
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-        String now = df.format(d);
-        //professor test
-        java.util.Date utilDate = new SimpleDateFormat("yyyy-MM-dd").parse("2020-01-01");
-        java.sql.Date birthday = new java.sql.Date(utilDate.getTime());
-        Registration reg= (Registration) session.getAttribute("selectReg");
-    %>
-    当前时间：<%=now %>
+<body background="<c:url value="images/pro_back.jpg"/>">
+<div class="head">
+    <div class="block_left">
+        <div>
+            <hr id="line_l">
+        </div>
+    </div>
+    <div class="block_right">
+        <div class="head_title">
+            <h2 id="title">成绩修改表</h2>
+        </div>
+        <div class="inerblock_right">
+            <div>
+                <hr id="line_r">
+            </div>
+        </div>
+    </div>
 </div>
-<form action="/SoftwareEngineering_war/GradesServlet?method=queryCourses" method="post">
-    <input type="text" name="year" value="<%=reg.getYear()%>"/>
-    <input type="text" name="semester" value="<%=reg.getSemester()%>"/>
-    <input type="submit" value="查询"/>
-</form>
-<div class="error" style="color: red;font-size: medium">${queryError}</div>
-<div class="scroll_table">
 
-        <c:if test="${not empty courseList}">
-            <table border="1" cellpadding=“0” cellspacing="0" align="center" width="70%">
-            <tr style="background-color: red">
-                <th>注册号</th>
-                <th>课程号</th>
-                <th>系号</th>
-                <th>课程名称</th>
-                <th>课程状态</th>
-            </tr>
-            <c:forEach items="${courseList}" var="course">
-                <tr >
-                    <th>${course.reg_id}</th>
-                    <th>${course.course_id}</th>
-                    <th>${course.dept_id}</th>
-                    <th>${course.course_name}</th>
-                    <th>${course.status}</th>
-                    <th><a href="/SoftwareEngineering_war/GradesServlet?method=queryStudents&course_id=${course.course_id}&registration_id=${course.reg_id}">修改成绩</a></th>
-                </tr>
-            </c:forEach>
-            </table>
-        </c:if>
+<div class="body">
+    <div class="navigate">
+        <input type="checkbox" id="sidemenu">
+        <aside id="list">
+            <h2>功能列表</h2>
+            <br/>
+            <ul id="sideul">
+                <a href="jsp/Professor/ProfessorPage.jsp">
+                    <li>教师首页</li>
+                </a>
+                <a href="jsp/Professor/SelectToTeach.jsp">
+                    <li>选课</li>
+                </a>
+                <form action="/SoftwareEngineering/GradesServlet?method=queryCourses" method="post">
+                    <div>
+                        <input class="inputBox" style="width:50px" type="text" name="year" value="<%=reg.getYear()%>"/>
+                    </div>
+                    <div>
+                        <input class="inputBox" style="width:50px" type="text" name="semester" value="<%=reg.getSemester()%>"/>
+                    </div>
+                    <input type="submit" value="查询"/>
+                </form>
+            </ul>
+        </aside>
+    </div>
+    <div class="table_one">
+    <table class="table_info" border="1">
+        <caption class="table_info">
+            <script>
+                document.write(Date());
+            </script>
+        </caption>
 
-        <c:if test="${not empty gradeList}">
-            <form id="gradeForm" action="/SoftwareEngineering_war/GradesServlet?method=submitGrades" method="post">
-                <table border="1" cellpadding=“0” cellspacing="0" align="center" width="70%">
+        <div class="table_final">
+            <c:if test="${not empty courseList}">
                 <tr>
-                    <th>学生ID</th>
-                    <th>学生姓名</th>
+                    <th>注册号</th>
+                    <th>课程号</th>
+                    <th>系号</th>
                     <th>课程名称</th>
-                    <th>学生成绩</th>
+                    <th>课程状态</th>
                 </tr>
-               <%
-                   String course_name= null;
-                   List<Grade> grades= (List<Grade>) session.getAttribute("gradeList");
-                   if(grades.size()>0){
-                       CourseDAO courseDAO=new CourseDAOImpl();
-                       Course course=courseDAO.findCourse(grades.get(0).getCourse_id(),reg.getReg_id());
-                       course_name=course.getCourse_name();
-                   }
-               %>
+                <c:forEach items="${courseList}" var="course">
+                    <tr >
+                        <th>${course.reg_id}</th>
+                        <th>${course.course_id}</th>
+                        <th>${course.dept_id}</th>
+                        <th>${course.course_name}</th>
+                        <th>${course.status}</th>
+                        <th><a style="color: red" href="/SoftwareEngineering/GradesServlet?method=queryStudents&course_id=${course.course_id}&registration_id=${course.reg_id}">修改成绩</a></th>
+                    </tr>
+                </c:forEach>
+            </c:if>
+            <c:if test="${not empty gradeList}">
+                <form id="gradeForm" action="/SoftwareEngineering/GradesServlet?method=submitGrades" method="post">
+
+                    <tr>
+                        <th>学生ID</th>
+                        <th>学生姓名</th>
+                        <th>课程名称</th>
+                        <th>学生成绩</th>
+                    </tr>
+                    <%
+                        String course_name= null;
+                        List<Grade> grades= (List<Grade>) session.getAttribute("gradeList");
+                        if(grades.size()>0){
+                            CourseDAO courseDAO=new CourseDAOImpl();
+                            Course course=courseDAO.findCourse(grades.get(0).getCourse_id(),reg.getReg_id());
+                            course_name=course.getCourse_name();
+                        }
+                    %>
                     <c:forEach begin="0" varStatus="status" var="grade" items="${gradeList}">
                         <tr>
                             <td>${grade.student_id}</td>
                             <td>${grade.student_name}</td>
                             <td><%=course_name%></td>
                             <td>
-                                    <input type="text" name="grade${status.index}" value="${grade.grade}"/>
+                                <input type="text" name="grade${status.index}" value="${grade.grade}"/>
                             </td>
                         </tr>
                     </c:forEach>
-                <input type="button" onclick="saveGrades()" value="保存"/>
-                <input type="submit" value="提交"/>
-                </table>
-            </form>
-        </c:if>
+                </form>
+            </c:if>
+        </div>
+    </table>
+    </div>
+    <div class="error" style="color: red;font-size: medium">${queryError}</div>
+    <div class="bottom">
+        <div class="bottom_right">
+            <div class="innerbottom_left">
+                <button onclick="show()">功能</button>
+                <c:if test="${not empty gradeList}">
+
+                    <button type="button" onclick="saveGrades()">保存</button>
+                    <button type="submit" onclick="subGrades()">提交</button>
+
+                </c:if>
+            </div>
+        </div>
+    </div>
 </div>
 </body>
 </html>

@@ -3,7 +3,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <html>
 <head>
-    <title>学生页面</title>
+    <title>教师页面</title>
     <link rel="stylesheet" href="css/user.css">
     <script>
         function show(){
@@ -97,7 +97,7 @@
 
 <div class="bottom">
     <div class="bottom_left">
-        <button style="left: -18px; top: 377px;" onclick="show()">≡</button>
+        <button style="left: -18px; top: 377px;" onclick="show()">功能</button>
     </div>
 </div>
 

@@ -97,7 +97,7 @@
 
 <div class="bottom">
     <div class="bottom_left">
-        <button style="left: -18px; top: 377px;" onclick="show()">≡</button>
+        <button onclick="show()">功能</button>
     </div>
 </div>
 
