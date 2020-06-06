@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>学生成绩</title>
 </head>
 <body>
 <!-- 	<form action="/SoftwareEngineering/ViewReportCardServlet" type="get"> -->

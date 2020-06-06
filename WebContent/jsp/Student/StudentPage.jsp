@@ -20,7 +20,7 @@
         }
     </script>
 </head>
-<body background="<c:url value="images/pro_back.jpg"/>">
+<body background="<c:url value="images/stu_back.jpg"/>">
 
 <div class="head">
     <div class="block_left">
@@ -30,7 +30,7 @@
     </div>
     <div class="block_right">
         <div class="head_title">
-            <h2 id="title">教师信息表</h2>
+            <h2 id="title">学生信息表</h2>
         </div>
         <div class="inerblock_right">
             <div>
@@ -50,7 +50,7 @@
                 <a href="##">
                     <li>首页</li>
                 </a>
-                <a href="##">
+                <a href="/SoftwareEngineering/ViewReportCardServlet">
                     <li>查询成绩</li>
                 </a>
                 <a href="jsp/Student/add_course.jsp">
