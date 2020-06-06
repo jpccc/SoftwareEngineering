@@ -34,7 +34,7 @@
         }
         function saveGrades() {
             let form = document.getElementsByTagName("form")[1];
-            form.action="/SoftwareEngineering/GradesServlet?method=saveGrades";
+            form.action="/SoftwareEngineering_war/GradesServlet?method=saveGrades";
             form.submit();
         }
         function subGrades(){
@@ -69,18 +69,18 @@
             <h2>功能列表</h2>
             <br/>
             <ul id="sideul">
-                <a href="jsp/Professor/ProfessorPage.jsp">
+                <a href="/SoftwareEngineering_war/GradesServlet?method=backToMainPage">
                     <li>教师首页</li>
                 </a>
                 <a href="jsp/Professor/SelectToTeach.jsp">
                     <li>选课</li>
                 </a>
-                <form action="/SoftwareEngineering/GradesServlet?method=queryCourses" method="post">
+                <form action="/SoftwareEngineering_war/GradesServlet?method=queryCourses" method="post">
                     <div>
-                        <input class="inputBox" style="width:50px" type="text" name="year" value="<%=reg.getYear()%>"/>
+                        注册日期：<input class="inputBox" style="width:50px" type="text" name="year" value="<%=reg.getYear()%>"/>
                     </div>
                     <div>
-                        <input class="inputBox" style="width:50px" type="text" name="semester" value="<%=reg.getSemester()%>"/>
+                        注册学期：<input class="inputBox" style="width:50px" type="text" name="semester" value="<%=reg.getSemester()%>"/>
                     </div>
                     <input type="submit" value="查询"/>
                 </form>
@@ -111,12 +111,12 @@
                         <th>${course.dept_id}</th>
                         <th>${course.course_name}</th>
                         <th>${course.status}</th>
-                        <th><a style="color: red" href="/SoftwareEngineering/GradesServlet?method=queryStudents&course_id=${course.course_id}&registration_id=${course.reg_id}">修改成绩</a></th>
+                        <th><a style="color: red" href="/SoftwareEngineering_war/GradesServlet?method=queryStudents&course_id=${course.course_id}&registration_id=${course.reg_id}">修改成绩</a></th>
                     </tr>
                 </c:forEach>
             </c:if>
             <c:if test="${not empty gradeList}">
-                <form id="gradeForm" action="/SoftwareEngineering/GradesServlet?method=submitGrades" method="post">
+                <form id="gradeForm" action="/SoftwareEngineering_war/GradesServlet?method=submitGrades" method="post">
 
                     <tr>
                         <th>学生ID</th>

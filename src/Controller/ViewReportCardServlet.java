@@ -42,17 +42,17 @@ public class ViewReportCardServlet extends HttpServlet {
 		RegistrationDAO regDao = new RegistrationDAOImpl();
 		Registration reg=regDao.queryLatest();
 		int reg_id=reg.getReg_id();
-		//获取student_id
+		//锟斤拷取student_id
 		Student student=(Student) request.getSession().getAttribute("user");
 		String student_id=student.getS_id();
-		//获取ReportCard
+		//锟斤拷取ReportCard
 		ViewReportCardDAO dao=new ViewReportCardDAO();
 		Map<Course,Integer> ReportCard=dao.getReportCard(student_id,reg_id);
 		//debug print
 		for(Map.Entry<Course, Integer> entry : ReportCard.entrySet()) {
 			System.out.println("ReportCard: course_id="+entry.getKey().getCourse_id()+",grade="+entry.getValue());
 		}
-		//传入jsp
+		//锟斤拷锟斤拷jsp
 		List<Course> courseList=new ArrayList<Course>(ReportCard.keySet());
 		List<Integer> gradeList=new ArrayList<Integer>(ReportCard.values());
         request.setAttribute("CourseList", courseList);

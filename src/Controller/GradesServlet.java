@@ -46,6 +46,7 @@ public class GradesServlet extends BaseServlet {
             request.getRequestDispatcher("/jsp/Professor/SubmitGrades.jsp").forward(request, response);
         } else {
             request.setAttribute("courseList", courses);
+            if(session.getAttribute("gradeList")!=null)session.removeAttribute("gradeList");
             request.getRequestDispatcher("/jsp/Professor/SubmitGrades.jsp").forward(request, response);
         }
     }
@@ -65,6 +66,7 @@ public class GradesServlet extends BaseServlet {
             request.getRequestDispatcher("/jsp/Professor/SubmitGrades.jsp").forward(request, response);
         }else{
             session.setAttribute("gradeList", grades);
+            if(session.getAttribute("courseList")!=null)session.removeAttribute("courseList");
             request.getRequestDispatcher("/jsp/Professor/SubmitGrades.jsp").forward(request, response);
         }
     }
@@ -119,6 +121,13 @@ public class GradesServlet extends BaseServlet {
         }
         request.getRequestDispatcher("/jsp/Professor/SubmitGrades.jsp").forward(request, response);
     }
+    public void backToMainPage(HttpServletRequest request,HttpServletResponse response)throws ServletException, IOException{
+        HttpSession session=request.getSession();
+        if(session.getAttribute("courseList")!=null)session.removeAttribute("courseList");
+        if(session.getAttribute("gradeList")!=null)session.removeAttribute("gradeList");
+        request.getRequestDispatcher("/jsp/Professor/ProfessorPage.jsp").forward(request, response);
+    }
+
     private List<Grade> getNewGrades(HttpServletRequest request){
         HttpSession session=request.getSession();
         List<Grade> grades= (List<Grade>) session.getAttribute("gradeList");
