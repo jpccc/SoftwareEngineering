@@ -20,14 +20,7 @@
 		}
 		function submit() {
 		    var x=document.getElementById("course_form");
-		   // Boolean check=;
-		    if(true){//无冲突
-		        x.submit();
-		        alert("提交成功!");
-            }else{//有冲突
-
-            }
-
+			x.submit();
         }
 	</script>
 </head>
