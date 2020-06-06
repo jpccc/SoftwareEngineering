@@ -95,7 +95,7 @@ public class CloseRegisDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-		return null;
+		return new HashMap<Course,Integer>();
 	}
 	public boolean haveTeacher(String course_id) {		
 		try (Connection c = getConnection(); PreparedStatement s = c.prepareStatement("select professor_id from course_info where course_id= ? ;");) {

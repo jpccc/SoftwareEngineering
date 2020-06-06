@@ -45,7 +45,7 @@ public class BillServlet extends HttpServlet {
 		int total_cost=0;
 		for(int cost : bill.values()) {
 			total_cost+=cost;
-		}
+		}	
 		//´«Èëjsp
 		List<Course> courseList=new ArrayList<Course>(bill.keySet());
 		List<Integer> costList=new ArrayList<Integer>(bill.values());

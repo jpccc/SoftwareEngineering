@@ -59,7 +59,7 @@
                 <a href="jsp/Student/show_schedule.jsp">
                     <li>查询课表</li>
                 </a>
-                <a href="##">
+                <a href="/SoftwareEngineering/BillServlet">
                     <li>查看邮箱</li>
                 </a>
             </ul>
