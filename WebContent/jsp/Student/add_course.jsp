@@ -18,6 +18,17 @@
 				x.checked=true;
 			}
 		}
+		function submit() {
+		    var x=document.getElementById("course_form");
+		   // Boolean check=;
+		    if(true){//无冲突
+		        x.submit();
+		        alert("提交成功!");
+            }else{//有冲突
+
+            }
+
+        }
 	</script>
 </head>
 <body background="images/stu_back.jpg">
@@ -61,11 +72,8 @@
 		</aside>
 	</div>
 
-
-<form action="http://localhost:8080/SoftwareEngineering/SelectCourseServlet?op=add" method="post">
+<form id="course_form" action="http://localhost:8080/SoftwareEngineering/SelectCourseServlet?op=add" method="post">
 <div class="body">
-	
-
 	<div class="table_one">
 		<table class="table_info" border="1">
 			<caption>
@@ -100,12 +108,8 @@
 					<td><%=list.get(i).getStudent_count()%></td>
 					
 					<td>
-						<input  type="radio" checked="checked" value="<%=list.get(i).getCourse_id() %>  <%=list.get(i).getReg_id() %> first" name=<%=name%>
+						<input  type="radio"  value="<%=list.get(i).getCourse_id() %>  <%=list.get(i).getReg_id() %> first" name=<%=name%>
 						/>首选
-						<%
-							response.getWriter().print(Integer.toString(name));
-
-						%>
 						<input  type="radio" value="<%=list.get(i).getCourse_id() %>  <%=list.get(i).getReg_id() %> second" name=<%=name%>
 						/>
 						备选
@@ -119,16 +123,11 @@
 		</table>
 	</div>
 </div>
-
-<div class="bottom">
-
-	
-	<br>
-	<button class="button_right">提交</button>
-
-</div>
-
 </form>
-<button  class="button_left" onclick="show()">功能</button>
+<div class="bottom">
+    <br>
+    <button class="button_right" onclick="submit()">提交</button>
+    <button class="button_left" onclick="show()">功能</button>
+</div>
 </body>
 </html>
