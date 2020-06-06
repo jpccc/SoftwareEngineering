@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import Beans.Course;
 import Beans.Schedule;
-import DAO.CloseRigisDAO;
+import DAO.CloseRegisDAO;
 /**
  * Servlet implementation class CloseRegisServlet
  */
@@ -34,14 +34,14 @@ public class CloseRegisServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		System.out.println("enter servlet ");
-		CloseRigisDAO dao=new CloseRigisDAO();
-		//dao.checkInProgress();
+		CloseRegisDAO dao=new CloseRegisDAO();
+
 		Map<String,Boolean> courseList=dao.getCourseList();//保存课程id和是否commit的映射关系
 		Map<String,Integer> StudentCountList=dao.getStudentCountList();
 		Map<String,Schedule> ScheduleList=dao.getScheduleList();
 		//commit courses
 		for(Map.Entry<String,Boolean> entry : courseList.entrySet()) {
-			if(StudentCountList.get(entry.getKey())>=3) {
+			if(StudentCountList.get(entry.getKey())>=3&&dao.haveTeacher(entry.getKey())) {
 				entry.setValue(true);
 			}
 		}
@@ -68,7 +68,7 @@ public class CloseRegisServlet extends HttpServlet {
 		}
 		//commit courses because of leveling
 		for(Map.Entry<String,Boolean> entry : courseList.entrySet()) {
-			if(StudentCountList.get(entry.getKey())>=3) {
+			if(StudentCountList.get(entry.getKey())>=3&&dao.haveTeacher(entry.getKey())) {
 				entry.setValue(true);
 			}
 		}

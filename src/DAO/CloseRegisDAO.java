@@ -12,8 +12,8 @@ import java.util.Map;
 
 import Beans.Course;
 import Beans.Schedule;
-public class CloseRigisDAO {
-	public CloseRigisDAO() {
+public class CloseRegisDAO {
+	public CloseRegisDAO() {
         try {
             Class.forName("com.mysql.jdbc.Driver");
         } catch (ClassNotFoundException e) {
@@ -80,14 +80,34 @@ public class CloseRigisDAO {
         }
 		return null;
 	}
+	public Map<Course,Integer> getBill(String student_id){
+		try (Connection c = getConnection(); PreparedStatement s = c.prepareStatement("select course_id,cost from selection where student_id= ? ;");) {				   
+            s.setString(1, student_id);
+			ResultSet rs= s.executeQuery(); 
+			Map<Course,Integer> bill=new HashMap<Course,Integer>();
+            while(rs.next()) {
+            	String course_id=rs.getString("course_id");
+            	int cost=rs.getInt("cost");
+            	Course course=getCourse(course_id);
+            	bill.put(course, cost);
+            }
+            return bill;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+		return null;
+	}
 	public boolean haveTeacher(String course_id) {		
 		try (Connection c = getConnection(); PreparedStatement s = c.prepareStatement("select professor_id from course_info where course_id= ? ;");) {
 			s.setString(1, course_id);   
             ResultSet rs= s.executeQuery();
             if(rs.next()) {
             	String result=rs.getString(1);
-            	System.out.println("result:" + result);
-            	return true;
+            	if(result!=null)
+            		return true;
+            	else
+            		return false;
+            
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -102,6 +122,26 @@ public class CloseRigisDAO {
             	List.put(rs.getString(1), rs.getInt(2));
             }
             return List;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+		return null;
+	}
+	public Course getCourse(String course_id) {
+		try (Connection c = getConnection(); PreparedStatement s = c.prepareStatement("select * from course_info where course_id= ? ;");) {	
+			s.setString(1, course_id);
+			ResultSet rs= s.executeQuery(); 
+			Course course=new Course();
+			if(rs.next()) {
+				course.setCourse_id(rs.getString("course_id"));
+				course.setCourse_name(rs.getString("course_name"));
+				course.setDept_id(rs.getInt("dept_id"));
+				course.setEnd_date(rs.getDate("end_date"));
+				course.setStart_date(rs.getDate("start_date"));
+				course.setTimeslot_id(rs.getInt("timeslot_id"));
+				course.setWeekday(rs.getInt("weekday"));
+			}
+            return course;
         } catch (SQLException e) {
             e.printStackTrace();
         }
