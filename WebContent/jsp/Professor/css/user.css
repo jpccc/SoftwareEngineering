@@ -84,29 +84,27 @@ h2 {
 .table_info{
 	width: 85%;
 	color: aqua;
-	margin-left: 30px;
+	margin-left: 100px;
 	margin-top: 10px;
 }
 div.title{
 	color: aqua;
 }
 /*bottom_CSS*/
-div.bottom{
+.bottom{
 	width: 100%;
 	height: 200px;
 	margin-top: 40px;
-	text-align: center;
-	color: #47B082;
 }
-div.innerbottom_left{
+.innerBottom_left{
 	float: left;
-	width:240px;
-	height:60px;
+	width:400px;
+	height:200px;
 }
 button{
-	width: 50px;
-	height: 60px;
-	margin-left:200px;
+	float: right;
+	width: 80px;
+	height: 50px;
 	background-color: #446847;
 	padding-bottom: 10px;
 	padding-left: 10px;
