@@ -17,4 +17,5 @@ public interface SelectCourseDAO {
 	public Course check_course_from_selection(CourseSelection course_selection);
 	public String get_post_course_id(String course_id);
 	public void add_student_num(String course_id,int reg_id);
+	public void dec_student_num(String course_id,int reg_id);
 }

@@ -432,6 +432,59 @@ public class SelectCourseDAOImpl implements SelectCourseDAO{
 	@Override
 	public void add_student_num(String course_id, int reg_id) {
 		// TODO Auto-generated method stub
+		String sql = "update course_info set student_count=student_count-1 where course_id=? and reg_id=?";
+        PreparedStatement ps = null;
+        Connection conn=null;
+        try {
+        	conn=JDBCUtil.getMysqlConnection();
+        	//Class.forName("com.mysql.jdbc.Driver");
+        	//conn=DriverManager.getConnection("jdbc:mysql://localhost:3306/course_selection","root","root");//java这个空填写的是你自己设的密码
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, course_id);
+            ps.setInt(2, reg_id);
+            //ps.setString(2, reg_id);
+            ps.executeUpdate();
+            ps.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+        }
+	}
+
+
+
+	@Override
+	public void dec_student_num(String course_id, int reg_id) {
+		// TODO Auto-generated method stub
+		String sql = "update course_info set student_count=student_count-1 where course_id=? and reg_id=?";
+        PreparedStatement ps = null;
+        Connection conn=null;
+        try {
+        	conn=JDBCUtil.getMysqlConnection();
+        	//Class.forName("com.mysql.jdbc.Driver");
+        	//conn=DriverManager.getConnection("jdbc:mysql://localhost:3306/course_selection","root","root");//java这个空填写的是你自己设的密码
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, course_id);
+            ps.setInt(2, reg_id);
+            //ps.setString(2, reg_id);
+            ps.executeUpdate();
+            ps.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+        }
 		
 	}
 }
