@@ -6,7 +6,7 @@ import java.util.List;
 import Beans.Course;
 import Beans.CourseSelection;
 public class SelectCourseDAOImpl implements SelectCourseDAO{
-
+	public static char[][] slot_falg=new char[8][7];
 	@Override
 	public List<CourseSelection> get_schedule(String s_id) {
 		// TODO Auto-generated method stub
@@ -68,6 +68,8 @@ public class SelectCourseDAOImpl implements SelectCourseDAO{
             preparedStatement.setString(6, course_selection.get_select_status());
             preparedStatement.setString(7,course_selection.get_grade_status());
             preparedStatement.executeUpdate();
+            
+            
             
         
            
@@ -230,23 +232,71 @@ public class SelectCourseDAOImpl implements SelectCourseDAO{
 	}
 
 
-
+	public static int get(int num, int index)
+    {
+        return (num & (0x1 << index)) >> index;
+    }
+	
 	@Override
 	public String no_conflict(List<CourseSelection> schedule, CourseSelection course_selection) {
+		System.out.println("Course Selection .course_id="+course_selection.get_course_id());
+		String[][] schedule_flag=new String[8][7];
+		for(int i=0;i<8;i++) {
+			for(int j=0;j<7;j++){
+				schedule_flag[i][j]="free";
+			}
+		}
+		for (int i = 0; i < schedule.size(); i++) {
+			Course course=check_course_from_selection(schedule.get(i));
+			int weekday=course.getWeekday();
+			int slot=course.getTimeslot_id();
+			for(int m=0;m<7;m++) {
+				if(get(weekday,m)==1) {
+					for(int n=0;n<8;n++) {
+						if(get(slot,n)==1) {
+							schedule_flag[n][m]="buzy";
+							System.out.println("time solt"+n+" "+m+" is buzy");
+						}
+					}
+				}
+			}
+		}
+		Course new_course=check_course(course_selection.get_course_id(),course_selection.get_reg_id());
+		int new_weekday=new_course.getWeekday();
+		int new_slot=new_course.getTimeslot_id();
+		System.out.println("course_id: "+ new_course.getCourse_id()+" weekday: "+new_weekday +" slot: "+new_slot);
+		for(int m=0;m<7;m++) {
+			if(get(new_weekday,m)==1) {
+				for(int n=0;n<8;n++) {
+					if(get(new_slot,n)==1) {
+						if(schedule_flag[n][m].equals("buzy")) {
+							
+							System.out.println("you can not add into slot "+n+" "+m+" !");
+							return "no";
+						}
+					}
+				}
+			}
+		}
+		return "yes";
+		/*
 		int []a=new int[100];
 		int scan=0;
 		int future_time_slot=check_course(course_selection.get_course_id(),course_selection.get_reg_id()).getTimeslot_id();
+		int future_weekday=check_course(course_selection.get_course_id(),course_selection.get_reg_id()).getWeekday();
 		for (int i = 0; i < schedule.size(); i++) {
 			String course_id=schedule.get(i).get_course_id();
 			int reg_id=schedule.get(i).get_reg_id();
 			Course course=check_course(course_id,reg_id);
 			if(course.getCourse_id()!=null) {
-				if(course.getTimeslot_id()==future_time_slot) {
+				if(course.getWeekday()==future_weekday&& course.getTimeslot_id()==future_time_slot) {
 					return "no";
 				}
 			}
 		}
 		return "yes";
+		*/
+		
 	}
 
 
