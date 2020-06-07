@@ -17,9 +17,9 @@ import java.util.HashMap;
  * 浣跨敤鏃惰鑷淇敼鍏朵腑鐨勬暟鎹簱鐢ㄦ埛鍚嶏紝url鍜屽瘑鐮�
  */
 public class DruidManager {
-    private static final String DB_URL = "jdbc:mysql://127.0.0.1:3306/registration?characterEncoding=utf-8&useSSL=false&useUnicode=true&serverTimezone=UTC"; // 鏁版嵁搴撹繛鎺RL
+    private static final String DB_URL = "jdbc:mysql://127.0.0.1:3306/course_selection?characterEncoding=utf-8&useSSL=false&serverTimezone=UTC"; // 鏁版嵁搴撹繛鎺RL
     private static final String DB_USERNAME = "root"; // 鏁版嵁搴撶敤鎴峰悕
-    private static final String DB_PASSWORD = "root"; // 鏁版嵁搴撳瘑鐮�
+    private static final String DB_PASSWORD = "010233"; // 鏁版嵁搴撳瘑鐮�
     private static DruidDataSource druidDataSource=null;//杩炴帴姹燚ataSource
 
     /**
@@ -66,7 +66,7 @@ public class DruidManager {
         druidDataSource.setMaxActive(20);//鏈�澶ф椿鍔ㄨ繛鎺�
         druidDataSource.setInitialSize(1);//璧峰杩炴帴鏁�
         druidDataSource.setMinIdle(3);//鏈�灏忚繛鎺ユ暟
-        druidDataSource.setMaxWait(60000);
+        druidDataSource.setMaxWait(50000);
 
         druidDataSource.setValidationQuery("select 1");//鍒锋柊璇彞
 
@@ -76,6 +76,9 @@ public class DruidManager {
         druidDataSource.setTestWhileIdle(true);
         druidDataSource.setTestOnBorrow(false);
         druidDataSource.setTestOnReturn(false);
+
+        druidDataSource.setRemoveAbandoned(true);
+        druidDataSource.setRemoveAbandonedTimeout(150);
 
         return druidDataSource;
     }

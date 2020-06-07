@@ -140,6 +140,7 @@ public class CourseDAOImpl implements CourseDAO{
                 course.setProfessor_id(rSet.getString(9));
                 course.setStudent_count(rSet.getInt(10));
                 course.setStatus(rSet.getString(11));
+                //course.setPrice(rSet.getFloat("price"));
             }
             else{
                 course.setCourse_id("-1");

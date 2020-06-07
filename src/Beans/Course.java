@@ -55,7 +55,8 @@ public class Course implements Serializable {
      */
     private int student_count;
     private String status;
-    
+    private float price;
+
     public int getReg_id() {
         return reg_id;
     }
@@ -142,5 +143,13 @@ public class Course implements Serializable {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public float getPrice() {
+        return price;
+    }
+
+    public void setPrice(float price) {
+        this.price = price;
     }
 }

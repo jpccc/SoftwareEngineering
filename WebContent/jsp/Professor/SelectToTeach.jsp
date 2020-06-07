@@ -29,7 +29,7 @@
         //professor test
         java.util.Date utilDate = new SimpleDateFormat("yyyy-MM-dd").parse("2020-01-01");
         java.sql.Date birthday = new java.sql.Date(utilDate.getTime());
-        Professor professor = new Professor("P1234567","NIKO",birthday,1,"0",1,"123456");
+        Professor professor = new Professor("P1234567","NIKO",birthday,"3412222222222222","0",1,"123456");
         request.getSession().setAttribute("user",professor);
         Registration registration = new Registration();
         registration.setReg_id(2);

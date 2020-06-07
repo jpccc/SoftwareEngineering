@@ -1,5 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page import="Beans.Registerer" %>
+<%@ page import="Beans.Registrar" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <html>
 <head>
@@ -39,7 +39,6 @@
         </div>
     </div>
 </div>
-
 <div class="body">
     <div class="navigate">
         <input type="checkbox" id="sidemenu">
@@ -75,6 +74,9 @@
                 <script>
                     document.write(Date());
                 </script>
+                <div>
+                    当前在线人数:<%=application.getAttribute("onLineCount")%>
+                </div>
             </caption>
 
             <div class="table_final">
@@ -86,8 +88,8 @@
                     <th class="text-center">公寓ID</th>
                 </tr>
                 <tr class="text-value">
-                    <%Registerer registerer= (Registerer) session.getAttribute("user");%>
-                    <td height="62"><%=registerer.getR_id()%></td>
+                    <%Registrar registrar= (Registrar) session.getAttribute("user");%>
+                    <td height="62"><%=registrar.getR_id()%></td>
                     <td></td>
                     <td></td>
                     <td>管理人员</td>
@@ -97,7 +99,7 @@
         </table>
     </div>
 </div>
-
+<div class="error" style="color: red;font-size: medium">${RegistrarError}</div>
 <div class="bottom">
     <div class="bottom_left">
         <button style="left: -18px; top: 377px;" onclick="show()">≡</button>
