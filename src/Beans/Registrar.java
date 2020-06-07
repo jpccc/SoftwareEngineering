@@ -2,8 +2,8 @@ package Beans;
 
 import java.io.Serializable;
 
-public class Registerer extends User implements Serializable {
-    public Registerer(){
+public class Registrar extends User implements Serializable {
+    public Registrar(){
         r_id=null;
         password=null;
         type=User.USER_REGISTERER;

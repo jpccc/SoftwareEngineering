@@ -66,7 +66,7 @@ public class DruidManager {
         druidDataSource.setMaxActive(20);//鏈�澶ф椿鍔ㄨ繛鎺�
         druidDataSource.setInitialSize(1);//璧峰杩炴帴鏁�
         druidDataSource.setMinIdle(3);//鏈�灏忚繛鎺ユ暟
-        druidDataSource.setMaxWait(60000);
+        druidDataSource.setMaxWait(50000);
 
         druidDataSource.setValidationQuery("select 1");//鍒锋柊璇彞
 
@@ -76,6 +76,9 @@ public class DruidManager {
         druidDataSource.setTestWhileIdle(true);
         druidDataSource.setTestOnBorrow(false);
         druidDataSource.setTestOnReturn(false);
+
+        druidDataSource.setRemoveAbandoned(true);
+        druidDataSource.setRemoveAbandonedTimeout(150);
 
         return druidDataSource;
     }

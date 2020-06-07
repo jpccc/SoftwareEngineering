@@ -1,7 +1,7 @@
 package Controller;
 
 import Beans.Professor;
-import Beans.Registerer;
+import Beans.Registrar;
 import Beans.Student;
 import DAO.ProfessorDAO;
 import DAO.ProfessorDAOImpl;
@@ -69,17 +69,17 @@ public class LoginServlet extends HttpServlet {
                 }
                 case 'R': {
                     RegistererDAOImpl reger=new RegistererDAOImpl();
-                    Registerer registerer=null;
+                    Registrar registrar=null;
                     try {
-                        registerer=reger.findById(username);
+                        registrar=reger.findById(username);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-                    if(registerer!=null
-                            &&!registerer.getR_id().equals("null")
-                            &&registerer.getPassword().equals(password)) {
-                        request.getSession().setAttribute("user",registerer);
-                        request.getRequestDispatcher("/jsp/Registerer/RegistererPage.jsp")
+                    if(registrar!=null
+                            &&!registrar.getR_id().equals("null")
+                            &&registrar.getPassword().equals(password)) {
+                        request.getSession().setAttribute("user",registrar);
+                        request.getRequestDispatcher("/jsp/Registrar/RegistrarPage.jsp")
                                 .forward(request, response);
                         return;
                     }

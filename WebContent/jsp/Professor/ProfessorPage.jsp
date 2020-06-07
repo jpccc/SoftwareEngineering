@@ -62,6 +62,9 @@
                 <a href="##">
                     <li>查看邮箱</li>
                 </a>
+                <a href="/SoftwareEngineering_war/GradesServlet?method=backToIndex">
+                    <li>退出登录</li>
+                </a>
             </ul>
         </aside>
     </div>

@@ -33,6 +33,13 @@
     <servlet-name>GradesServlet</servlet-name>
     <url-pattern>/GradesServlet</url-pattern>
   </servlet-mapping>
+  <session-config>
+    <!-- 配置默认的session有效时间，单位：分钟 -->
+    <session-timeout>10 </session-timeout>
+  </session-config>
+  <listener>
+    <listener-class>Listener.OnLineListener</listener-class>
+  </listener>
   <welcome-file-list>
     <welcome-file>index.html</welcome-file>
     <welcome-file>index.htm</welcome-file>

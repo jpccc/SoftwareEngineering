@@ -7,7 +7,8 @@
 <%@ page import="java.sql.ResultSet" %>
 <%@ page import="Beans.User" %>
 <%@ page import="Beans.Registration" %>
-<%@ page import="DAO.RegistrationDAOImpl" %><%--
+<%@ page import="DAO.RegistrationDAOImpl" %>
+<%@ page import="java.util.Calendar" %><%--
   Created by IntelliJ IDEA.
   User: 李睿宸
   Date: 2020/6/1
@@ -33,7 +34,7 @@
                 break;
             }
             case User.USER_REGISTERER:{
-                request.getRequestDispatcher("/jsp/Registerer/RegistererPage.jsp").forward(request,response);
+                request.getRequestDispatcher("/jsp/Registrar/RegistrarPage.jsp").forward(request,response);
                 break;
             }
         }

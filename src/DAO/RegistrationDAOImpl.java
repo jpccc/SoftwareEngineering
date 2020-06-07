@@ -2,10 +2,7 @@ package DAO;
 
 import Beans.Registration;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class RegistrationDAOImpl implements RegistrationDAO {
     @Override
@@ -69,5 +66,35 @@ public class RegistrationDAOImpl implements RegistrationDAO {
             }
         }
         return registration;
+    }
+
+    @Override
+    public int insert(Registration reg) {
+        Connection conn=null;
+        PreparedStatement ps=null;
+        ResultSet rs=null;
+        Registration registration=new Registration();
+        String sql="insert into registration (status, year, semester) values (?,?,?)";
+        int key=-1;
+        try {
+            conn=DruidManager.getConnection();
+            ps=conn.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
+            ps.setString(1,reg.getStatus());
+            ps.setInt(2,reg.getYear());
+            ps.setString(3,reg.getSemester());
+            ps.execute();
+            ResultSet re=ps.getGeneratedKeys();    //返回主键
+            re.next();
+            key=re.getInt(1);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally {
+            try {
+                DruidManager.close(conn,ps,rs);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return key;
     }
 }

@@ -1,17 +1,20 @@
 package Controller;
 
 import Beans.Professor;
-import Beans.Registerer;
-import DAO.ProfessorDAO;
-import DAO.ProfessorDAOImpl;
-import DAO.RegistererDAOImpl;
+import Beans.Registrar;
+import Beans.Registration;
+import DAO.*;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.sql.rowset.serial.SerialException;
+import java.io.IOException;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class RegistrarServlet extends BaseServlet {
@@ -44,9 +47,9 @@ public class RegistrarServlet extends BaseServlet {
             req.getRequestDispatcher("/jsp/Registrar/NewProfessor.jsp").forward(req, resp);
             return;
         }
-        Registerer registerer = (Registerer) req.getSession().getAttribute("user");
-        Registerer server_register = new RegistererDAOImpl().findById(registerer.getR_id());
-        if(registerer.getPassword().equals(server_register.getPassword())) {
+        Registrar registrar = (Registrar) req.getSession().getAttribute("user");
+        Registrar server_register = new RegistererDAOImpl().findById(registrar.getR_id());
+        if(registrar.getPassword().equals(server_register.getPassword())) {
             ProfessorDAO professorDAO = new ProfessorDAOImpl();
             Professor professor = professorDAO.findById(p_id);
             if (professor.getP_id().equals("null")) {
@@ -142,9 +145,9 @@ public class RegistrarServlet extends BaseServlet {
             req.getRequestDispatcher("/jsp/Registrar/MaintainProfessor.jsp").forward(req, resp);
             return;
         }
-        Registerer registerer = (Registerer) req.getSession().getAttribute("user");
-        Registerer server_register = new RegistererDAOImpl().findById(registerer.getR_id());
-        if(registerer.getPassword().equals(server_register.getPassword())) {
+        Registrar registrar = (Registrar) req.getSession().getAttribute("user");
+        Registrar server_register = new RegistererDAOImpl().findById(registrar.getR_id());
+        if(registrar.getPassword().equals(server_register.getPassword())) {
             ProfessorDAO professorDAO = new ProfessorDAOImpl();
             Professor professor = new Professor(p_id, p_name, birthday, identify_num, status, dept_id, password);
             professorDAO.update(professor);
@@ -159,9 +162,9 @@ public class RegistrarServlet extends BaseServlet {
     }
     public void deleteProfessor(HttpServletRequest req, HttpServletResponse resp) throws Exception {
         String p_id = req.getParameter("id");
-        Registerer registerer = (Registerer) req.getSession().getAttribute("user");
-        Registerer server_register = new RegistererDAOImpl().findById(registerer.getR_id());
-        if(registerer.getPassword().equals(server_register.getPassword())) {
+        Registrar registrar = (Registrar) req.getSession().getAttribute("user");
+        Registrar server_register = new RegistererDAOImpl().findById(registrar.getR_id());
+        if(registrar.getPassword().equals(server_register.getPassword())) {
             ProfessorDAO professorDAO = new ProfessorDAOImpl();
             Professor professor = professorDAO.findById(p_id);
             if (!professor.getP_id().equals("null")) {
@@ -176,6 +179,35 @@ public class RegistrarServlet extends BaseServlet {
         }else{
             req.setAttribute("error", "登录信息有误！");
             req.getRequestDispatcher("/index.jsp").forward(req, resp);
+        }
+    }
+
+    public void openRegistration(HttpServletRequest request,HttpServletResponse response)throws ServletException, IOException{
+        Integer count= (Integer) request.getSession().getServletContext().getAttribute("onLine");
+        if(count==1){
+            Registration reg= (Registration) request.getSession().getAttribute("registration");
+            if(!reg.getStatus().equals("closed")){
+                request.setAttribute("RegistrarError","当前有注册正在进行，开启失败");
+                request.getRequestDispatcher("/jsp/Registrar/RegistrarPage.jsp").forward(request,response);
+                return;
+            }else{
+                Registration newReg=new Registration();
+                Calendar calendar= Calendar.getInstance();
+                newReg.setYear(calendar.get(Calendar.YEAR));
+                int month=calendar.get(Calendar.MONTH)+1;
+                if(month>=2&&month<=8)newReg.setSemester("spring");
+                else newReg.setSemester("fall");
+                RegistrationDAO registrationDAO=new RegistrationDAOImpl();
+                newReg.setStatus("open");
+                int key=registrationDAO.insert(newReg);//获得新生成的key，用于更新课程列表
+                /*
+                    后续开启课程时需要如何更新开的课程尚不清楚，暂时保留，可以从request中获取参数来添加课程
+                 */
+                request.getRequestDispatcher("/jsp/Registrar/RegistrarPage.jsp").forward(request,response);
+            }
+        }else{
+            request.setAttribute("RegistrarError","有其他用户在线，操作失败！");
+            request.getRequestDispatcher("/jsp/Registrar/RegistrarPage.jsp").forward(request,response);
         }
     }
 }

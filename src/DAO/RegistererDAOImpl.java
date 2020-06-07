@@ -1,6 +1,6 @@
 package DAO;
 
-import Beans.Registerer;
+import Beans.Registrar;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -9,21 +9,21 @@ import java.sql.SQLException;
 
 public class RegistererDAOImpl implements RegistererDAO {
     @Override
-    public void insert(Registerer professor) throws Exception {
+    public void insert(Registrar professor) throws Exception {
 
     }
 
     @Override
-    public void update(Registerer professor) throws Exception {
+    public void update(Registrar professor) throws Exception {
 
     }
 
     @Override
-    public Registerer findById(String r_id) throws Exception {
+    public Registrar findById(String r_id) throws Exception {
         Connection conn=null;
         PreparedStatement ps=null;
         ResultSet rs=null;
-        Registerer registerer=new Registerer();
+        Registrar registerer=new Registrar();
         String sql="select * from registerer_info where r_id=?";
         try {
             conn= DruidManager.getConnection();
