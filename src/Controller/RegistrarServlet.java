@@ -4,6 +4,7 @@ import Beans.Professor;
 import Beans.Registerer;
 import DAO.ProfessorDAO;
 import DAO.ProfessorDAOImpl;
+import DAO.RegistererDAO;
 import DAO.RegistererDAOImpl;
 
 import javax.servlet.http.HttpServletRequest;
@@ -143,19 +144,26 @@ public class RegistrarServlet extends BaseServlet {
             return;
         }
         Registerer registerer = (Registerer) req.getSession().getAttribute("user");
-        Registerer server_register = new RegistererDAOImpl().findById(registerer.getR_id());
-        if(registerer.getPassword().equals(server_register.getPassword())) {
-            ProfessorDAO professorDAO = new ProfessorDAOImpl();
-            Professor professor = new Professor(p_id, p_name, birthday, identify_num, status, dept_id, password);
-            professorDAO.update(professor);
-            List<Professor> list = new ArrayList<Professor>();
-            list.add(professor);
-            req.setAttribute("list", list);
-            req.getRequestDispatcher("/jsp/Registrar/SearchProfessor.jsp").forward(req, resp);
+        RegistererDAO registererDAO = new RegistererDAOImpl();
+        if(registerer!=null){
+            Registerer server_register = registererDAO.findById(registerer.getR_id());
+            if(registerer.getPassword().equals(server_register.getPassword())) {
+                ProfessorDAO professorDAO = new ProfessorDAOImpl();
+                Professor professor = new Professor(p_id, p_name, birthday, identify_num, status, dept_id, password);
+                professorDAO.update(professor);
+                List<Professor> list = new ArrayList<Professor>();
+                list.add(professor);
+                req.setAttribute("list", list);
+                req.getRequestDispatcher("/jsp/Registrar/SearchProfessor.jsp").forward(req, resp);
+            }else{
+                req.setAttribute("error", "登录信息有误！");
+                req.getRequestDispatcher("/index.jsp").forward(req, resp);
+            }
         }else{
             req.setAttribute("error", "登录信息有误！");
             req.getRequestDispatcher("/index.jsp").forward(req, resp);
         }
+
     }
     public void deleteProfessor(HttpServletRequest req, HttpServletResponse resp) throws Exception {
         String p_id = req.getParameter("id");

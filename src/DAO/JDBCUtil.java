@@ -5,8 +5,8 @@ import java.sql.*;
 public class JDBCUtil {
     public static Connection getMysqlConnection() throws ClassNotFoundException, SQLException {
         Class.forName("com.mysql.cj.jdbc.Driver");
-        return DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/registration?characterEncoding=utf-8&useSSL=false&useUnicode=true&serverTimezone=UTC",
-                "root", "root");
+        return DriverManager.getConnection("jdbc:mysql://localhost:3306/se?useSSL=false&serverTimezone=UTC",
+                "root", "123456");
     }
 
     public static void close(Connection conn, ResultSet rs, PreparedStatement st) throws SQLException {
