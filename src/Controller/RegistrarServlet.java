@@ -16,7 +16,7 @@ import java.util.List;
 
 public class RegistrarServlet extends BaseServlet {
     public boolean formatCheck(String string){
-        if (string == null || string.equals("") || string.length() < 6) {
+        if (string == null || string.equals("")) {
             return false;
         }
         else
