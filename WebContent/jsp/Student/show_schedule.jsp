@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"  import="DAO.SelectCourseDAO" import="DAO.SelectCourseDAOImpl" import="java.util.List"
-         import="java.util.ArrayList" import="Beans.Course" import="Beans.CourseSelection"%>
+         import="java.util.ArrayList" import="Beans.Course" import="Beans.CourseSelection" import="Beans.Student"%>
 <html>
 <head>
    <title>学生课表</title>
@@ -89,7 +89,9 @@
                <%
                   SelectCourseDAO select_course_dao=new DAO.SelectCourseDAOImpl();
                   List<CourseSelection> list=new ArrayList<CourseSelection>();
-                  list=select_course_dao.get_schedule("li");
+                  Student student = (Student) session.getAttribute("user");
+                  String s_id=student.getS_id();
+                  list=select_course_dao.get_schedule(s_id);
                   int name=0;
                   for (int i = 0; i < list.size(); i++) {
                 	  Course course=select_course_dao.check_course_from_selection(list.get(i));

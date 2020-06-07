@@ -15,6 +15,7 @@ import javax.servlet.http.HttpSession;
 import Beans.Course;
 import Beans.CourseSelection;
 import Beans.Professor;
+import Beans.Student;
 import DAO.ProfessorDAO;
 import DAO.ProfessorDAOImpl;
 import DAO.SelectCourseDAO;
@@ -42,6 +43,9 @@ public class SelectCourseServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		 response.setCharacterEncoding("UTF-8");
 		try {
+			Student student = (Student) request.getSession().getAttribute("user");
+			String student_name=student.getS_name();
+			String student_id=student.getS_id();
 			String s="";
 			SelectCourseDAO select_course_dao=new SelectCourseDAOImpl();
 			String op=request.getParameter("op");
@@ -56,12 +60,12 @@ public class SelectCourseServlet extends HttpServlet {
 				
 				
 				
-				course_selection.set_student_id("li");
+				course_selection.set_student_id(student_name);
 				course_selection.set_course_id(id);
 				course_selection.set_reg_id(12);
 				
 				List<CourseSelection> schedule=new ArrayList<CourseSelection>();
-				schedule=select_course_dao.get_schedule("li");
+				schedule=select_course_dao.get_schedule(student_name);
 				System.out.println(select_course_dao.no_conflict(schedule,course_selection));
 				if(select_course_dao.no_conflict(schedule,course_selection).equals("yes")) {
 					
@@ -77,7 +81,7 @@ public class SelectCourseServlet extends HttpServlet {
 			if( op!=null&& op.equals("deletexxx")){
 				id=(String)request.getParameter("id");
 				System.out.println(id);
-				select_course_dao.delete_course_selection(id, 12);
+				select_course_dao.delete_course_selection(id, 12,"li");
 				request.setAttribute("message", "delete success");
 				
 			}
@@ -101,8 +105,8 @@ public class SelectCourseServlet extends HttpServlet {
 			
 			if(op!=null&& op.contentEquals("add")) {
 				List<CourseSelection> schedule=new ArrayList<CourseSelection>();
-                schedule=select_course_dao.get_schedule("li");
-				for(int i=0;i<10;i++){
+                schedule=select_course_dao.get_schedule(student_id);
+				for(int i=0;i<100;i++){
 					String str=request.getParameter(String.valueOf(i));
 				    System.out.println(request.getParameter(String.valueOf(i)));
 				    if(str!=null) {
@@ -115,7 +119,7 @@ public class SelectCourseServlet extends HttpServlet {
 				    	String type=arr[2];
 				    	
 				    	CourseSelection course_selection=new CourseSelection();
-						course_selection.set_student_id("li");
+						course_selection.set_student_id(student_id);
 						course_selection.set_course_id(course_id);
 						course_selection.set_reg_id(reg_id);
 						course_selection.set_select_status(type);
@@ -167,7 +171,7 @@ public class SelectCourseServlet extends HttpServlet {
 				    	int reg_id=Integer.valueOf(arr[1]);
 				    	System.out.println(reg_id);
 				    	
-						select_course_dao.delete_course_selection(course_id, reg_id);
+						select_course_dao.delete_course_selection(course_id, reg_id,student_id);
 						request.setAttribute("message", "delete success");
 				    }
 				    

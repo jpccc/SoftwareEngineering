@@ -77,7 +77,7 @@ public class SelectCourseDAOImpl implements SelectCourseDAO{
 	}
 
 	@Override
-	public void delete_course_selection(String course_id,int reg_id) throws Exception {
+	public void delete_course_selection(String course_id,int reg_id,String student_id) throws Exception {
 		// TODO Auto-generated method stub
 		String sql = "delete from selection where student_id=? and course_id=?";
         PreparedStatement ps = null;
@@ -87,7 +87,7 @@ public class SelectCourseDAOImpl implements SelectCourseDAO{
         	//Class.forName("com.mysql.jdbc.Driver");
         	//conn=DriverManager.getConnection("jdbc:mysql://localhost:3306/course_selection","root","root");//java这个空填写的是你自己设的密码
             ps = conn.prepareStatement(sql);
-            ps.setString(1, "li");
+            ps.setString(1, student_id);
             ps.setString(2, course_id);
             //ps.setString(2, reg_id);
             ps.executeUpdate();
@@ -425,5 +425,13 @@ public class SelectCourseDAOImpl implements SelectCourseDAO{
         }
         System.out.println(res);
         return res;
+	}
+
+
+
+	@Override
+	public void add_student_num(String course_id, int reg_id) {
+		// TODO Auto-generated method stub
+		
 	}
 }
