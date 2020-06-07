@@ -1,5 +1,4 @@
 package Controller;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -42,10 +41,10 @@ public class ViewReportCardServlet extends HttpServlet {
 		RegistrationDAO regDao = new RegistrationDAOImpl();
 		Registration reg=regDao.queryLatest();
 		int reg_id=reg.getReg_id();
-		//��ȡstudent_id
+		//获取student_id
 		Student student=(Student) request.getSession().getAttribute("user");
 		String student_id=student.getS_id();
-		//��ȡReportCard
+		//获取ReportCard
 		ViewReportCardDAO dao=new ViewReportCardDAO();
 		Map<Course,Integer> ReportCard=dao.getReportCard(student_id,reg_id);
 		//debug print

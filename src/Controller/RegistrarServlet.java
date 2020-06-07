@@ -1,7 +1,7 @@
 package Controller;
 
 import Beans.Professor;
-import Beans.Registerer;
+import Beans.Registrar;
 import DAO.ProfessorDAO;
 import DAO.ProfessorDAOImpl;
 import DAO.RegistererDAO;
@@ -45,8 +45,8 @@ public class RegistrarServlet extends BaseServlet {
             req.getRequestDispatcher("/jsp/Registrar/NewProfessor.jsp").forward(req, resp);
             return;
         }
-        Registerer registerer = (Registerer) req.getSession().getAttribute("user");
-        Registerer server_register = new RegistererDAOImpl().findById(registerer.getR_id());
+        Registrar registerer = (Registrar) req.getSession().getAttribute("user");
+        Registrar server_register = new RegistererDAOImpl().findById(registerer.getR_id());
         if(registerer.getPassword().equals(server_register.getPassword())) {
             ProfessorDAO professorDAO = new ProfessorDAOImpl();
             Professor professor = professorDAO.findById(p_id);
@@ -101,7 +101,7 @@ public class RegistrarServlet extends BaseServlet {
         }
         HttpSession session = req.getSession();
         session.setAttribute("list",list);
-        resp.sendRedirect("/SoftwareEngineering_war/jsp/Registrar/SearchProfessor.jsp");
+        resp.sendRedirect("/SoftwareEngineering/jsp/Registrar/SearchProfessor.jsp");
     }
 
     public void modify(HttpServletRequest req, HttpServletResponse resp) throws Exception {
@@ -133,20 +133,23 @@ public class RegistrarServlet extends BaseServlet {
         int dept_id = Integer.parseInt(req.getParameter("dept_id"));
         String password = req.getParameter("password");
         //格式再判断
+        System.out.println(p_id);
+/*
         if (!formatCheck(p_id)) {
             req.setAttribute("error", "id格式有误！");
             req.getRequestDispatcher("/jsp/Registrar/MaintainProfessor.jsp").forward(req, resp);
             return;
         }
+ */
         if (!formatCheck(password)) {
             req.setAttribute("error", "密码格式有误！");
             req.getRequestDispatcher("/jsp/Registrar/MaintainProfessor.jsp").forward(req, resp);
             return;
         }
-        Registerer registerer = (Registerer) req.getSession().getAttribute("user");
+        Registrar registerer = (Registrar) req.getSession().getAttribute("user");
         RegistererDAO registererDAO = new RegistererDAOImpl();
         if(registerer!=null){
-            Registerer server_register = registererDAO.findById(registerer.getR_id());
+            Registrar server_register = registererDAO.findById(registerer.getR_id());
             if(registerer.getPassword().equals(server_register.getPassword())) {
                 ProfessorDAO professorDAO = new ProfessorDAOImpl();
                 Professor professor = new Professor(p_id, p_name, birthday, identify_num, status, dept_id, password);
@@ -167,20 +170,20 @@ public class RegistrarServlet extends BaseServlet {
     }
     public void deleteProfessor(HttpServletRequest req, HttpServletResponse resp) throws Exception {
         String p_id = req.getParameter("id");
-        Registerer registerer = (Registerer) req.getSession().getAttribute("user");
-        Registerer server_register = new RegistererDAOImpl().findById(registerer.getR_id());
+        Registrar registerer = (Registrar) req.getSession().getAttribute("user");
+        Registrar server_register = new RegistererDAOImpl().findById(registerer.getR_id());
         if(registerer.getPassword().equals(server_register.getPassword())) {
             ProfessorDAO professorDAO = new ProfessorDAOImpl();
             Professor professor = professorDAO.findById(p_id);
             if (!professor.getP_id().equals("null")) {
                 professorDAO.delete(p_id);
-                resp.sendRedirect("/SoftwareEngineering_war/jsp/Registrar/SearchProfessor.jsp");
+                resp.sendRedirect("/SoftwareEngineering/jsp/Registrar/SearchProfessor.jsp");
             } else {
                 req.setAttribute("error", "id不存在！");
                 req.getRequestDispatcher("/jsp/Registrar/SearchProfessor.jsp").forward(req, resp);
                 return;
             }
-            resp.sendRedirect("/SoftwareEngineering_war/jsp/Registrar/SearchProfessor.jsp");
+            resp.sendRedirect("/SoftwareEngineering/jsp/Registrar/SearchProfessor.jsp");
         }else{
             req.setAttribute("error", "登录信息有误！");
             req.getRequestDispatcher("/index.jsp").forward(req, resp);

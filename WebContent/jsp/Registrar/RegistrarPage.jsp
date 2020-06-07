@@ -55,7 +55,7 @@
                 <a href="##">
                     <li>维护学生信息</li>
                 </a>
-                <a href="jsp/Registrar/">
+                <a href="jsp/Registrar/SearchProfessor.jsp">
                     <li>维护教授信息</li>
                 </a>
                 <a href="jsp/Registrar/CloseRegistration.jsp">

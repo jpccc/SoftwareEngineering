@@ -50,7 +50,7 @@
                 <a href="##">
                     <li>首页</li>
                 </a>
-                <a href="/SoftwareEngineering/ViewReportCardServlet">
+                <a href="jsp/Student/ViewReportCard.jsp">
                     <li>查询成绩</li>
                 </a>
                 <a href="jsp/Student/add_course.jsp">

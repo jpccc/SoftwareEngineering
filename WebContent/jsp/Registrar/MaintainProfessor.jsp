@@ -10,13 +10,13 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <link rel="stylesheet" type="text/css" href="/SoftwareEngineering_war/jsp/Registrar/css/form.css" />
-    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="/SoftwareEngineering/jsp/Registrar/css/form.css"/>
+    <title>维护教师信息</title>
 </head>
-<body>
-<h1>管理教授档案</h1>
-<form class="modifyinfo" action="/SoftwareEngineering_war/RegistrarServlet?method=modifyProfessor&id=${professor.p_id}" method="post">
-    <div class="inputbox" >
+<body background="images/reg_back.jpg">
+<h1 style="color: #00ff6b">管理教授档案</h1>
+<form class="modifyinfo" action="/SoftwareEngineering/RegistrarServlet?method=modifyProfessor&id=${professor.p_id}" method="post">
+    <div style="color: #00ff6b" class="inputbox" >
         id<br><input type="text" class="password" name="p_id" value="${professor.p_id}" disabled><br>
         姓名<br><input type="text" class="password" name="p_name" value="${professor.p_name}"><br>
         生日<br><input type="Date" class="password" name="birthday" value="${professor.birthday}"><br>
@@ -33,13 +33,13 @@
         ${error}
     </div>
     <br>
-    <input type="button" value="删除" class="button" style="background-color: red;color: white" onclick="firm()"/>
+    <input type="button" value="删除" class="button" style="background-color: #874343;color: white" onclick="firm()"/>
 </form>
 </body>
 <script language="javascript">
     function firm() {
         if (confirm("确定删除？")) {
-            location.href = "/SoftwareEngineering_war/RegistrarServlet?method=deleteProfessor&id=${professor.p_id}";
+            location.href = "/SoftwareEngineering/RegistrarServlet?method=deleteProfessor&id=${professor.p_id}";
         }
     }
 </script>

@@ -150,17 +150,19 @@
     </div>
     <div class="error" style="color: red;font-size: medium">${queryError}</div>
     <div class="bottom">
-        <div class="bottom_right">
-            <div class="innerbottom_left">
+            <div class="innerBottom_left">
+                <div>
                 <button onclick="show()">功能</button>
+                </div>
                 <c:if test="${not empty gradeList}">
-
+                        <div>
                     <button type="button" onclick="saveGrades()">保存</button>
+                        </div>
+                    <div>
                     <button type="submit" onclick="subGrades()">提交</button>
-
+                    </div>
                 </c:if>
             </div>
-        </div>
     </div>
 </div>
 </body>

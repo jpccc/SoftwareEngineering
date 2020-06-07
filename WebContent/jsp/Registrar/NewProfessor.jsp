@@ -8,12 +8,12 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <link rel="stylesheet" type="text/css" href="/SoftwareEngineering_war/jsp/Registrar/css/form.css" />
+    <link rel="stylesheet" type="text/css" href="/SoftwareEngineering/jsp/Registrar/css/form.css" />
     <title>新建教授档案</title>
 </head>
 <body>
 <h1>新建教授档案</h1>
-<form class="modifyinfo" action="/SoftwareEngineering_war/RegistrarServlet?method=addProfessor" method="post">
+<form class="modifyinfo" action="/SoftwareEngineering/RegistrarServlet?method=addProfessor" method="post">
     <div class="inputbox" >
         id<br><input type="text" class="password" name="p_id"><br>
         姓名<br><input type="text" class="password" name="p_name" ><br>
