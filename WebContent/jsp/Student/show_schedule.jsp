@@ -75,7 +75,10 @@
                   document.write(Date());
                </script>
             </caption>
-
+			hello <%Student stu = (Student) session.getAttribute("user");
+			String id=stu.getS_id();
+			response.getWriter().print(id);
+			%>
             <div class="table_final">
                <tr class="text-propetty">
                   <th height="57" class="text-center">课程名</th>
