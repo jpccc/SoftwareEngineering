@@ -24,13 +24,13 @@ public class ProfessorServlet extends BaseServlet {
             for (Course course2 : clist) {
                 if (course1.getCourse_id() != course2.getCourse_id()) {
                     if (course1.getStart_date().before(course2.getEnd_date())
-                            && course1.getStart_date().after(course2.getEnd_date())
+                            && course1.getStart_date().after(course2.getStart_date())
                             && course1.getWeekday() == course2.getWeekday()) {
                         conflictList.add(course1);
                         conflictList.add(course2);
                     }
-                    if (course1.getStart_date().after(course2.getStart_date())
-                            && course1.getEnd_date().before(course2.getEnd_date())
+                    if (course2.getStart_date().before(course1.getStart_date())
+                            && course2.getEnd_date().after(course1.getEnd_date())
                             && course1.getWeekday() == course2.getWeekday()) {
                         conflictList.add(course1);
                         conflictList.add(course2);
@@ -110,7 +110,7 @@ public class ProfessorServlet extends BaseServlet {
             Professor server_professor = new ProfessorDAOImpl().findById(professor.getP_id());
             if (professor.getPassword().equals(server_professor.getPassword())) {
                 if (professor != null) {
-                    course.setProfessor_id("0");
+                    course.setProfessor_id(null);
                     courseDAO.update(course);
                     getCourseList(req, resp);
                 } else {
@@ -137,7 +137,7 @@ public class ProfessorServlet extends BaseServlet {
                 List<Course> slist = courseDAO.findSelected(professor.getP_id(), registration.getReg_id());
                 if (slist.size() != 0) {
                     for (Course course : slist) {
-                        course.setStatus("0");
+                        course.setProfessor_id(null);
                         courseDAO.update(course);
                     }
                     getCourseList(req, resp);
