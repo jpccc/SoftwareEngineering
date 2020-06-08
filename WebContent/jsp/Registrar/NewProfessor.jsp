@@ -30,6 +30,6 @@
         ${error}
     </div>
 </form>
-<a href="jsp/Registrar/RegistrarPage.jsp" style="text-align: center;color: white">返回上层</a>
+<a href="/SoftwareEngineering/jsp/Registrar/RegistrarPage.jsp" style="text-align: center;color: white">返回上层</a>
 </body>
 </html>

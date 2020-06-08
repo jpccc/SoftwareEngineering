@@ -84,7 +84,6 @@ public class ProfessorServlet extends BaseServlet {
             if (professor.getPassword().equals(server_professor.getPassword())) {
                 if (professor != null) {
                     course.setProfessor_id(professor.getP_id());
-                    course.setStatus("1");
                     courseDAO.update(course);
                     getCourseList(req, resp);
                 } else {
@@ -111,7 +110,7 @@ public class ProfessorServlet extends BaseServlet {
             Professor server_professor = new ProfessorDAOImpl().findById(professor.getP_id());
             if (professor.getPassword().equals(server_professor.getPassword())) {
                 if (professor != null) {
-                    course.setStatus("0");
+                    course.setProfessor_id("0");
                     courseDAO.update(course);
                     getCourseList(req, resp);
                 } else {

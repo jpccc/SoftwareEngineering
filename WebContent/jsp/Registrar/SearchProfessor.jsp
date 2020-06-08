@@ -10,7 +10,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <html>
 <head>
-    <link rel="stylesheet" type="text/css" href="/SoftwareEngineering/jsp/Registrar/css/form.css" />
     <link rel="stylesheet" href="css/user.css">
     <script>
         function show(){
@@ -49,7 +48,7 @@
     </aside>
 </div>
     <div class="table_one">
-<div class="time_display" style="color:#00ff6b;">
+<div class="time_display" style="color:#00ff6b;text-align: center">
     <%
         Date d = new Date();
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
@@ -70,7 +69,7 @@
     </form>
 </table>
 <hr>
-<h1 style="color: #00ff6b">显示教授信息</h1>
+<h1 style="color: #00ff6b;text-align: center">显示教授信息</h1>
 <table style="color: aqua" border="1" cellpadding=“0” cellspacing="0" align="center" width="80%">
     <tr>
         <th>id</th>

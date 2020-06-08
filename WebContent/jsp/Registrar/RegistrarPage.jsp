@@ -57,10 +57,13 @@
                 <a href="##">
                     <li>维护学生信息</li>
                 </a>
-                <a href="jsp/Registrar/SearchProfessor.jsp">
+                <a href="/SoftwareEngineering/jsp/Registrar/SearchProfessor.jsp">
                     <li>维护教授信息</li>
                 </a>
-                <a href="jsp/Registrar/CloseRegistration.jsp">
+                <a href="/SoftwareEngineering/jsp/Registrar/NewProfessor.jsp">
+                    <li>新建教授档案</li>
+                </a>
+                <a href="/SoftwareEngineering/jsp/Registrar/CloseRegistration.jsp">
                     <li>关闭注册</li>
                 </a>
                 <a href="##">

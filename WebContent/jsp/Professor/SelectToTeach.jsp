@@ -128,6 +128,6 @@
         </tr>
     </c:if>
 </table>
-<a href="jsp/Professor/ProfessorPage.jsp" style="text-align: center;color: white">返回上层</a>
+<a href="/SoftwareEngineering/jsp/Professor/ProfessorPage.jsp" style="text-align: center;color: white">返回上层</a>
 </body>
 </html>

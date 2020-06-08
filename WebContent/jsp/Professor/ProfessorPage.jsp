@@ -52,10 +52,10 @@
                 <a href="##">
                     <li>首页</li>
                 </a>
-                <a href="jsp/Professor/SelectToTeach.jsp">
+                <a href="/SoftwareEngineering/jsp/Professor/SelectToTeach.jsp">
                     <li>选课</li>
                 </a>
-                <a href="jsp/Professor/SubmitGrades.jsp">
+                <a href="/SoftwareEngineering/jsp/Professor/SubmitGrades.jsp">
                     <li>提交分数</li>
                 </a>
                 <a href="##">
