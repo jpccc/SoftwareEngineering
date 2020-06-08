@@ -1,5 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="Beans.Professor" %>
+<%@ page import="java.util.Date" %>
+<%@ page import="java.text.SimpleDateFormat" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <html>
 <head>
@@ -62,7 +64,7 @@
                 <a href="##">
                     <li>查看邮箱</li>
                 </a>
-                <a href="/SoftwareEngineering_war/GradesServlet?method=backToIndex">
+                <a href="/SoftwareEngineering/GradesServlet?method=backToIndex">
                     <li>退出登录</li>
                 </a>
             </ul>
@@ -71,11 +73,14 @@
 
     <div class="table_one">
         <table class="table_info" border="1">
-            <caption>
-                <script>
-                    document.write(Date());
-                </script>
-            </caption>
+            <div class="time_display" style="color:#00ff6b;">
+                <%
+                    Date d = new Date();
+                    SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+                    String now = df.format(d);
+                %>
+                当前时间：<%=now %>
+            </div class="course_list">
 
             <div class="table_final">
                 <tr class="text-propetty">
@@ -83,7 +88,6 @@
                     <th class="text-center">生日</th>
                     <th class="text-center">身份证</th>
                     <th class="text-center">Status</th>
-                    <th class="text-center">公寓ID</th>
                 </tr>
                 <tr class="text-value">
                     <%Professor professor = (Professor) session.getAttribute("user");%>
@@ -91,7 +95,6 @@
                     <td><%=professor.getBirthday()%></td>
                     <td><%=professor.getIdentify_num()%></td>
                     <td><%=professor.getStatus()%></td>
-                    <td>公寓ID</td>
                 </tr>
             </div>
         </table>

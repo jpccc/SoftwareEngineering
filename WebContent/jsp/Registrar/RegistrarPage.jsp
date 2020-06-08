@@ -1,5 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="Beans.Registrar" %>
+<%@ page import="java.util.Date" %>
+<%@ page import="java.text.SimpleDateFormat" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <html>
 <head>
@@ -71,9 +73,14 @@
     <div class="table_one">
         <table class="table_info" border="1">
             <caption>
-                <script>
-                    document.write(Date());
-                </script>
+                <div class="time_display" style="color:#00ff6b;">
+                    <%
+                        Date d = new Date();
+                        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+                        String now = df.format(d);
+                    %>
+                    当前时间：<%=now %>
+                </div class="course_list">
                 <div>
                     当前在线人数:<%=application.getAttribute("onLineCount")%>
                 </div>
@@ -82,18 +89,10 @@
             <div class="table_final">
                 <tr class="text-propetty">
                     <th height="57" class="text-center">ID</th>
-                    <th class="text-center">生日</th>
-                    <th class="text-center">身份证</th>
-                    <th class="text-center">Status</th>
-                    <th class="text-center">公寓ID</th>
                 </tr>
                 <tr class="text-value">
                     <%Registrar registrar= (Registrar) session.getAttribute("user");%>
                     <td height="62"><%=registrar.getR_id()%></td>
-                    <td></td>
-                    <td></td>
-                    <td>管理人员</td>
-                    <td></td>
                 </tr>
             </div>
         </table>

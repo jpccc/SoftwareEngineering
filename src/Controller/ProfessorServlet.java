@@ -62,7 +62,7 @@ public class ProfessorServlet extends BaseServlet {
                 }
                 req.getSession().setAttribute("slist", slist);
                 req.getSession().setAttribute("conflictList", conflictList);
-                resp.sendRedirect("/SoftwareEngineering_war/jsp/Professor/SelectToTeach.jsp");
+                resp.sendRedirect("/SoftwareEngineering/jsp/Professor/SelectToTeach.jsp");
             } else {
                 req.setAttribute("error", "登录超时！");
                 req.getRequestDispatcher("/jsp/Professor/SelectToTeach.jsp").forward(req, resp);

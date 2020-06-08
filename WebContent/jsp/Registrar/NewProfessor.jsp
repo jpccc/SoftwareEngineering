@@ -11,7 +11,7 @@
     <link rel="stylesheet" type="text/css" href="/SoftwareEngineering/jsp/Registrar/css/form.css" />
     <title>新建教授档案</title>
 </head>
-<body>
+<body background="images/reg_back.jpg">
 <h1>新建教授档案</h1>
 <form class="modifyinfo" action="/SoftwareEngineering/RegistrarServlet?method=addProfessor" method="post">
     <div class="inputbox" >
@@ -30,5 +30,6 @@
         ${error}
     </div>
 </form>
+<a href="jsp/Registrar/RegistrarPage.jsp" style="text-align: center;color: white">返回上层</a>
 </body>
 </html>

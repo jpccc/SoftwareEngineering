@@ -14,33 +14,25 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <html>
 <head>
-    <link rel="stylesheet" type="text/css" href="/SoftwareEngineering_war/jsp/Professor/css/searchAndForm.css" />
+    <link rel="stylesheet" type="text/css" href="/SoftwareEngineering/jsp/Professor/css/searchAndForm.css" />
     <title>教师选课页面</title>
     <%--
         转入本页面时session中应存在一professor对象
      --%>
 </head>
-<body>
+<body background="<c:url value="images/pro_back.jpg"/>">
 <div class="time_display" >
     <%
         Date d = new Date();
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         String now = df.format(d);
-        //professor test
-        java.util.Date utilDate = new SimpleDateFormat("yyyy-MM-dd").parse("2020-01-01");
-        java.sql.Date birthday = new java.sql.Date(utilDate.getTime());
-        Professor professor = new Professor("P1234567","NIKO",birthday,"3412222222222222","0",1,"123456");
-        request.getSession().setAttribute("user",professor);
-        Registration registration = new Registration();
-        registration.setReg_id(2);
-        request.getSession().setAttribute("registration",registration);
     %>
     当前时间：<%=now %>
 </div>
 </table>
 <hr>
 <h1>已选课程</h1>
-<form action="/SoftwareEngineering_war/ProfessorServlet?method=getCourseList&p_id=${professor.p_id}" method="post">
+<form action="/SoftwareEngineering/ProfessorServlet?method=getCourseList&p_id=${user.p_id}" method="post">
     <input type="submit" value="刷新" class="button">
 </form>
 <table border="1" cellpadding=“0” cellspacing="0" align="center" width="70%">
@@ -70,10 +62,10 @@
                 <th>${course.timeslot_id}</th>
                 <th>${course.student_count}</th>
                 <th>${course.status}</th>
-                <th><a href="/SoftwareEngineering_war/ProfessorServlet?method=deSelect&course_id=${course.course_id}">取消选课</a></th>
+                <th><a href="/SoftwareEngineering/ProfessorServlet?method=deSelect&course_id=${course.course_id}">取消选课</a></th>
             </tr>
         </c:forEach>
-        <a href="/SoftwareEngineering_war/ProfessorServlet?method=deSelectAll" style="text-align: center">取消选择所有课程</a>
+        <a href="/SoftwareEngineering/ProfessorServlet?method=deSelectAll" style="text-align: center">取消选择所有课程</a>
     </c:if>
     <c:if test="${not empty slist}">
         <c:forEach items="${slist}" var="course">
@@ -88,7 +80,7 @@
                 <th>${course.timeslot_id}</th>
                 <th>${course.student_count}</th>
                 <th>${course.status}</th>
-                <th><a href="/SoftwareEngineering_war/ProfessorServlet?method=deSelect&course_id=${course.course_id}">取消选课</a></th>
+                <th><a href="/SoftwareEngineering/ProfessorServlet?method=deSelect&course_id=${course.course_id}">取消选课</a></th>
             </tr>
         </c:forEach>
     </c:if>
@@ -126,7 +118,7 @@
                 <th>${course.timeslot_id}</th>
                 <th>${course.student_count}</th>
                 <th>${course.status}</th>
-                <th><a href="/SoftwareEngineering_war/ProfessorServlet?method=select&course_id=${course.course_id}">立即选课</a></th>
+                <th><a href="/SoftwareEngineering/ProfessorServlet?method=select&course_id=${course.course_id}">立即选课</a></th>
             </tr>
         </c:forEach>
     </c:if>
@@ -136,5 +128,6 @@
         </tr>
     </c:if>
 </table>
+<a href="jsp/Professor/ProfessorPage.jsp" style="text-align: center;color: white">返回上层</a>
 </body>
 </html>

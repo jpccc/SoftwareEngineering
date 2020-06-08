@@ -14,7 +14,7 @@
     <title>维护教师信息</title>
 </head>
 <body background="images/reg_back.jpg">
-<h1 style="color: #00ff6b">管理教授档案</h1>
+<h1 style="color: #00fbackground="<c:url value="images/reg_back.jpg"/>"f6b">管理教授档案</h1>
 <form class="modifyinfo" action="/SoftwareEngineering/RegistrarServlet?method=modifyProfessor&id=${professor.p_id}" method="post">
     <div style="color: #00ff6b" class="inputbox" >
         id<br><input type="text" class="password" name="p_id" value="${professor.p_id}" disabled><br>
@@ -35,6 +35,7 @@
     <br>
     <input type="button" value="删除" class="button" style="background-color: #874343;color: white" onclick="firm()"/>
 </form>
+<a href="jsp/Registrar/RegistrarPage.jsp" style="text-align: center;color: white">返回上层</a>
 </body>
 <script language="javascript">
     function firm() {
