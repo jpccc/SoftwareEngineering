@@ -1,11 +1,13 @@
 package DAO;
 
+import Beans.Professor;
 import Beans.Student;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class StudentDAOImpl implements StudentDAO{
@@ -112,8 +114,70 @@ public class StudentDAOImpl implements StudentDAO{
 
     }
 
+    public List<Student> findByName(String name) throws Exception {
+        List<Student> all = new ArrayList<Student>();
+        String sql = "select * from student_info where s_name=?";
+        PreparedStatement ps = null;
+        Connection conn=null;
+        try {
+            conn=JDBCUtil.getMysqlConnection();
+            ps = conn.prepareStatement(sql);
+            ps.setString(1,name);
+            ResultSet rSet = ps.executeQuery();
+            while (rSet.next()) {
+                Student professor = new Student();
+                professor.setS_id(rSet.getString(1));
+                professor.setS_name(rSet.getString(2));
+                professor.setBirthday(rSet.getDate(3));
+                professor.setIdentify_num(rSet.getString(4));
+                professor.setStatus(rSet.getString(5));
+                professor.setDept_id(rSet.getInt(6));
+                professor.setGraduate_date(rSet.getDate(7));
+                professor.setPassword(rSet.getString(8));
+                all.add(professor);
+            }
+            rSet.close();
+            ps.close();
+        } catch (Exception e) {
+            throw new Exception("findByName操作出现异常");
+        } finally {
+            conn.close();
+        }
+        return all;
+    }
+
     @Override
     public List<Student> queryAll() throws Exception {
         return null;
+    }
+    @Override
+    public List<Student> showAll() throws Exception {
+        List<Student> all = new ArrayList<Student>();
+        String sql = "select * from student_info";
+        PreparedStatement ps = null;
+        Connection conn=null;
+        try {
+            conn=JDBCUtil.getMysqlConnection();
+            ps = conn.prepareStatement(sql);
+            ResultSet rSet = ps.executeQuery();
+            while (rSet.next()) {
+                Student student = new Student();
+                student.setS_id(rSet.getString(1));
+                student.setS_name(rSet.getString(2));
+                student.setBirthday(rSet.getDate(3));
+                student.setIdentify_num(rSet.getString(4));
+                student.setStatus(rSet.getString(5));
+                student.setDept_id(rSet.getInt(6));
+                student.setPassword(rSet.getString(7));
+                all.add(student);
+            }
+            rSet.close();
+            ps.close();
+        } catch (Exception e) {
+            throw new Exception("findAll操作出现异常");
+        } finally {
+            if(conn==null)conn.close();
+        }
+        return all;
     }
 }

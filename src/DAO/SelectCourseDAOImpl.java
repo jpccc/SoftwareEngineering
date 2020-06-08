@@ -85,7 +85,7 @@ public class SelectCourseDAOImpl implements SelectCourseDAO{
         try {
         	conn=JDBCUtil.getMysqlConnection();
         	//Class.forName("com.mysql.jdbc.Driver");
-        	//conn=DriverManager.getConnection("jdbc:mysql://localhost:3306/course_selection","root","root");//javaÕâ¸ö¿ÕÌîÐ´µÄÊÇÄã×Ô¼ºÉèµÄÃÜÂë
+        	//conn=DriverManager.getConnection("jdbc:mysql://localhost:3306/course_selection","root","root");
             ps = conn.prepareStatement(sql);
             ps.setString(1, student_id);
             ps.setString(2, course_id);
@@ -181,13 +181,6 @@ public class SelectCourseDAOImpl implements SelectCourseDAO{
         }
         return res;
 	}
-
-
-
-	
-
-
-
 	@Override
 	public Course check_course(String course_id, int reg_id) {
 		Course res=new Course();
@@ -438,7 +431,7 @@ public class SelectCourseDAOImpl implements SelectCourseDAO{
         try {
         	conn=JDBCUtil.getMysqlConnection();
         	//Class.forName("com.mysql.jdbc.Driver");
-        	//conn=DriverManager.getConnection("jdbc:mysql://localhost:3306/course_selection","root","root");//javaÕâ¸ö¿ÕÌîÐ´µÄÊÇÄã×Ô¼ºÉèµÄÃÜÂë
+        	//conn=DriverManager.getConnection("jdbc:mysql://localhost:3306/course_selection","root","root");//javaï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             ps = conn.prepareStatement(sql);
             ps.setString(1, course_id);
             ps.setInt(2, reg_id);
@@ -468,7 +461,7 @@ public class SelectCourseDAOImpl implements SelectCourseDAO{
         try {
         	conn=JDBCUtil.getMysqlConnection();
         	//Class.forName("com.mysql.jdbc.Driver");
-        	//conn=DriverManager.getConnection("jdbc:mysql://localhost:3306/course_selection","root","root");//javaÕâ¸ö¿ÕÌîÐ´µÄÊÇÄã×Ô¼ºÉèµÄÃÜÂë
+        	//conn=DriverManager.getConnection("jdbc:mysql://localhost:3306/course_selection","root","root");//javaï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             ps = conn.prepareStatement(sql);
             ps.setString(1, course_id);
             ps.setInt(2, reg_id);

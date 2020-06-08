@@ -10,8 +10,6 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
-
-
 public class GradesServlet extends BaseServlet {
     public void queryCourses(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
@@ -132,7 +130,7 @@ public class GradesServlet extends BaseServlet {
         if(session.getAttribute("courseList")!=null)session.removeAttribute("courseList");
         if(session.getAttribute("gradeList")!=null)session.removeAttribute("gradeList");
         if(session.getAttribute("user")!=null)session.removeAttribute("user");
-        request.getRequestDispatcher("/jsp/Professor/index.jsp").forward(request, response);
+        request.getRequestDispatcher("index.jsp").forward(request, response);
     }
 
     private List<Grade> getNewGrades(HttpServletRequest request){

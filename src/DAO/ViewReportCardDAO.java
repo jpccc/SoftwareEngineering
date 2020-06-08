@@ -21,7 +21,7 @@ public class ViewReportCardDAO {
     }
 	public Connection getConnection() throws SQLException {
         return DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/registration?characterEncoding=utf-8&useSSL=false&useUnicode=true&serverTimezone=UTC", "root",
-                "root");
+                "zm2019..");
     }
 	public Map<Course,Integer> getReportCard(String student_id,int reg_id){
 		try (Connection c = getConnection();PreparedStatement s = c.prepareStatement("select course_id,grade from selection where student_id= ? and reg_id= ? ;"); ) {	

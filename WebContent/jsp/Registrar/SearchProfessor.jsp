@@ -35,7 +35,7 @@
         <h2>功能列表</h2>
         <br/>
         <ul id="sideul">
-            <a href="/SoftwareEngineering/jsp/Registrar/SearchProfessor.jsp">
+            <a href="/SoftwareEngineering/jsp/Registrar/SearchStudent.jsp">
                 <li>首页</li>
             </a>
             <a href="##">

@@ -34,7 +34,7 @@
         }
         function saveGrades() {
             let form = document.getElementsByTagName("form")[1];
-            form.action="/SoftwareEngineering_war/GradesServlet?method=saveGrades";
+            form.action="/SoftwareEngineering/GradesServlet?method=saveGrades";
             form.submit();
         }
         function subGrades(){
@@ -75,7 +75,7 @@
                 <a href="jsp/Professor/SelectToTeach.jsp">
                     <li>选课</li>
                 </a>
-                <form action="/SoftwareEngineering_war/GradesServlet?method=queryCourses" method="post">
+                <form action="/SoftwareEngineering/GradesServlet?method=queryCourses" method="post">
                     <div>
                         注册日期：<input class="inputBox" style="width:50px" type="text" name="year" value="<%=reg.getYear()%>"/>
                     </div>
@@ -111,7 +111,7 @@
                         <th>${course.dept_id}</th>
                         <th>${course.course_name}</th>
                         <th>${course.status}</th>
-                        <th><a style="color: red" href="/SoftwareEngineering_war/GradesServlet?method=queryStudents&course_id=${course.course_id}&registration_id=${course.reg_id}">修改成绩</a></th>
+                        <th><a style="color: red" href="/SoftwareEngineering/GradesServlet?method=queryStudents&course_id=${course.course_id}&registration_id=${course.reg_id}">修改成绩</a></th>
                     </tr>
                 </c:forEach>
             </c:if>

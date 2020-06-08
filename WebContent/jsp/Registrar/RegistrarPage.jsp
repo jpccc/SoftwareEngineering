@@ -54,7 +54,7 @@
                 <a href="##">
                     <li>开启注册</li>
                 </a>
-                <a href="##">
+                <a href="/SoftwareEngineering/jsp/Registrar/SearchStudent.jsp">
                     <li>维护学生信息</li>
                 </a>
                 <a href="/SoftwareEngineering/jsp/Registrar/SearchProfessor.jsp">

@@ -53,7 +53,7 @@
     当前时间：<%=now %>
 </div class="course_list">
 <table align="center">
-    <form style="color: #00ff6b" action="/SoftwareEngineering/RegistrarServlet?method=searchStudnet" method="post">
+    <form style="color: #00ff6b" action="/SoftwareEngineering/RegistrarServlet?method=searchStudent" method="post">
         <tr>
             <th style="color: red">按编号：</th>
             <th><input type="text" name="by_id" ></th>
@@ -74,20 +74,22 @@
         <th>identify number</th>
         <th>状态</th>
         <th>院系id</th>
+        <th>毕业日期</th>
         <th>密码</th>
         <th>...</th>
     </tr>
     <c:if test="${not empty list}">
         <c:forEach items="${list}" var="student">
             <tr>
-                <th>${studnet.s_id}</th>
-                <th>${studnet.s_name}</th>
-                <th>${studnet.birthday}</th>
-                <th>${studnet.identify_num}</th>
-                <th>${studnet.status}</th>
-                <th>${studnet.dept_id}</th>
-                <th>${studnet.password}</th>
-                <th><a href="/SoftwareEngineering/RegistrarServlet?method=modify&id=${studnet.s_id}" style="color: aqua">编辑信息</a></th>
+                <th>${student.s_id}</th>
+                <th>${student.s_name}</th>
+                <th>${student.birthday}</th>
+                <th>${student.identify_num}</th>
+                <th>${student.status}</th>
+                <th>${student.dept_id}</th>
+                <th>${student.graduate_date}</th>
+                <th>${student.password}</th>
+                <th><a href="/SoftwareEngineering/RegistrarServlet?method=modifyStu&id=${student.s_id}" style="color: aqua">编辑信息</a></th>
             </tr>
         </c:forEach>
     </c:if>

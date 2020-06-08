@@ -6,7 +6,7 @@
 </head>
 <body background="images/reg_back.jpg">
 <h1>新建学生档案</h1>
-<form class="modifyinfo" action="/SoftwareEngineering/RegistrarServlet?method=addStudnet" method="post">
+<form class="modifyinfo" action="/SoftwareEngineering/RegistrarServlet?method=addStudent" method="post">
     <div class="inputbox" >
         id<br><input type="text" class="password" name="s_id"><br>
         姓名<br><input type="text" class="password" name="s_name" ><br>
@@ -14,6 +14,7 @@
         identify number<br><input type="text" class="password" name="identify_num" ><br>
         状态<br><input type="text" class="password" name="status" ><br>
         部门id<br><input type="text" class="password" name="dept_id" ><br>
+        毕业时间<br><input type="Date" class="password" name="graduate_data"><br>
         密码 <input type="text" class="password" name="password" ><br>
     </div>
     <br>
