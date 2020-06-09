@@ -21,8 +21,8 @@ public class CloseRegisDAO {
         }
     }
 	public Connection getConnection() throws SQLException {
-        return DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/registration?characterEncoding=utf-8&useSSL=false&useUnicode=true&serverTimezone=UTC", "root",
-                "root");
+        return DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/se?characterEncoding=utf-8&useSSL=false&useUnicode=true&serverTimezone=UTC", "root",
+                "123456");
     }
 	public Map<String,Boolean> getCourseList(int reg_id) {
 		try (Connection c = getConnection(); PreparedStatement s = c.prepareStatement("select course_id from course_info where reg_id= ? ;");) {	
@@ -83,14 +83,14 @@ public class CloseRegisDAO {
 		return null;
 	}
 	public Map<Course,Integer> getBill(String student_id,int reg_id){
-		try (Connection c = getConnection(); PreparedStatement s = c.prepareStatement("select course_id,cost from selection where student_id= ? and reg_id= ? ;");) {				   
+		try (Connection c = getConnection(); PreparedStatement s = c.prepareStatement("select course_id,price from selection where student_id= ? and reg_id= ? ;");) {				   
             s.setString(1, student_id);
             s.setInt(2, reg_id);
 			ResultSet rs= s.executeQuery(); 
 			Map<Course,Integer> bill=new HashMap<Course,Integer>();
             while(rs.next()) {
             	String course_id=rs.getString("course_id");
-            	int cost=rs.getInt("cost");
+            	int cost=rs.getInt("price");
             	Course course=getCourse(course_id,reg_id);
             	bill.put(course, cost);
             }
