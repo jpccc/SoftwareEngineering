@@ -37,6 +37,7 @@ public class CourseDAOImpl implements CourseDAO{
                 course.setProfessor_id(rs.getString("professor_id"));
                 course.setStudent_count(rs.getInt("student_count"));
                 course.setStatus(rs.getString("status"));
+                course.setPrice(rs.getFloat("price"));
                 all.add(course);
             }
         } catch (SQLException e) {
@@ -75,6 +76,7 @@ public class CourseDAOImpl implements CourseDAO{
                 course.setProfessor_id(rs.getString("professor_id"));
                 course.setStudent_count(rs.getInt("student_count"));
                 course.setStatus(rs.getString("status"));
+                course.setPrice(rs.getFloat("price"));
                 all.add(course);
             }
         } catch (SQLException e) {
@@ -89,7 +91,7 @@ public class CourseDAOImpl implements CourseDAO{
 
     @Override
     public void update(Course course) throws Exception {
-        String sql = "update course_info set reg_id=?,dept_id=?,course_name=?,start_date=?,end_date=?,weekday=?,timeslot_id=?,professor_id=?,student_count=?,status=? where course_id=?";
+        String sql = "update course_info set reg_id=?,dept_id=?,course_name=?,start_date=?,end_date=?,weekday=?,timeslot_id=?,professor_id=?,student_count=?,status=?,price=? where course_id=?";
         PreparedStatement preparedStatement = null;
         Connection conn = null;
         try {
@@ -105,7 +107,8 @@ public class CourseDAOImpl implements CourseDAO{
             preparedStatement.setString(8,course.getProfessor_id());
             preparedStatement.setInt(9,course.getStudent_count());
             preparedStatement.setString(10,course.getStatus());
-            preparedStatement.setString(11,course.getCourse_id());
+            preparedStatement.setFloat(11,course.getPrice());
+            preparedStatement.setString(12,course.getCourse_id());
             preparedStatement.executeUpdate();
             preparedStatement.close();
         } catch (Exception e) {
@@ -140,7 +143,7 @@ public class CourseDAOImpl implements CourseDAO{
                 course.setProfessor_id(rSet.getString(9));
                 course.setStudent_count(rSet.getInt(10));
                 course.setStatus(rSet.getString(11));
-                //course.setPrice(rSet.getFloat("price"));
+                course.setPrice(rSet.getFloat("price"));
             }
             else{
                 course.setCourse_id("-1");
@@ -180,6 +183,7 @@ public class CourseDAOImpl implements CourseDAO{
                 res.setProfessor_id(rs.getString("professor_id"));
                 res.setStudent_count(rs.getInt("student_count"));
                 res.setStatus(rs.getString("status"));
+                res.setPrice(rs.getFloat("price"));
             }else{
                 res.setCourse_id("null");
             }
@@ -280,6 +284,7 @@ public class CourseDAOImpl implements CourseDAO{
                 course.setProfessor_id(rs.getString("professor_id"));
                 course.setStudent_count(rs.getInt("student_count"));
                 course.setStatus(rs.getString("status"));
+                course.setPrice(rs.getFloat("price"));
                 res.add(course);
             }
         } catch (SQLException e) {
@@ -302,7 +307,7 @@ public class CourseDAOImpl implements CourseDAO{
         ResultSet rs=null;
         String sql="insert into course_info " +
                 "(reg_id, course_id, dept_id, course_name, start_date, end_date, " +
-                "weekday, timeslot_id) values (?,?,?,?,?,?,?,?)";
+                "weekday, timeslot_id,price) values (?,?,?,?,?,?,?,?,?)";
         conn=DruidManager.getConnection();
         ps=conn.prepareStatement(sql);
         for(Course course: cList){
@@ -314,6 +319,7 @@ public class CourseDAOImpl implements CourseDAO{
             ps.setDate(6,course.getEnd_date());
             ps.setInt(7,course.getWeekday());
             ps.setInt(8,course.getTimeslot_id());
+            ps.setFloat(9,course.getPrice());
             ps.addBatch();
         }
         ps.executeBatch();
@@ -359,6 +365,7 @@ public class CourseDAOImpl implements CourseDAO{
                 course.setProfessor_id(rs.getString("professor_id"));
                 course.setStudent_count(rs.getInt("student_count"));
                 course.setStatus(rs.getString("status"));
+                course.setPrice(rs.getFloat("price"));
                 res.add(course);
             }
         } catch (SQLException e) {
