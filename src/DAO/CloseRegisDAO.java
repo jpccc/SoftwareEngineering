@@ -21,7 +21,7 @@ public class CloseRegisDAO {
         }
     }
 	public Connection getConnection() throws SQLException {
-        return DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/se?characterEncoding=utf-8&useSSL=false&useUnicode=true&serverTimezone=UTC", "root",
+        return DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/registration?characterEncoding=utf-8&useSSL=false&useUnicode=true&serverTimezone=UTC", "root",
                 "123456");
     }
 	public Map<String,Boolean> getCourseList(int reg_id) {
