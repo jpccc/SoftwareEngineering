@@ -8,7 +8,7 @@ public class CourseSelection {
 		reg_id=0;
 		grade=null;
 		select_status="primary";
-		grade_status="saved";
+		price=0;
 	}
 	private int selection_id;
 	private String student_id;
@@ -16,7 +16,7 @@ public class CourseSelection {
 	private int reg_id;
 	private String grade;
 	private String select_status;
-	private String grade_status;
+	private float price;
 	
 	public void set_selection_id(int selection_id) {
 		this.selection_id=selection_id;
@@ -48,16 +48,18 @@ public class CourseSelection {
 	public String get_select_status() {
 		return select_status;
 	}
-	public void set_grade_status(String grade_status) {
-		this.grade_status=grade_status;
-	}
-	public String get_grade_status() {
-		return grade_status;
-	}
 	public void set_grade(String grade) {
 		this.grade=grade;
 	}
 	public String get_grade() {
 		return grade;
+	}
+
+	public float getPrice() {
+		return price;
+	}
+
+	public void setPrice(float price) {
+		this.price = price;
 	}
 }

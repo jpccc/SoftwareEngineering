@@ -29,7 +29,7 @@ public class SelectCourseDAOImpl implements SelectCourseDAO{
                 	course_selection.set_reg_id(rs.getInt("reg_id"));
                 	course_selection.set_grade(rs.getString("grade"));
                 	course_selection.set_select_status(rs.getString("select_status"));
-                	course_selection.set_grade_status(rs.getString("grade_status"));
+                	course_selection.setPrice(rs.getFloat("price"));
                 	res.add(course_selection);
                 }
             }
@@ -65,15 +65,10 @@ public class SelectCourseDAOImpl implements SelectCourseDAO{
             preparedStatement.setString(3, course_selection.get_course_id());
             preparedStatement.setInt(4, course_selection.get_reg_id());
             preparedStatement.setString(5,course_selection.get_grade());
-            preparedStatement.setString(6, course_selection.get_select_status());
-            preparedStatement.setString(7,course_selection.get_grade_status());
+            preparedStatement.setFloat(6,course_selection.getPrice());
+            preparedStatement.setString(7, course_selection.get_select_status());
             preparedStatement.executeUpdate();
-            
-            
-            
-        
-           
-       
+
 	}
 
 	@Override
@@ -125,6 +120,7 @@ public class SelectCourseDAOImpl implements SelectCourseDAO{
                 course.setProfessor_id(rs.getString("professor_id"));
                 course.setStudent_count(rs.getInt("student_count"));
                 course.setStatus(rs.getString("status"));
+                course.setPrice(rs.getFloat("price"));
                 res.add(course);
             }
         } catch (Exception e) {
@@ -168,6 +164,7 @@ public class SelectCourseDAOImpl implements SelectCourseDAO{
                 course.setProfessor_id(rs.getString("professor_id"));
                 course.setStudent_count(rs.getInt("student_count"));
                 course.setStatus(rs.getString("status"));
+                course.setPrice(rs.getFloat("price"));
                 res.add(course);
             }
         } catch (Exception e) {
@@ -207,6 +204,7 @@ public class SelectCourseDAOImpl implements SelectCourseDAO{
                 course.setProfessor_id(rs.getString("professor_id"));
                 course.setStudent_count(rs.getInt("student_count"));
                 course.setStatus(rs.getString("status"));
+                course.setPrice(rs.getFloat("price"));
                 res=course;
                 System.out.println(course.getCourse_id());
                 break;
@@ -370,6 +368,7 @@ public class SelectCourseDAOImpl implements SelectCourseDAO{
                 course.setProfessor_id(rs.getString("professor_id"));
                 course.setStudent_count(rs.getInt("student_count"));
                 course.setStatus(rs.getString("status"));
+                course.setPrice(rs.getFloat("price"));
                 res=course;
                 System.out.println(course.getCourse_id());
                 break;
