@@ -69,10 +69,10 @@
             <h2>功能列表</h2>
             <br/>
             <ul id="sideul">
-                <a href="/SoftwareEngineering_war/GradesServlet?method=backToMainPage">
+                <a href="/SoftwareEngineering/GradesServlet?method=backToMainPage">
                     <li>教师首页</li>
                 </a>
-                <a href="jsp/Professor/SelectToTeach.jsp">
+                <a href="/SoftwareEngineering/jsp/Professor/SelectToTeach.jsp">
                     <li>选课</li>
                 </a>
                 <form action="/SoftwareEngineering/GradesServlet?method=queryCourses" method="post">
@@ -116,7 +116,7 @@
                 </c:forEach>
             </c:if>
             <c:if test="${not empty gradeList}">
-                <form id="gradeForm" action="/SoftwareEngineering_war/GradesServlet?method=submitGrades" method="post">
+                <form id="gradeForm" action="/SoftwareEngineering/GradesServlet?method=submitGrades" method="post">
 
                     <tr>
                         <th>学生ID</th>

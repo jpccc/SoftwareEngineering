@@ -33,6 +33,14 @@
     <servlet-name>GradesServlet</servlet-name>
     <url-pattern>/GradesServlet</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <servlet-name>OpenRegisServlet</servlet-name>
+    <servlet-class>Controller.OpenRegisServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>OpenRegisServlet</servlet-name>
+    <url-pattern>/OpenRegisServlet</url-pattern>
+  </servlet-mapping>
   <session-config>
     <!-- 配置默认的session有效时间，单位：分钟 -->
     <session-timeout>10 </session-timeout>

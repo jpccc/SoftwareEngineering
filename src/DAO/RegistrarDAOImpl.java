@@ -7,7 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class RegistererDAOImpl implements RegistererDAO {
+public class RegistrarDAOImpl implements RegistrarDAO {
     @Override
     public void insert(Registrar professor) throws Exception {
 

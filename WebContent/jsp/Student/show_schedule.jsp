@@ -85,7 +85,7 @@
                   <th class="text-center">课程起始时间</th>
                   <th class="text-center">课程结束时间</th>
                   <th class="text-center">WeekDay</th>
-                  <th class="text-center">教师姓名</th>
+                  <th class="text-center">教师ID</th>
                   <th class="text-center">已选人数</th>
                   <th class="text-center">删除课程</th>
                </tr>
@@ -104,7 +104,7 @@
                   <td><%=course.getStart_date()%></td>
                   <td><%=course.getEnd_date()%></td>
                   <td><%=course.getWeekday()%></td>
-                  <td><%=course.getWeekday()%></td>
+                  <td><%=course.getProfessor_id()%></td>
                   <td><%=course.getStudent_count()%></td>
                   <td>
                      <input  type="radio"  value="<%=list.get(i).get_course_id()%> <%=list.get(i).get_reg_id() %> <%=list.get(i).get_student_id() %> <%=list.get(i).get_select_status() %>" name=<%=name%>

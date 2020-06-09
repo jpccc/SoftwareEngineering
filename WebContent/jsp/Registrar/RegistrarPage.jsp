@@ -51,7 +51,7 @@
                 <a href="##">
                     <li>首页</li>
                 </a>
-                <a href="##">
+                <a href="/SoftwareEngineering/OpenRegisServlet?method=startNewReg">
                     <li>开启注册</li>
                 </a>
                 <a href="/SoftwareEngineering/jsp/Registrar/SearchStudent.jsp">

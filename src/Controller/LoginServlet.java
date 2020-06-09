@@ -5,7 +5,7 @@ import Beans.Registrar;
 import Beans.Student;
 import DAO.ProfessorDAO;
 import DAO.ProfessorDAOImpl;
-import DAO.RegistererDAOImpl;
+import DAO.RegistrarDAOImpl;
 import DAO.StudentDAOImpl;
 
 import javax.servlet.ServletException;
@@ -68,7 +68,7 @@ public class LoginServlet extends HttpServlet {
                     break;
                 }
                 case 'R': {
-                    RegistererDAOImpl reger=new RegistererDAOImpl();
+                    RegistrarDAOImpl reger=new RegistrarDAOImpl();
                     Registrar registrar=null;
                     try {
                         registrar=reger.findById(username);
