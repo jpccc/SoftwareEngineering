@@ -1,116 +1,143 @@
 /*头部css*/
-div.head{
+div.head {
+	position: relative;
 	width: 100%;
 	height: 80px;
 }
-div.block_left{
-	height:80px;
-	width:30%;
-	float:left;
-}
-div.block_right{
+
+div.head_left {
+	position:relative;
 	height: 80px;
-	width: 70%;
-	float: right;
-}
-div.head_title{
-	height:80px;
-	width: 57%;
-	color: #4CAF50;
-	text-align: center;
+	width: 30%;
 	float: left;
 }
-div.inerblock_right{
+
+div.head_center {
+	position: relative;
 	height: 80px;
-	width:43%;
-	float:right;
+	width: 40%;
+	float: left;
 }
-#title{
-	margin-top: 0px;
+
+div.head_right {
+	position: relative;
+	height: 80px;
+	width: 30%;
+	float: left;
 }
-#line_l{
+
+#title {
+	width: 100%;
+	position: relative;
+	color: #4CAF50;
+	text-align: center;
+}
+
+#line_l {
+	position:relative;
 	margin-top: 70px;
 }
-#line_r{
+
+#line_r {
+	position:relative;
 	margin-top: 70px;
 }
+
+
 /*body_CSS*/
-div.body{
+div.body {
 	width: 100%;
 	height: 200px;
-	margin-top: 30px;
+	margin-top: 90px;
 }
-.body .navigate {
-	width: 200px;
-	height: 200px;
-	float:left;
 
-}
-div.table_one{
-	width:85%;
+div.table_one {
+	width: 80%;
 	height: 200px;
-	float: right;
+	margin-top: 40px;
+	border: 0px solid green;
+	padding: 0px;
+	margin: auto;
 }
-/*导航css*/
- #sidemenu{
-	 display: none;/*none此元素不会被显示*/
- }
 
-aside {
-/*侧边栏,初始位置为-200px，即隐藏效果*/
-position: absolute;
-top: 15%;
-bottom: 15%;
-left: -180px;
-width: 180px;
-background-image:url(../images/na_back.jpg);
-transition: 0.2s ease-out;
-/*动画效果的执行方式是ease-out，即侧边栏滑动效果为渐变式，而不是生硬的突然变化*/
+/*信息css*/
+.table_info {
+	width: 85%;
+	color: aqua;
+	border: 0px solid green;
+	padding: 0px;
+	margin: auto;
 }
+
+div.title {
+	color: aqua;
+}
+
+/*bottom_CSS*/
+div.bottom {
+	width: 100%;
+	height: 200px;
+	margin-top: 100px;
+	text-align: center;
+	color: #47B082;
+	font-size: 30px;
+}
+
+div.bottom_center {
+	margin-top: 180px;
+}
+
+/*fixed-------*/
+.function {
+	position: fixed;
+	top: 30px;
+	left: 5px;
+	width: 80px;
+	height: 40px;
+	background-color: #446847;
+	text-align: center;
+	color: white;
+}
+.button_submit{
+	position: fixed;
+	top: 30px;
+	left: 85px;
+	width: 80px;
+	height: 40px;
+	background-color: #446847;
+	text-align: center;
+	color: white;
+}
+#sideMenu {
+	display: none;
+}
+
+#list {
+	/*侧边栏,初始位置为-200px，即隐藏效果*/
+	position: fixed;
+	top: 20%;
+	bottom: 20%;
+	left: -150px;
+	width: 150px;
+	background-image: url(../images/na_back.jpg);
+	transition: 0.2s ease-out;
+	/*动画效果的执行方式是ease-out，即侧边栏滑动效果为渐变式，而不是生硬的突然变化*/
+}
+
 h2 {
-color: white;
-text-align: center;
-font-size: 2em;
+	position: absolute;
+	color: white;
+	text-align: center;
+	font-size: 2em;
 }
-#sideul{
+
+#sideul {
+	position: absolute;
 	list-style: none;
 	color: white;
 	width: 100%;
 	height: 1.8em;
 	font-size: 1.5em;
-	margin-right:50px;
-}
-/*信息css*/
-.table_info{
-    width: 80%;
-	color: aqua;
-	margin-top: 10px;
-}
-div.title{
-	color: aqua;
-}
-/*bottom_CSS*/
-div.bottom{
-	width: 100%;
-	height: 200px;
-	margin-top: 40px;
-	text-align: center;
-	color: #47B082;
-	font-size: 30;
-}
-div.bottom_left{
-	float: left;
-	width:240px;
-	height:60px;
-}
-button{
-	width: 50px;
-	height: 40px;
-	margin-left:200px;
-    background-color: #446847;
-	padding-bottom: 10px;
-	padding-left: 10px;
-	padding-right: 10px;
-	text-align: center;
-    color: white;
+	margin-top: 80px;
+	margin-right: 50px;
 }
