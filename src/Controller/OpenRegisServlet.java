@@ -1,8 +1,10 @@
 package Controller;
 
 import Beans.Course;
+import Beans.Registrar;
 import Beans.Registration;
 import DAO.CourseDAOImpl;
+import DAO.RegistrarDAOImpl;
 import DAO.RegistrationDAO;
 import DAO.RegistrationDAOImpl;
 
@@ -49,22 +51,6 @@ public class OpenRegisServlet extends BaseServlet{
 
         selected.add(course);
         total.remove(index);
-        System.out.println("test:addOne()");
-        System.out.println("begin:"+course.getStart_date());
-        System.out.println("end:"+course.getEnd_date());
-        System.out.println("weekday:");
-        for(int i=0;i<32;i++){
-            System.out.print(weekday&0x1);
-            weekday=weekday>>1;
-        }
-        System.out.println();
-
-        System.out.println("timeslot:");
-        for(int i=0;i<32;i++){
-            System.out.print(timeslot&0x1);
-            timeslot=timeslot>>1;
-        }
-        System.out.println();
 
         session.setAttribute("allC",total);
         session.setAttribute("selectedC",selected);
@@ -73,7 +59,6 @@ public class OpenRegisServlet extends BaseServlet{
 
     public void removeOne(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException{
         System.out.println("test:removeOne()");
-
         HttpSession session=request.getSession();
         List<Course> total= (List<Course>) session.getAttribute("allC");
         List<Course> selected= (List<Course>) session.getAttribute("selectedC");
@@ -91,6 +76,20 @@ public class OpenRegisServlet extends BaseServlet{
         HttpSession session=request.getSession();
         ServletContext application=session.getServletContext();
         Integer count= (Integer) application.getAttribute("onLineCount");
+        Registrar registrar= (Registrar) session.getAttribute("user");
+        try {
+            Registrar db=new RegistrarDAOImpl().findById(registrar.getR_id());
+            if(!db.getPassword().equals(registrar.getPassword())){
+                request.setAttribute("RegistrarError","身份验证失败，请查证后重新登录！");
+                request.getRequestDispatcher("jsp/Registrar/RegistrarPage.jsp").forward(request,response);
+                return;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            request.setAttribute("RegistrarError","数据库操作失败，请重试");
+            request.getRequestDispatcher("jsp/Registrar/RegistrarPage.jsp").forward(request,response);
+            return;
+        }
         if(count>5){//TODO: change to 1 before use
             request.setAttribute("RegistrarError","当前有其他用户在线，开启注册失败");
             request.getRequestDispatcher("jsp/Registrar/RegistrarPage.jsp").forward(request,response);
@@ -123,6 +122,7 @@ public class OpenRegisServlet extends BaseServlet{
         HttpSession session=request.getSession();
         List<Course> selected= (List<Course>) session.getAttribute("selectedC");
         Registration reg= (Registration) session.getAttribute("registration");
+        verifyRegistrar(request,response);
         for(int i=0;i<selected.size();i++){
             selected.get(i).setReg_id(reg.getReg_id());
         }
@@ -155,5 +155,21 @@ public class OpenRegisServlet extends BaseServlet{
             e.printStackTrace();
         }
         request.getRequestDispatcher("jsp/Registrar/RegistrarPage.jsp").forward(request,response);
+    }
+    private void verifyRegistrar(HttpServletRequest request,HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session=request.getSession();
+        Registrar registrar= (Registrar) session.getAttribute("user");
+        try {
+            Registrar db=new RegistrarDAOImpl().findById(registrar.getR_id());
+            if(db==null||db.getR_id().equals("null")||!db.getPassword().equals(registrar.getPassword())){
+                request.setAttribute("error","身份验证失败，请重新登录");
+                request.getRequestDispatcher("/SoftwareEngineering/RegistrarServlet?method=backToIndex")
+                        .forward(request,response);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            request.setAttribute("RegistrarError","数据库连接失败，请重试");
+            request.getRequestDispatcher("jsp/Registrar/RegistrarPage.jsp").forward(request,response);
+        }
     }
 }

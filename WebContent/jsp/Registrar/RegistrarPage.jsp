@@ -48,8 +48,8 @@
             <h2>功能列表</h2>
             <br/>
             <ul id="sideul">
-                <a href="##">
-                    <li>首页</li>
+                <a href="/SoftwareEngineering/RegistrarServlet?method=backToIndex">
+                    <li>退出登录</li>
                 </a>
                 <a href="/SoftwareEngineering/OpenRegisServlet?method=startNewReg">
                     <li>开启注册</li>

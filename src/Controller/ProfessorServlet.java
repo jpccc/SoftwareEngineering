@@ -12,6 +12,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -65,7 +66,7 @@ public class ProfessorServlet extends BaseServlet {
                 resp.sendRedirect("/SoftwareEngineering/jsp/Professor/SelectToTeach.jsp");
             } else {
                 req.setAttribute("error", "登录超时！");
-                req.getRequestDispatcher("/jsp/Professor/SelectToTeach.jsp").forward(req, resp);
+                backToIndex(req,resp);
             }
         } else {
             req.setAttribute("error", "课表系统故障！");
@@ -88,11 +89,11 @@ public class ProfessorServlet extends BaseServlet {
                     getCourseList(req, resp);
                 } else {
                     req.setAttribute("error", "登录超时");
-                    req.getRequestDispatcher("/index.jsp").forward(req, resp);
+                    backToIndex(req,resp);
                 }
             } else {
                 req.setAttribute("error", "登录信息有误");
-                req.getRequestDispatcher("/index.jsp").forward(req, resp);
+                backToIndex(req,resp);
             }
         } else {
             req.setAttribute("error", "课程信息获取失败！");
@@ -115,11 +116,11 @@ public class ProfessorServlet extends BaseServlet {
                     getCourseList(req, resp);
                 } else {
                     req.setAttribute("error", "登录超时");
-                    req.getRequestDispatcher("/index.jsp").forward(req, resp);
+                    backToIndex(req,resp);
                 }
             } else {
                 req.setAttribute("error", "登录信息有误");
-                req.getRequestDispatcher("/index.jsp").forward(req, resp);
+                backToIndex(req,resp);
             }
         } else {
             req.setAttribute("error", "课程信息获取失败！");
@@ -146,11 +147,21 @@ public class ProfessorServlet extends BaseServlet {
                 }
             } else {
                 req.setAttribute("error", "登录超时");
-                req.getRequestDispatcher("/index.jsp").forward(req, resp);
+                backToIndex(req,resp);
+                return;
             }
         }else {
             req.setAttribute("error", "登录信息有误");
-            req.getRequestDispatcher("/index.jsp").forward(req, resp);
+            backToIndex(req,resp);
         }
     }
+    public void backToIndex(HttpServletRequest request,HttpServletResponse response)throws ServletException,IOException{
+        HttpSession session=request.getSession();
+        session.removeAttribute("user");
+        session.removeAttribute("registration");
+        session.removeAttribute("courseList");
+        session.removeAttribute("gradeList");
+        request.getRequestDispatcher("/index.jsp").forward(request, response);
+    }
+
 }

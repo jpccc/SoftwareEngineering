@@ -2,6 +2,8 @@ package Beans;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Course implements Serializable {
     public Course(){
@@ -56,6 +58,33 @@ public class Course implements Serializable {
     private int student_count;
     private String status;
     private float price;
+
+    /**
+     * parse the two int to a 7*8 Boolean matrix
+     * @param weekday the weekday part of course
+     * @param timeslot_id the timeslot_id part of course
+     * @return a 7*8 matrix true if have this course this day
+     */
+    public static List<List<Boolean>> parseCourseTime(int weekday,int timeslot_id){
+        List<List<Boolean>> res=new ArrayList<>();
+        for(int i=0;i<4;i++){
+            List<Boolean> temp=new ArrayList<>();
+            for(int j=0;j<8;j++){
+                temp.add((timeslot_id&1)==1);
+                timeslot_id=timeslot_id>>1;
+            }
+            res.add(temp);
+        }
+        for(int i=0;i<3;i++){
+            List<Boolean> temp=new ArrayList<>();
+            for(int j=0;j<8;j++){
+                temp.add((weekday&1)==1);
+                weekday=weekday>>1;
+            }
+            res.add(temp);
+        }
+        return res;
+    }
 
     public int getReg_id() {
         return reg_id;
@@ -152,4 +181,5 @@ public class Course implements Serializable {
     public void setPrice(float price) {
         this.price = price;
     }
+
 }

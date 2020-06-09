@@ -89,8 +89,8 @@
         <aside id="list">
             <h2>功能列表</h2>
             <ul id="sideul">
-                <a href="##">
-                    <li>首页</li>
+                <a href="/SoftwareEngineering/StudentServlet?method=backToIndex">
+                    <li>退出登录</li>
                 </a>
                 <a href="jsp/Student/ViewReportCard.jsp">
                     <li>查询成绩</li>
