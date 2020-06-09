@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="/SoftwareEngineering/jsp/Student/css/user.css">
     <script>
         function show() {
-            var x = document.getElementById("sidemenu");
+            var x = document.getElementById("sideMenu");
 
             if (x.checked == true) {
                 document.getElementById("list").style.left = "-180px";
@@ -44,7 +44,7 @@
 
 <div class="body">
     <div class="table_one">
-        <form id="course_form" action="SoftwareEngineering/SelectCourseServlet?op=delete" method="post">
+        <form id="course_form" action="/SoftwareEngineering/SelectCourseServlet?op=delete" method="post">
             <table class="table_info" border="1">
                 <caption>
                     <div class="time_display" style="color:#00ff6b;">
@@ -124,13 +124,13 @@
                 <a href="##">
                     <li>首页</li>
                 </a>
-                <a href="jsp/Student/ViewReportCard.jsp">
+                <a href="/SoftwareEngineering/jsp/Student/ViewReportCard.jsp">
                     <li>查询成绩</li>
                 </a>
-                <a href="jsp/Student/add_course.jsp">
+                <a href="/SoftwareEngineering/jsp/Student/add_course.jsp">
                     <li>选择课程</li>
                 </a>
-                <a href="jsp/Student/show_schedule.jsp">
+                <a href="/SoftwareEngineering/jsp/Student/show_schedule.jsp">
                     <li>查询课表</li>
                 </a>
                 <a href="/SoftwareEngineering/BillServlet">

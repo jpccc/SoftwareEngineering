@@ -39,7 +39,7 @@
 
 <div class="body">
     <div class="table_one">
-        <form id="course_form" action="http://localhost:8080/SoftwareEngineering/SelectCourseServlet?op=add"
+        <form id="course_form" action="/SoftwareEngineering/SelectCourseServlet?op=add"
               method="post">
             <table class="table_info" border="1">
                 <caption>

@@ -122,13 +122,13 @@
                 <a href="/SoftwareEngineering/jsp/Student/StudentPage.jsp">
                     <li>学生首页</li>
                 </a>
-                <a href="jsp/Student/ViewReportCard.jsp">
+                <a href="/SoftwareEngineering/jsp/Student/ViewReportCard.jsp">
                     <li>查询成绩</li>
                 </a>
-                <a href="jsp/Student/add_course.jsp">
+                <a href="/SoftwareEngineering/jsp/Student/add_course.jsp">
                     <li>选择课程</li>
                 </a>
-                <a href="jsp/Student/show_schedule.jsp">
+                <a href="/SoftwareEngineering/jsp/Student/show_schedule.jsp">
                     <li>查询课表</li>
                 </a>
                 <a href="/SoftwareEngineering/BillServlet">
