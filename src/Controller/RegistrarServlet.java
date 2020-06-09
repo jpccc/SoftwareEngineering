@@ -44,7 +44,7 @@ public class RegistrarServlet extends BaseServlet {
             return;
         }
         Registrar registerer = (Registrar) req.getSession().getAttribute("user");
-        Registrar server_register = new RegistererDAOImpl().findById(registerer.getR_id());
+        Registrar server_register = new RegistrarDAOImpl().findById(registerer.getR_id());
         if(registerer.getPassword().equals(server_register.getPassword())) {
             ProfessorDAO professorDAO = new ProfessorDAOImpl();
             Professor professor = professorDAO.findById(p_id);
@@ -92,7 +92,7 @@ public class RegistrarServlet extends BaseServlet {
             return;
         }
         Registrar registerer = (Registrar) req.getSession().getAttribute("user");
-        Registrar server_register = new RegistererDAOImpl().findById(registerer.getR_id());
+        Registrar server_register = new RegistrarDAOImpl().findById(registerer.getR_id());
         if(registerer.getPassword().equals(server_register.getPassword())) {
             StudentDAO studentDAO = new StudentDAOImpl();
             Student student = studentDAO.findById(s_id);
@@ -239,7 +239,7 @@ public class RegistrarServlet extends BaseServlet {
             return;
         }
         Registrar registerer = (Registrar) req.getSession().getAttribute("user");
-        RegistererDAO registererDAO = new RegistererDAOImpl();
+        RegistrarDAO registererDAO = new RegistrarDAOImpl();
         if(registerer!=null){
             Registrar server_register = registererDAO.findById(registerer.getR_id());
             if(registerer.getPassword().equals(server_register.getPassword())) {
@@ -288,7 +288,7 @@ public class RegistrarServlet extends BaseServlet {
             return;
         }
         Registrar registerer = (Registrar) req.getSession().getAttribute("user");
-        RegistererDAO registererDAO = new RegistererDAOImpl();
+        RegistrarDAOImpl registererDAO = new RegistrarDAOImpl();
         if(registerer!=null){
             Registrar server_register = registererDAO.findById(registerer.getR_id());
             if(registerer.getPassword().equals(server_register.getPassword())) {
@@ -312,7 +312,7 @@ public class RegistrarServlet extends BaseServlet {
     public void deleteProfessor(HttpServletRequest req, HttpServletResponse resp) throws Exception {
         String p_id = req.getParameter("id");
         Registrar registerer = (Registrar) req.getSession().getAttribute("user");
-        Registrar server_register = new RegistererDAOImpl().findById(registerer.getR_id());
+        Registrar server_register = new RegistrarDAOImpl().findById(registerer.getR_id());
         if(registerer.getPassword().equals(server_register.getPassword())) {
             ProfessorDAO professorDAO = new ProfessorDAOImpl();
             Professor professor = professorDAO.findById(p_id);
@@ -333,7 +333,7 @@ public class RegistrarServlet extends BaseServlet {
     public void deleteStudent(HttpServletRequest req, HttpServletResponse resp) throws Exception {
         String s_id = req.getParameter("id");
         Registrar registerer = (Registrar) req.getSession().getAttribute("user");
-        Registrar server_register = new RegistererDAOImpl().findById(registerer.getR_id());
+        Registrar server_register = new RegistrarDAOImpl().findById(registerer.getR_id());
         if(registerer.getPassword().equals(server_register.getPassword())) {
             StudentDAO studentDAO = new StudentDAOImpl();
             Student student = studentDAO.findById(s_id);

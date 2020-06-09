@@ -257,6 +257,83 @@ public class CourseDAOImpl implements CourseDAO{
     }
 
     @Override
+    public List<Course> findAll() {
+        List<Course> res=new ArrayList<>();
+        Connection conn=null;
+        PreparedStatement ps=null;
+        ResultSet rs=null;
+        String sql="select * from course_info";
+        try {
+            conn=DruidManager.getConnection();
+            ps=conn.prepareStatement(sql);
+            rs=ps.executeQuery();
+            while(rs.next()){
+                Course course=new Course();
+                course.setReg_id(rs.getInt("reg_id"));
+                course.setCourse_id(rs.getString("course_id"));
+                course.setDept_id(rs.getInt("dept_id"));
+                course.setCourse_name(rs.getString("course_name"));
+                course.setStart_date(rs.getDate("start_date"));
+                course.setEnd_date(rs.getDate("end_date"));
+                course.setWeekday(rs.getInt("weekday"));
+                course.setTimeslot_id(rs.getInt("timeslot_id"));
+                course.setProfessor_id(rs.getString("professor_id"));
+                course.setStudent_count(rs.getInt("student_count"));
+                course.setStatus(rs.getString("status"));
+                res.add(course);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally {
+            try {
+                DruidManager.close(conn,ps,rs);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return res;
+    }
+
+    @Override
+    public void insert(List<Course> cList) throws SQLException {
+        List<Course> res=new ArrayList<>();
+        Connection conn=null;
+        PreparedStatement ps=null;
+        ResultSet rs=null;
+        String sql="insert into course_info " +
+                "(reg_id, course_id, dept_id, course_name, start_date, end_date, " +
+                "weekday, timeslot_id) values (?,?,?,?,?,?,?,?)";
+        conn=DruidManager.getConnection();
+        ps=conn.prepareStatement(sql);
+        for(Course course: cList){
+            ps.setInt(1,course.getReg_id());
+            ps.setString(2,course.getCourse_id());
+            ps.setInt(3,course.getDept_id());
+            ps.setString(4,course.getCourse_name());
+            ps.setDate(5,course.getStart_date());
+            ps.setDate(6,course.getEnd_date());
+            ps.setInt(7,course.getWeekday());
+            ps.setInt(8,course.getTimeslot_id());
+            ps.addBatch();
+        }
+        ps.executeBatch();
+        DruidManager.close(conn,ps,rs);
+    }
+
+    @Override
+    public void deleteByRegid(int reg_id) throws Exception {
+        Connection conn=null;
+        PreparedStatement ps=null;
+        ResultSet rs=null;
+        String sql="delete from course_info where reg_id=?";
+        conn=DruidManager.getConnection();
+        ps=conn.prepareStatement(sql);
+        ps.setInt(1,reg_id);
+        ps.execute();
+        DruidManager.close(conn,ps,rs);
+    }
+
+    @Override
     public List<Course> findTaught(String p_id, int reg_id){
         List<Course> res=new ArrayList<>();
         Connection conn=null;
