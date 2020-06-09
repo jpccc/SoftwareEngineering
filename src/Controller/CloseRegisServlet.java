@@ -46,6 +46,7 @@ public class CloseRegisServlet extends HttpServlet {
 			System.out.println("registration have been closed");
 			return;
 		}
+		
 		CloseRegisDAO dao=new CloseRegisDAO();		
 		Map<String,Boolean> courseList=dao.getCourseList(reg_id);//保存课程id和是否commit的映射关系
 		Map<String,Integer> StudentCountList=dao.getStudentCountList(reg_id);

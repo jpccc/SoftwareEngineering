@@ -78,7 +78,7 @@
                 <tr>
                 <th>course_id</th>
                 <th>course_name</th>
-                <th>grade</th>
+                <th>price</th>
                 </tr>
 
                 <c:if test="${not empty CourseList}">
@@ -86,10 +86,16 @@
                         <tr>
                             <td>${Course.course_id}</td>
                             <td>${Course.course_name}</td>
-                            <td>${GradeList[st.index]}</td>
+                            <td>${CostList[st.index]}</td>
                         </tr>
                     </c:forEach>
                 </c:if>
+                <tr>
+                	<th>total_cost</th>
+                </tr>
+                <tr>
+                	<td>${TotalCost}</td>
+                </tr>
             </div>
         </table>
     </div>
