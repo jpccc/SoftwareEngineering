@@ -108,6 +108,26 @@ div.bottom_center {
 	text-align: center;
 	color: white;
 }
+.submit{
+	position: fixed;
+	top: 30px;
+	left: 85px;
+	width: 80px;
+	height: 40px;
+	background-color: #446847;
+	text-align: center;
+	color: white;
+}
+.cancel{
+	position: fixed;
+	top: 30px;
+	left: 165px;
+	width: 80px;
+	height: 40px;
+	background-color: #446847;
+	text-align: center;
+	color: white;
+}
 #sideMenu {
 	display: none;
 }

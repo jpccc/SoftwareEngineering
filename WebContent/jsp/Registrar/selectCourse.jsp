@@ -1,26 +1,51 @@
 <%@ page import="Beans.Course" %>
-<%@ page import="java.util.List" %><%--
-  Created by IntelliJ IDEA.
-  User: 李睿宸
-  Date: 2020/6/8
-  Time: 15:14
-  To change this template use File | Settings | File Templates.
---%>
+<%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
     <title>编辑课程信息</title>
+    <link rel="stylesheet" href="/SoftwareEngineering/jsp/Registrar/css/user.css">
+    <script>
+        function show() {
+            var x = document.getElementById("sideMenu");
+
+            if (x.checked == true) {
+                document.getElementById("list").style.left = "-180px";
+                x.checked = false;
+            } else {
+                document.getElementById("list").style.left = 0;
+                x.checked = true;
+            }
+        }
+    </script>
 </head>
 <body>
-    <%
-        List<Course> total= (List<Course>) session.getAttribute("allC");
-        int index=Integer.parseInt(request.getParameter("index"));
-        Course curr=total.get(index);
-    %>
-    <form action="/SoftwareEngineering/OpenRegisServlet?method=addOne" method="post">
-        <input type="hidden" value="<%=index%>" name="index"/>
-        <table>
-            <tbody>
+
+<div class="head">
+    <div class="head_left">
+        <hr id="line_l">
+    </div>
+    <div class="head_center">
+        <h2 id="title">编辑课程信息</h2>
+    </div>
+    <div class="head_right">
+
+        <hr id="line_r">
+    </div>
+</div>
+
+<%
+    List<Course> total = (List<Course>) session.getAttribute("allC");
+    int index = Integer.parseInt(request.getParameter("index"));
+    Course curr = total.get(index);
+%>
+
+<div class="body">
+    <div class="table_one">
+        <form action="/SoftwareEngineering/OpenRegisServlet?method=addOne" method="post">
+            <input type="hidden" value="<%=index%>" name="index"/>
+            <table class="table_info" border="1">
+                <tbody>
                 <tr>
                     <th>课程ID</th>
                     <th>课程名称</th>
@@ -30,17 +55,21 @@
                     <th>课程价格</th>
                 </tr>
                 <tr>
-                    <td><%=curr.getCourse_id()%></td>
-                    <td><%=curr.getCourse_name()%></td>
-                    <td><%=curr.getDept_id()%></td>
+                    <td><%=curr.getCourse_id()%>
+                    </td>
+                    <td><%=curr.getCourse_name()%>
+                    </td>
+                    <td><%=curr.getDept_id()%>
+                    </td>
                     <td><input type="date" name="beginTime"/></td>
                     <td><input type="date" name="endTime"/></td>
                     <td><input type="number" step="0.01" value="<%=curr.getPrice()%>" name="price"></td>
                 </tr>
-            </tbody>
-        </table>
-        <table>
-            <tbody>
+                </tbody>
+            </table>
+
+            <table class="table_info" border="1">
+                <tbody>
                 <tr>
                     <th>日期</th>
                     <th>第1节</th>
@@ -129,9 +158,48 @@
                     <td><input type="checkbox" name="timeMask" value="54"/></td>
                     <td><input type="checkbox" name="timeMask" value="55"/></td>
                 </tr>
-            </tbody>
-        </table>
-        <input type="submit" value="确认开课"/>
-    </form>
+                </tbody>
+            </table>
+            <input type="submit" value="确认开课"/>
+        </form>
+    </div>
+</div>
+
+
+<div class="fix_place">
+    <button class="function" onclick="show()">功能</button>
+    <input type="checkbox" id="sideMenu">
+    <div class="navigate">
+        <aside id="list">
+            <h2>功能列表</h2>
+            <ul id="sideul">
+                <a href="/SoftwareEngineering/RegistrarServlet?method=backToIndex">
+                    <li>退出登录</li>
+                </a>
+                <a href="/SoftwareEngineering/OpenRegisServlet?method=startNewReg">
+                    <li>开启注册</li>
+                </a>
+                <a href="/SoftwareEngineering/jsp/Registrar/SearchStudent.jsp">
+                    <li>维护学生信息</li>
+                </a>
+                <a href="/SoftwareEngineering/jsp/Registrar/SearchProfessor.jsp">
+                    <li>维护教授信息</li>
+                </a>
+                <a href="/SoftwareEngineering/jsp/Registrar/NewProfessor.jsp">
+                    <li>新建教授档案</li>
+                </a>
+                <a href="/SoftwareEngineering/jsp/Registrar/NewStudent.jsp">
+                    <li>新建学生档案</li>
+                </a>
+                <a href="/SoftwareEngineering/jsp/Registrar/CloseRegistration.jsp">
+                    <li>关闭注册</li>
+                </a>
+                <a href="##">
+                    <li>查看邮箱</li>
+                </a>
+            </ul>
+        </aside>
+    </div>
+</div>
 </body>
 </html>

@@ -21,8 +21,7 @@
         }
     </script>
 </head>
-<body background="/SoftwareEngineering/images/reg_back.jpg">
-
+<body>
 <div class="head">
     <div class="head_left">
         <hr id="line_l">
