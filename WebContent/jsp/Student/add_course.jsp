@@ -25,7 +25,7 @@
         }
     </script>
 </head>
-<body background="images/stu_back.jpg">
+<body>
 <div class="head">
     <div class="head_left">
         <hr id="line_l">
@@ -50,7 +50,7 @@
                             String now = df.format(d);
                         %>
                         当前时间：<%=now %>
-                    </div class="course_list">
+                    </div>
                 </caption>
 
                 <div class="table_final">
