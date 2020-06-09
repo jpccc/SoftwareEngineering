@@ -95,6 +95,20 @@ public class GradesServlet extends BaseServlet {
         HttpSession session=request.getSession();
         if(!verifyProfessor(request,response))return;
         List<Grade> grades= getNewGrades(request);
+        Professor professor= (Professor) session.getAttribute("user");
+        try {
+            Professor db=new ProfessorDAOImpl().findById(professor.getP_id());
+            if(!db.getPassword().equals(professor.getPassword())){
+                request.setAttribute("queryError", "登录信息无效，请查证后重新登录！");
+                request.getRequestDispatcher("/jsp/Professor/SubmitGrades.jsp").forward(request, response);
+                return;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            request.setAttribute("queryError", "数据库连接失败，请重试");
+            request.getRequestDispatcher("/jsp/Professor/SubmitGrades.jsp").forward(request, response);
+            return;
+        }
         if(!checkGrades(grades)){
             request.setAttribute("queryError", "非法成绩信息！请检查后重新提交！");
             request.getRequestDispatcher("/jsp/Professor/SubmitGrades.jsp").forward(request, response);
@@ -123,14 +137,6 @@ public class GradesServlet extends BaseServlet {
         if(session.getAttribute("courseList")!=null)session.removeAttribute("courseList");
         if(session.getAttribute("gradeList")!=null)session.removeAttribute("gradeList");
         request.getRequestDispatcher("/jsp/Professor/ProfessorPage.jsp").forward(request, response);
-    }
-
-    public void backToIndex(HttpServletRequest request,HttpServletResponse response)throws ServletException,IOException{
-        HttpSession session=request.getSession();
-        if(session.getAttribute("courseList")!=null)session.removeAttribute("courseList");
-        if(session.getAttribute("gradeList")!=null)session.removeAttribute("gradeList");
-        if(session.getAttribute("user")!=null)session.removeAttribute("user");
-        request.getRequestDispatcher("index.jsp").forward(request, response);
     }
 
     private List<Grade> getNewGrades(HttpServletRequest request){
@@ -176,7 +182,8 @@ public class GradesServlet extends BaseServlet {
             request.setAttribute("queryError", "身份验证失败，请重新登录后尝试");
             if(session.getAttribute("courseList")!=null)session.removeAttribute("courseList");
             if(session.getAttribute("gradeList")!=null)session.removeAttribute("gradeList");
-            request.getRequestDispatcher("/jsp/Professor/SubmitGrades.jsp").forward(request, response);
+            request.getRequestDispatcher("ProfessorServlet?method=backToIndex").forward(request, response);
+
         }
         return flag;
     }

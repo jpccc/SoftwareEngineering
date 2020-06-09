@@ -5,9 +5,11 @@ import Beans.Student;
 import Beans.Registrar;
 import DAO.*;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -62,7 +64,7 @@ public class RegistrarServlet extends BaseServlet {
             }
         }else{
             req.setAttribute("error", "登录信息有误！");
-            req.getRequestDispatcher("/index.jsp").forward(req, resp);
+            backToIndex(req, resp);
         }
 
     }
@@ -110,7 +112,7 @@ public class RegistrarServlet extends BaseServlet {
             }
         }else{
             req.setAttribute("error", "登录信息有误！");
-            req.getRequestDispatcher("/index.jsp").forward(req, resp);
+            backToIndex(req, resp);
         }
 
     }
@@ -252,11 +254,11 @@ public class RegistrarServlet extends BaseServlet {
                 req.getRequestDispatcher("/jsp/Registrar/SearchProfessor.jsp").forward(req, resp);
             }else{
                 req.setAttribute("error", "登录信息有误！");
-                req.getRequestDispatcher("/index.jsp").forward(req, resp);
+                backToIndex(req, resp);
             }
         }else{
             req.setAttribute("error", "登录信息有误！");
-            req.getRequestDispatcher("/index.jsp").forward(req, resp);
+            backToIndex(req, resp);
         }
 
     }
@@ -305,7 +307,7 @@ public class RegistrarServlet extends BaseServlet {
             }
         }else{
             req.setAttribute("error", "登录信息有误！");
-            req.getRequestDispatcher("/index.jsp").forward(req, resp);
+            backToIndex(req, resp);
         }
 
     }
@@ -327,7 +329,7 @@ public class RegistrarServlet extends BaseServlet {
             resp.sendRedirect("/SoftwareEngineering/jsp/Registrar/SearchProfessor.jsp");
         }else{
             req.setAttribute("error", "登录信息有误！");
-            req.getRequestDispatcher("/index.jsp").forward(req, resp);
+            backToIndex(req, resp);
         }
     }
     public void deleteStudent(HttpServletRequest req, HttpServletResponse resp) throws Exception {
@@ -348,9 +350,16 @@ public class RegistrarServlet extends BaseServlet {
             resp.sendRedirect("/SoftwareEngineering/jsp/Registrar/SearchStudent.jsp");
         }else{
             req.setAttribute("error", "登录信息有误！");
-            req.getRequestDispatcher("/index.jsp").forward(req, resp);
+            backToIndex(req, resp);
         }
     }
-
+    public void backToIndex(HttpServletRequest request,HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session=request.getSession();
+        session.removeAttribute("user");
+        session.removeAttribute("registration");
+        session.removeAttribute("selectedC");
+        session.removeAttribute("allC");
+        request.getRequestDispatcher("/index.jsp").forward(request,response);
+    }
 
 }

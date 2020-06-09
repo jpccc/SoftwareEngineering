@@ -50,7 +50,7 @@
       <h2>课程列表</h2>
       <br/>
       <ul id="sideul">
-         <a href="##">
+         <a href="/SoftwareEngineering/jsp/Student/StudentPage.jsp">
             <li>学生首页</li>
          </a>
          <a href="/SoftwareEngineering/jsp/Student/show_schedule.jsp">

@@ -49,8 +49,8 @@
             <h2>功能列表</h2>
             <br/>
             <ul id="sideul">
-                <a href="##">
-                    <li>首页</li>
+                <a href="/SoftwareEngineering/ProfessorServlet?method=backToIndex">
+                    <li>退出登录</li>
                 </a>
                 <a href="/SoftwareEngineering/jsp/Professor/SelectToTeach.jsp">
                     <li>选课</li>
