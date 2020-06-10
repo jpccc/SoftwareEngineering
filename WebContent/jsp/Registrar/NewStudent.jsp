@@ -1,3 +1,7 @@
+<%@ page import="java.util.List" %>
+<%@ page import="DAO.DepartmentDao" %>
+<%@ page import="java.util.Map" %>
+<%@ page import="java.util.Set" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <html>
 <head>
@@ -5,6 +9,14 @@
     <script type="text/javascript" src="/SoftwareEngineering/jsp/Registrar/js/addUser.js"></script>
     <title>新建学生档案</title>
 </head>
+<%
+    DepartmentDao dept = new DepartmentDao();
+    Map<String, String> dept_list = dept.getAll();
+    if (dept_list.size() == 0) {
+        request.setAttribute("error", "请先录入系信息!");
+        request.getRequestDispatcher("/SoftwareEngineering/jsp/Registrar/RegistrarPage.jsp").forward(request, response);
+    } else {
+%>
 <body background="/SoftwareEngineering/jsp/Registrar/images/reg_back.jpg">
 <h1>新建学生档案</h1>
 <form class="modifyInfo" action="/SoftwareEngineering/RegistrarServlet?method=addStudent" method="post"
@@ -15,7 +27,18 @@
         生日<br><input type="Date" class="password" name="birthday"><br>
         identify number<br><input type="text" class="password" name="identify_num"><br>
         状态<br><input type="text" class="password" name="status"><br>
-        部门id<br><input type="text" class="password" name="dept_id"><br>
+        部门id<br><select class="password" name="dept_id">
+        <%
+            Set<String> id_set = dept_list.keySet();
+            for (String id : id_set) {
+        %>
+            <option value=<%=id%>> <%=dept_list.get(id)%> </option>
+        <%
+                }
+            }
+        %>
+        </select>
+        <br>
         毕业时间<br><input type="Date" class="password" name="graduate_date"><br>
         密码 <input type="text" class="password" name="password"><br>
     </div>
@@ -26,6 +49,6 @@
         ${error}
     </div>
 </form>
-<a href="jsp/Registrar/RegistrarPage.jsp" style="text-align: center;color: white">返回上层</a>
+<a href="/SoftwareEngineering/jsp/Registrar/RegistrarPage.jsp" style="text-align: center;color: white">返回上层</a>
 </body>
 </html>
