@@ -47,13 +47,13 @@ div.head_right {
 /*body_CSS*/
 div.body {
 	width: 100%;
-	height: 200px;
+	height: 50%;
 	margin-top: 90px;
 }
 
 div.table_one {
 	width: 80%;
-	height: 200px;
+	height: 50%;
 	margin-top: 40px;
 	border: 0px solid green;
 	padding: 0px;
