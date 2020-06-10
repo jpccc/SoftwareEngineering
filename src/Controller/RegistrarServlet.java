@@ -359,7 +359,7 @@ public class RegistrarServlet extends BaseServlet {
     }
     public void modifyStudent(HttpServletRequest req, HttpServletResponse resp) throws Exception {
         Student student1 = (Student) req.getSession().getAttribute("student");
-        String s_id = req.getParameter(student1.getS_id());
+        String s_id = student1.getS_id();
         String s_name = req.getParameter("s_name");
         String time = req.getParameter("birthday");
         java.util.Date utilDate = new SimpleDateFormat("yyyy-MM-dd").parse(time);
