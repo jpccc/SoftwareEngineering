@@ -10,7 +10,6 @@
     <script>
         function show() {
             var x = document.getElementById("sideMenu");
-
             if (x.checked == true) {
                 document.getElementById("list").style.left = "-180px";
                 x.checked = false;
