@@ -13,8 +13,8 @@
 </head>
 <body background="images/reg_back.jpg">
 <h1>新建教授档案</h1>
-<form class="modifyinfo" action="/SoftwareEngineering/RegistrarServlet?method=addProfessor" method="post">
-    <div class="inputbox" >
+<form class="modifyInfo" action="/SoftwareEngineering/RegistrarServlet?method=addProfessor" method="post">
+    <div class="inputBox" >
         id<br><input type="text" class="password" name="p_id"><br>
         姓名<br><input type="text" class="password" name="p_name" ><br>
         生日<br><input type="Date" class="password" name="birthday"><br>

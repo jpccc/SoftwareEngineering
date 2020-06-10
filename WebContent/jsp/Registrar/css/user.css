@@ -153,13 +153,12 @@ h2 {
 
 #sideul {
 	position: absolute;
-	list-style: none;
 	color: white;
-	width: 100%;
+	width: 70%;
 	height: 1.8em;
-	font-size: 1.2em;
+	font-size: 1.0em;
 	margin-top: 80px;
-	margin-right: 50px;
+	margin-left: 5px;
 }
 body{
 	background:url(../images/reg_back.jpg);

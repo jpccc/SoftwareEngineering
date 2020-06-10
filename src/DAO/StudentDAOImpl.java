@@ -1,8 +1,5 @@
 package DAO;
-
-import Beans.Professor;
 import Beans.Student;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,7 +10,7 @@ import java.util.List;
 public class StudentDAOImpl implements StudentDAO{
 	 @Override
 	 public void insert(Student student) throws Exception {
-	        String sql = "insert into student_info values(?,?,?,?,?,?,?)";
+	        String sql = "insert into student_info values(?,?,?,?,?,?,?,?)";
 	        PreparedStatement preparedStatement = null;
 	        Connection conn = null;
 	        try {
@@ -25,7 +22,8 @@ public class StudentDAOImpl implements StudentDAO{
 	            preparedStatement.setString(4,student.getIdentify_num());
 	            preparedStatement.setString(5, student.getStatus());
 	            preparedStatement.setInt(6,student.getDept_id());
-	            preparedStatement.setString(7,student.getPassword());
+	            preparedStatement.setDate(7,student.getGraduate_date());
+	            preparedStatement.setString(8,student.getPassword());
 	            preparedStatement.executeUpdate();
 	            preparedStatement.close();
 	        } catch (Exception e) {
@@ -39,7 +37,7 @@ public class StudentDAOImpl implements StudentDAO{
     @Override
     public void update(Student student) throws Exception {
         String sql = "update student_info " +
-                "set s_name=?,birthday=?,identify_num=?,status=?,dept_id=?,password=? " +
+                "set s_name=?,birthday=?,identify_num=?,status=?,dept_id=?,graduate_date=?,password=? " +
                 "where s_id=?";
         PreparedStatement preparedStatement = null;
         Connection conn = null;
@@ -52,7 +50,8 @@ public class StudentDAOImpl implements StudentDAO{
             preparedStatement.setString(4, student.getStatus());
             preparedStatement.setInt(5,student.getDept_id());
             preparedStatement.setString(6,student.getPassword());
-            preparedStatement.setString(7, student.getS_id());
+            preparedStatement.setDate(7,student.getGraduate_date());
+            preparedStatement.setString(8, student.getS_id());
             preparedStatement.executeUpdate();
             preparedStatement.close();
         } catch (Exception e) {
@@ -168,7 +167,8 @@ public class StudentDAOImpl implements StudentDAO{
                 student.setIdentify_num(rSet.getString(4));
                 student.setStatus(rSet.getString(5));
                 student.setDept_id(rSet.getInt(6));
-                student.setPassword(rSet.getString(7));
+                student.setGraduate_date(rSet.getDate(7));
+                student.setPassword(rSet.getString(8));
                 all.add(student);
             }
             rSet.close();

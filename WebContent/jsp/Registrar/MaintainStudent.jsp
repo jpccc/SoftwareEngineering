@@ -10,8 +10,8 @@
 </head>
 <body background="images/reg_back.jpg">
 <h1 style="color: aqua">管理学生档案</h1>
-<form class="modifyinfo" action="/SoftwareEngineering/RegistrarServlet?method=modifyStudent&id=${student.s_id}" method="post">
-    <div style="color: #00ff6b" class="inputbox" >
+<form class="modifyInfo" action="/SoftwareEngineering/RegistrarServlet?method=modifyStudent&id=${student.s_id}" method="post">
+    <div style="color: #00ff6b" class="inputBox" >
         id<br><input type="text" class="password" name="s_id" value="${student.s_id}" disabled><br>
         姓名<br><input type="text" class="password" name="s_name" value="${student.s_name}"><br>
         生日<br><input type="Date" class="password" name="birthday" value="${student.birthday}"><br>

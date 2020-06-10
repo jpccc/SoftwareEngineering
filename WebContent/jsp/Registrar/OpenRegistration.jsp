@@ -1,7 +1,3 @@
-<%@ page import="Beans.Course" %>
-<%@ page import="java.util.List" %>
-<%@ page import="DAO.CourseDAOImpl" %>
-<%@ page import="java.util.ArrayList" %>
 <%@ page import="java.util.Date" %>
 <%@ page import="java.text.SimpleDateFormat" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>

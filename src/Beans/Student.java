@@ -1,5 +1,4 @@
 package Beans;
-
 import java.io.Serializable;
 import java.sql.Date;
 
@@ -94,6 +93,7 @@ public class Student extends User implements Serializable {
         birthday=_birthday;
         identify_num=_identify_num;
         status=_status;
+        graduate_date=_graduateDate;
         dept_id=_dept_id;
         type=User.USER_PROFESSOR;
     }

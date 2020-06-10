@@ -78,21 +78,10 @@ public class RegistrarServlet extends BaseServlet {
         String status = req.getParameter("status");
         int dept_id = Integer.parseInt(req.getParameter("dept_id"));
         String graduate_time = req.getParameter("birthday");
-        java.util.Date graduate_Date = new SimpleDateFormat("yyyy-MM-dd").parse(time);
-        Date graduate = new Date(utilDate.getTime());
+        java.util.Date graduate_Date = new SimpleDateFormat("yyyy-MM-dd").parse(graduate_time);
+        Date graduate = new Date(graduate_Date.getTime());
         String password = req.getParameter("password");
-
-        //格式再判断
-        if (!formatCheck(s_id)) {
-            req.setAttribute("error", "id格式有误！");
-            req.getRequestDispatcher("/jsp/Registrar/NewStudent.jsp").forward(req, resp);
-            return;
-        }
-        if (!formatCheck(password)) {
-            req.setAttribute("error", "密码格式有误！");
-            req.getRequestDispatcher("/jsp/Registrar/NewStudent.jsp").forward(req, resp);
-            return;
-        }
+        //格式在jsp页面进行判断
         Registrar registerer = (Registrar) req.getSession().getAttribute("user");
         Registrar server_register = new RegistrarDAOImpl().findById(registerer.getR_id());
         if(registerer.getPassword().equals(server_register.getPassword())) {
@@ -114,9 +103,7 @@ public class RegistrarServlet extends BaseServlet {
             req.setAttribute("error", "登录信息有误！");
             backToIndex(req, resp);
         }
-
     }
-
     public boolean notBlank(String string){
         if(string != null && !string.equals(""))
             return true;
