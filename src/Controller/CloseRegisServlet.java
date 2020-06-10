@@ -4,11 +4,13 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import Beans.Course;
 import Beans.Registration;
@@ -35,9 +37,17 @@ public class CloseRegisServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("enter servlet ");
+		//get onLineCount and check
+		HttpSession session=request.getSession();
+        ServletContext application=session.getServletContext();
+        Integer onLineCount= (Integer) application.getAttribute("onLineCount");
+        System.out.println("onLineCount="+onLineCount);
+        if(onLineCount>1) {        	
+        	return;
+        }
 		//get registration
-		RegistrationDAO regDao = new RegistrationDAOImpl();
-		Registration reg=regDao.queryLatest();
+        RegistrationDAO regdao=new RegistrationDAOImpl();
+		Registration reg=regdao.queryLatest();		
 		int reg_id=reg.getReg_id();
 		//check if registration is open
 		if(reg.getStatus().equals("closed")) {
@@ -102,7 +112,8 @@ public class CloseRegisServlet extends HttpServlet {
 		}
 		///close registration
 		dao.closeRegistration(reg_id);
-				
+		reg.setStatus("closed");
+		request.getSession().setAttribute("registration", reg);
 		//debug print
 		for(Map.Entry<String,Schedule> entry : ScheduleList.entrySet()) {
 			System.out.println("enter schedule");

@@ -21,10 +21,10 @@ public class ViewReportCardDAO {
     }
 	public Connection getConnection() throws SQLException {
         return DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/registration?characterEncoding=utf-8&useSSL=false&useUnicode=true&serverTimezone=UTC", "root",
-                "zm2019..");
+                "123456");
     }
 	public Map<Course,String> getReportCard(String student_id,int reg_id){
-		try (Connection c = getConnection();PreparedStatement s = c.prepareStatement("select course_id,grade from selection where student_id= ? and reg_id= ? ;"); ) {	
+		try (Connection c = getConnection();PreparedStatement s = c.prepareStatement("select selection.course_id,grade from selection,course_info where selection.course_id=course_info.course_id and selection.reg_id=course_info.reg_id and student_id= ? and selection.reg_id= ? and status='submit';"); ) {	
 			s.setString(1,student_id);
             s.setInt(2, reg_id);
 			ResultSet rs= s.executeQuery();        
