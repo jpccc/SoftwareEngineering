@@ -66,6 +66,8 @@
 <div class="bottom">
     <div class="bottom_center">
         ${RegistrarError}
+        ${close_error}
+            ${close_success}
         <br>
         欢迎使用教务管理系统!
     </div>
@@ -95,7 +97,7 @@
                 <a href="/SoftwareEngineering/jsp/Registrar/NewStudent.jsp">
                     <li>新建学生档案</li>
                 </a>
-                <a href="/SoftwareEngineering/jsp/Registrar/CloseRegistration.jsp">
+                <a href="/SoftwareEngineering/CloseRegisServlet">
                     <li>关闭注册</li>
                 </a>
                 <a href="##">

@@ -131,29 +131,11 @@
         <aside id="list">
             <h2>功能列表</h2>
             <ul id="sideul">
+                <a href="/SoftwareEngineering/jsp/Registrar/RegistrarPage.jsp">
+                    <li>首页</li>
+                </a>
                 <a href="/SoftwareEngineering/RegistrarServlet?method=backToIndex">
                     <li>退出登录</li>
-                </a>
-                <a href="/SoftwareEngineering/OpenRegisServlet?method=startNewReg">
-                    <li>开启注册</li>
-                </a>
-                <a href="/SoftwareEngineering/jsp/Registrar/SearchStudent.jsp">
-                    <li>维护学生信息</li>
-                </a>
-                <a href="/SoftwareEngineering/jsp/Registrar/SearchProfessor.jsp">
-                    <li>维护教授信息</li>
-                </a>
-                <a href="/SoftwareEngineering/jsp/Registrar/NewProfessor.jsp">
-                    <li>新建教授档案</li>
-                </a>
-                <a href="/SoftwareEngineering/jsp/Registrar/NewStudent.jsp">
-                    <li>新建学生档案</li>
-                </a>
-                <a href="/SoftwareEngineering/jsp/Registrar/CloseRegistration.jsp">
-                    <li>关闭注册</li>
-                </a>
-                <a href="##">
-                    <li>查看邮箱</li>
                 </a>
             </ul>
         </aside>
