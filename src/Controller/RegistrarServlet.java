@@ -35,22 +35,22 @@ public class RegistrarServlet extends BaseServlet {
     }
     public static boolean valideIdCard(String idCard) {
 
-        String idCardPattern = "^\\d{17}(\\d|X)$";  // 鍓?17浣嶄负鏁板瓧锛屾渶鍚庝竴浣嶄负鏁板瓧鎴朮
+        String idCardPattern = "^\\d{17}(\\d|X)$";  // 前17位为数字，最后一位为数字或X
         String provinces = "11, 12, 13, 14, 15, 21, 22, 23, 31, 32, 33, 34, 35, 36, 37, 41, 42, 43, 44, 45, 46, 50, 51, 52, 53, 54, 61, 62, 63, 64, 65, 71, 81, 82";
 
-        // 楠岃瘉闀垮害
+        // 验证长度
         if (idCard.length() != 18) {
             return false;
         }
-        // 楠岃瘉鏍煎紡
+        // 验证格式
         if (!Pattern.matches(idCardPattern, idCard)) {
             return false;
         }
-        // 楠岃瘉鐪佺骇浠ｇ爜
+        // 验证省级代码
         if (!provinces.contains(idCard.substring(0,2))) {
             return false;
         }
-        // 楠岃瘉骞存湀鏃?
+        // 验证年月日
         DateFormat df = new SimpleDateFormat("yyyyMMdd");
         try {
             java.util.Date birthday = df.parse(idCard.substring(6, 14));
@@ -92,13 +92,13 @@ public class RegistrarServlet extends BaseServlet {
         Date birthday = new Date(utilDate.getTime());
         String identify_num = req.getParameter("identify_num");
         if(identify_num==null||!valideIdCard(identify_num)){
-            req.setAttribute("error", "identify num格式错误");
+            req.setAttribute("error", "身份证格式有误！");
             req.getRequestDispatcher("/jsp/Registrar/NewProfessor.jsp").forward(req, resp);
             return;
         }
         String status = req.getParameter("status");
         if(status==null||hasSpecialChar(status)){
-            req.setAttribute("error", "status需为数字");
+            req.setAttribute("error", "status含有非法字符");
             req.getRequestDispatcher("/jsp/Registrar/NewProfessor.jsp").forward(req, resp);
             return;
         }
@@ -151,7 +151,7 @@ public class RegistrarServlet extends BaseServlet {
         Date birthday = new Date(utilDate.getTime());
         String identify_num = req.getParameter("identify_num");
         if(identify_num==null||!valideIdCard(identify_num)){
-            req.setAttribute("error", "identify num格式错误");
+            req.setAttribute("error", "身份证格式有误");
             req.getRequestDispatcher("/jsp/Registrar/NewStudent.jsp").forward(req, resp);
             return;
         }
@@ -291,7 +291,7 @@ public class RegistrarServlet extends BaseServlet {
     public void modifyProfessor(HttpServletRequest req, HttpServletResponse resp) throws Exception {
         Professor professor1 = (Professor) req.getSession().getAttribute("professor");
         if(professor1==null){
-            req.setAttribute("error", "id为空");
+            req.setAttribute("error", "信息有误！");
             req.getRequestDispatcher("/jsp/Registrar/SearchProfessor.jsp").forward(req, resp);
             return;
         }
@@ -311,19 +311,19 @@ public class RegistrarServlet extends BaseServlet {
         java.util.Date utilDate = new SimpleDateFormat("yyyy-MM-dd").parse(time);
         Date birthday = new Date(utilDate.getTime());
         String identify_num = req.getParameter("identify_num");
-        if(identify_num==null||isInteger(identify_num)){
-            req.setAttribute("error", "identify num需为数字");
+        if(identify_num==null||!valideIdCard(identify_num)){
+            req.setAttribute("error", "身份证格式有误");
             req.getRequestDispatcher("/jsp/Registrar/SearchProfessor.jsp").forward(req, resp);
             return;
         }
         String status = req.getParameter("status");
-        if(status==null||isInteger(status)){
-            req.setAttribute("error", "status需为数字");
+        if(status==null||hasSpecialChar(status)){
+            req.setAttribute("error", "status包含非法字符");
             req.getRequestDispatcher("/jsp/Registrar/SearchProfessor.jsp").forward(req, resp);
             return;
         }
         String sdept_id = req.getParameter("dept_id");
-        if(sdept_id==null||isInteger(sdept_id)){
+        if(sdept_id==null||!isInteger(sdept_id)){
             req.setAttribute("error", "部门编号需为数字");
             req.getRequestDispatcher("/jsp/Registrar/SearchProfessor.jsp").forward(req, resp);
             return;

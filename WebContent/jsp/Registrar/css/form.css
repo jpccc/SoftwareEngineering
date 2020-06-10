@@ -8,7 +8,13 @@ body{
 .header{
     padding: 10px 0;
 }
-
+.select{
+    border-radius: 3px;
+    width: 200px;
+    height: 30px;
+    font-size:18px ;
+    padding-left: 15px;
+}
 .button {
     border-color: #34495e;
     background-color:#34495e;

@@ -4,6 +4,7 @@
 <%@ page import="java.util.Date" %>
 <%@ page import="java.text.SimpleDateFormat" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <html>
 <head>
     <link rel="stylesheet" type="text/css" href="/SoftwareEngineering/jsp/Registrar/css/form.css"/>
@@ -16,7 +17,8 @@
     if (dept_list.size() == 0) {
         request.setAttribute("error", "请先录入系信息!");
         request.getRequestDispatcher("/SoftwareEngineering/jsp/Registrar/RegistrarPage.jsp").forward(request, response);
-    } else {
+    }
+    session.setAttribute("dept_list",dept_list);
 %>
 <body background="/SoftwareEngineering/jsp/Registrar/images/reg_back.jpg">
 <h1>新建学生档案</h1>
@@ -27,19 +29,12 @@
         生日<br><input type="Date" class="password" name="birthday"><br>
         identify number<br><input type="text" class="password" name="identify_num"><br>
         状态<br><input type="text" class="password" name="status"><br>
-        部门id<br>
-        <select class="password" name="dept_id">
-            <%
-                Set<String> id_set = dept_list.keySet();
-                for (String id : id_set) {
-            %>
-            <option value=<%=id%>>计算机</option>
-            <%
-                    }
-                }
-            %>
-        </select>
-        <br>
+        学院<br>
+        <select class="select" name="dept_id">
+            <c:forEach items="${dept_list}" var="dep">
+                <option value="${dep.key}">${dep.value}</option>
+            </c:forEach>
+        </select><br>
         毕业时间<br><input type="Date" class="password" name="graduate_date"><br>
         密码 <input type="text" class="password" name="password"><br>
     </div>
