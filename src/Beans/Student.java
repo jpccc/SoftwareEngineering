@@ -95,7 +95,7 @@ public class Student extends User implements Serializable {
         status=_status;
         graduate_date=_graduateDate;
         dept_id=_dept_id;
-        type=User.USER_PROFESSOR;
+        type=User.USER_STUDENT;
     }
     
 }
