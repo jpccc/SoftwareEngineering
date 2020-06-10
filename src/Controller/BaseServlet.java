@@ -10,7 +10,7 @@ import java.lang.reflect.Method;
 public class BaseServlet extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setCharacterEncoding("utf-8");//ä¹±ç æ¶ˆé™¤
+        req.setCharacterEncoding("utf-8");//ÂÒÂëÏû³ı
         try {
             String methodName=req.getParameter("method");
             Class clazz=this.getClass();

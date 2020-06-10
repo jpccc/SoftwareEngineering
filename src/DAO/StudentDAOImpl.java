@@ -30,7 +30,7 @@ public class StudentDAOImpl implements StudentDAO{
 	            preparedStatement.executeUpdate();
 	            preparedStatement.close();
 	        } catch (Exception e) {
-	            throw new Exception("insert student 操作出现异常");
+	            throw new Exception("insert professor操作出现异常");
 	        } finally {
 	            DAO.DruidManager.close(conn,preparedStatement,null);
 	        }

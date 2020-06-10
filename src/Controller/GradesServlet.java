@@ -19,11 +19,11 @@ public class GradesServlet extends BaseServlet {
         RegistrationDAO regDao = new RegistrationDAOImpl();
         Registration reg = regDao.queryByTime(year, semester);
         if (reg == null||(reg.getReg_id()==-1)) {
-            request.setAttribute("queryError", "æŸ¥è¯¢æ­¤æ¬¡æ³¨å†Œå¤±è´¥ï¼Œè¯·é‡æ–°è¾“å…¥");
+            request.setAttribute("queryError", "²éÑ¯´Ë´Î×¢²áÊ§°Ü£¬ÇëÖØĞÂÊäÈë");
             request.getRequestDispatcher("/jsp/Professor/SubmitGrades.jsp").forward(request, response);
             return;
-        } else if (reg.getStatus()!=null&&!reg.getStatus().equals("closed")){//å¦‚æœè¿˜åœ¨é€‰è¯¾é˜¶æ®µ
-            request.setAttribute("queryError", "æœ¬æ¬¡è¯¾ç¨‹æ³¨å†Œè¿˜åœ¨è¿›è¡Œä¸­ï¼Œè¯·é‡æ–°æŸ¥è¯¢");
+        } else if (reg.getStatus()!=null&&!reg.getStatus().equals("closed")){//Èç¹û»¹ÔÚÑ¡¿Î½×¶Î
+            request.setAttribute("queryError", "±¾´Î¿Î³Ì×¢²á»¹ÔÚ½øĞĞÖĞ£¬ÇëÖØĞÂ²éÑ¯");
             request.getRequestDispatcher("/jsp/Professor/SubmitGrades.jsp").forward(request, response);
             return;
         }else  request.removeAttribute("queryError");
@@ -37,7 +37,7 @@ public class GradesServlet extends BaseServlet {
             e.printStackTrace();
         }
         if (courses == null||courses.size()==0) {
-            request.setAttribute("queryError", "æœªæ‰¾åˆ°æ‚¨æœ¬å­¦æœŸçš„æˆè¯¾ä¿¡æ¯");
+            request.setAttribute("queryError", "Î´ÕÒµ½Äú±¾Ñ§ÆÚµÄÊÚ¿ÎĞÅÏ¢");
             request.getRequestDispatcher("/jsp/Professor/SubmitGrades.jsp").forward(request, response);
         } else {
             request.setAttribute("courseList", courses);
@@ -57,7 +57,7 @@ public class GradesServlet extends BaseServlet {
         List<Grade> grades = null;
         grades=courseDAO.queryStudents4Course(reg_id,request.getParameter("course_id"));
         if(grades==null||grades.size()==0){
-            request.setAttribute("queryError", "æœªæ‰¾åˆ°è¯¥è¯¾ç¨‹çš„å­¦ç”Ÿä¿¡æ¯");
+            request.setAttribute("queryError", "Î´ÕÒµ½¸Ã¿Î³ÌµÄÑ§ÉúĞÅÏ¢");
             request.getRequestDispatcher("/jsp/Professor/SubmitGrades.jsp").forward(request, response);
         }else{
             session.setAttribute("gradeList", grades);
@@ -81,7 +81,7 @@ public class GradesServlet extends BaseServlet {
                 session.removeAttribute("gradeList");
             } catch (Exception e) {
                 e.printStackTrace();
-                request.setAttribute("queryError", "ä¿å­˜å¤±è´¥");
+                request.setAttribute("queryError", "±£´æÊ§°Ü");
                 request.getRequestDispatcher("/jsp/Professor/SubmitGrades.jsp").forward(request, response);
                 return;
             }
@@ -96,7 +96,7 @@ public class GradesServlet extends BaseServlet {
         if(!verifyProfessor(request,response))return;
         List<Grade> grades= getNewGrades(request);
         if(!checkGrades(grades)){
-            request.setAttribute("queryError", "éæ³•æˆç»©ä¿¡æ¯ï¼è¯·æ£€æŸ¥åé‡æ–°æäº¤ï¼");
+            request.setAttribute("queryError", "·Ç·¨³É¼¨ĞÅÏ¢£¡Çë¼ì²éºóÖØĞÂÌá½»£¡");
             request.getRequestDispatcher("/jsp/Professor/SubmitGrades.jsp").forward(request, response);
             return;
         }else{
@@ -110,7 +110,7 @@ public class GradesServlet extends BaseServlet {
                     session.removeAttribute("gradeList");
                 } catch (Exception e) {
                     e.printStackTrace();
-                    request.setAttribute("queryError", "æäº¤å¤±è´¥");
+                    request.setAttribute("queryError", "Ìá½»Ê§°Ü");
                     request.getRequestDispatcher("/jsp/Professor/SubmitGrades.jsp").forward(request, response);
                     return;
                 }
@@ -123,6 +123,7 @@ public class GradesServlet extends BaseServlet {
         if(session.getAttribute("courseList")!=null)session.removeAttribute("courseList");
         if(session.getAttribute("gradeList")!=null)session.removeAttribute("gradeList");
         request.getRequestDispatcher("/jsp/Professor/ProfessorPage.jsp").forward(request, response);
+        return;
     }
 
     private List<Grade> getNewGrades(HttpServletRequest request){
@@ -157,7 +158,7 @@ public class GradesServlet extends BaseServlet {
         HttpSession session=request.getSession();
         Professor curr= (Professor) session.getAttribute("user");
         if(curr==null){
-            request.setAttribute("error", "ç™»å½•è¶…æ—¶ï¼");
+            request.setAttribute("error", "µÇÂ¼³¬Ê±£¡");
             request.getRequestDispatcher("/SoftwareEngineering/ProfessorServlet?method=backToIndex").forward(request, response);
             return false;
         }
@@ -168,13 +169,13 @@ public class GradesServlet extends BaseServlet {
             db=professorDAO.findById(curr.getP_id());
         } catch (Exception e) {
             e.printStackTrace();
-            request.setAttribute("queryError", "æ•°æ®åº“è¿æ¥å¤±è´¥ï¼Œè¯·é‡è¯•");
+            request.setAttribute("queryError", "Êı¾İ¿âÁ¬½ÓÊ§°Ü£¬ÇëÖØÊÔ");
             request.getRequestDispatcher("/jsp/Professor/SubmitGrades.jsp").forward(request, response);
             return false;
         }
         if(db==null||db.getP_id().equals("null")||!db.getPassword().equals(curr.getPassword())){
             flag=false;
-            request.setAttribute("queryError", "èº«ä»½éªŒè¯å¤±è´¥ï¼Œè¯·é‡æ–°ç™»å½•åå°è¯•");
+            request.setAttribute("queryError", "Éí·İÑéÖ¤Ê§°Ü£¬ÇëÖØĞÂµÇÂ¼ºó³¢ÊÔ");
             if(session.getAttribute("courseList")!=null)session.removeAttribute("courseList");
             if(session.getAttribute("gradeList")!=null)session.removeAttribute("gradeList");
             request.getRequestDispatcher("ProfessorServlet?method=backToIndex").forward(request, response);

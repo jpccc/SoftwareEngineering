@@ -10,11 +10,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- * DRUID杩炴帴姹犵殑宸ュ叿绫伙紝璋冪敤鍏剁被鏂规硶getConnection鑾峰彇杩炴帴锛屼竴瀹氳璁板緱鍙婃椂閲婃斁璧勬簮锛屽惁鍒欏彲鑳介樆濉�
- * 璧勬簮鍖呮嫭ResultSet锛孲tatement鍜孋onnection閲婃斁鏃舵寜椤哄簭閲婃斁
- * 鍒╃敤鏁版嵁搴撹繛鎺ユ睜澧炲姞骞跺彂搴�
+ * DRUID连接池的工具类，调用其类方法getConnection获取连接，一定要记得及时释放资源，否则可能阻�?
+ * 资源包括ResultSet，Statement和Connection释放时按顺序释放
+ * 利用数据库连接池增加并发�?
  *
- * 浣跨敤鏃惰鑷淇敼鍏朵腑鐨勬暟鎹簱鐢ㄦ埛鍚嶏紝url鍜屽瘑鐮�
+ * 使用时请自行修改其中的数据库用户名，url和密�?
  */
 public class DruidManager {
     private static final String DB_URL = "jdbc:mysql://127.0.0.1:3306/registration?characterEncoding=utf-8&useSSL=false&serverTimezone=UTC"; // 鏁版嵁搴撹繛鎺RL
@@ -27,9 +27,9 @@ public class DruidManager {
     private static DruidDataSource oldSysDatasource=null;
     public static final int OLDSYS_FLAG=1;
     /**
-     * 浠庤繛鎺ユ睜鑾峰彇涓�涓暟鎹簱杩炴帴锛岀敤瀹岄渶瑕侀噴鏀�
-     * @return 鏁版嵁搴撶殑涓�涓狢onnection锛屽彲姝ｅ父鎵ц鎿嶄綔
-     * @throws SQLException 杩炴帴閿欒鏃舵姏鍑哄紓甯�
+     * 从连接池获取�?个数据库连接，用完需要释�?
+     * @return 数据库的�?个Connection，可正常执行操作
+     * @throws SQLException 连接错误时抛出异�?
      */
     public static Connection getConnection() throws SQLException {
         return getDruidDataSource().getConnection();
@@ -40,11 +40,11 @@ public class DruidManager {
         else return null;
     }
     /**
-     * 杈呭姪閲婃斁璧勬簮
-     * @param conn 鏁版嵁搴撹繛鎺�
-     * @param st statement瀵硅薄
-     * @param rs 缁撴灉闆�
-     * @throws SQLException 鍏抽棴杩囩▼涓彲鑳芥姤鍑哄紓甯�
+     * 辅助释放资源
+     * @param conn 数据库连�?
+     * @param st statement对象
+     * @param rs 结果�?
+     * @throws SQLException 关闭过程中可能报出异�?
      */
     public static void close(Connection conn,  PreparedStatement st,ResultSet rs) throws SQLException {
         if(rs!=null)rs.close();
@@ -66,20 +66,20 @@ public class DruidManager {
 
     private static DruidDataSource CreateDataSource(String URL,String Username,String Password){
         DruidDataSource druidDataSource=new DruidDataSource();
-        //杩炴帴鍚姩鍙傛暟
+        //连接启动参数
         druidDataSource.setUrl(URL);
         druidDataSource.setUsername(Username);
         druidDataSource.setPassword(Password);
-        //杩炴帴鍙傛暟閰嶇疆
-        druidDataSource.setMaxActive(20);//鏈�澶ф椿鍔ㄨ繛鎺�
-        druidDataSource.setInitialSize(1);//璧峰杩炴帴鏁�
-        druidDataSource.setMinIdle(3);//鏈�灏忚繛鎺ユ暟
+        //连接参数配置
+        druidDataSource.setMaxActive(20);//�?大活动连�?
+        druidDataSource.setInitialSize(1);//起始连接�?
+        druidDataSource.setMinIdle(3);//�?小连接数
         druidDataSource.setMaxWait(50000);
 
-        druidDataSource.setValidationQuery("select 1");//鍒锋柊璇彞
+        druidDataSource.setValidationQuery("select 1");//刷新语句
 
-        druidDataSource.setTimeBetweenEvictionRunsMillis(60000);//鍒ゆ柇鏄惁鏈夋晥鐨勯棿闅旀椂闀胯鏃跺櫒
-        druidDataSource.setMinEvictableIdleTimeMillis(300000);//鏈�灏忓埛鏂伴棿闅�
+        druidDataSource.setTimeBetweenEvictionRunsMillis(60000);//判断是否有效的间隔时长计时器
+        druidDataSource.setMinEvictableIdleTimeMillis(300000);//�?小刷新间�?
 
         druidDataSource.setTestWhileIdle(true);
         druidDataSource.setTestOnBorrow(false);

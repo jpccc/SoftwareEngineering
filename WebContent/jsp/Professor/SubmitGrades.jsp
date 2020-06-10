@@ -33,7 +33,7 @@
         }
 
         function saveGrades() {
-            let form = document.getElementsByTagName("form")[1];
+            var form = document.getElementById("gradeForm");
             form.action = "/SoftwareEngineering/GradesServlet?method=saveGrades";
             form.submit();
         }

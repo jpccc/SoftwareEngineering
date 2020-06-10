@@ -180,12 +180,12 @@ public class RegistrarServlet extends BaseServlet {
                 req.setAttribute("list", list);
                 req.getRequestDispatcher("/jsp/Registrar/SearchStudent.jsp").forward(req, resp);
             } else {
-                req.setAttribute("error", "id has existed!");
+                req.setAttribute("error", "id已存在！");
                 req.getRequestDispatcher("/jsp/Registrar/NewStudent.jsp").forward(req, resp);
                 return;
             }
         }else{
-            req.setAttribute("error", "Incorrect login information!");
+            req.setAttribute("error", "登录信息有误！");
             backToIndex(req, resp);
         }
     }
