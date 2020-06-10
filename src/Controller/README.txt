@@ -1,1 +1,1 @@
-Controller,鍙互鏀惧叆Servlet鎵ц閫昏緫锛屽悜jsp鎻愪緵鏁版嵁骞惰繘琛岃烦杞紝涓篊缁勪欢
+Controller,可以放入Servlet执行逻辑，向jsp提供数据并进行跳转，为C组件

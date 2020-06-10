@@ -65,11 +65,11 @@ public class ProfessorServlet extends BaseServlet {
                 req.getSession().setAttribute("conflictList", conflictList);
                 resp.sendRedirect("/SoftwareEngineering/jsp/Professor/SelectToTeach.jsp");
             } else {
-                req.setAttribute("error", "ç™»å½•è¶…æ—¶ï¼");
+                req.setAttribute("error", "µÇÂ¼³¬Ê±£¡");
                 backToIndex(req,resp);
             }
         } else {
-            req.setAttribute("error", "è¯¾è¡¨ç³»ç»Ÿæ•…éšœï¼");
+            req.setAttribute("error", "¿Î±íÏµÍ³¹ÊÕÏ£¡");
             req.getRequestDispatcher("/jsp/Professor/SelectToTeach.jsp").forward(req, resp);
         }
     }
@@ -88,15 +88,15 @@ public class ProfessorServlet extends BaseServlet {
                     courseDAO.update(course);
                     getCourseList(req, resp);
                 } else {
-                    req.setAttribute("error", "ç™»å½•è¶…æ—¶");
+                    req.setAttribute("error", "µÇÂ¼³¬Ê±");
                     backToIndex(req,resp);
                 }
             } else {
-                req.setAttribute("error", "ç™»å½•ä¿¡æ¯æœ‰è¯¯");
+                req.setAttribute("error", "µÇÂ¼ĞÅÏ¢ÓĞÎó");
                 backToIndex(req,resp);
             }
         } else {
-            req.setAttribute("error", "è¯¾ç¨‹ä¿¡æ¯è·å–å¤±è´¥ï¼");
+            req.setAttribute("error", "¿Î³ÌĞÅÏ¢»ñÈ¡Ê§°Ü£¡");
             req.getRequestDispatcher("/jsp/Professor/SelectToTeach.jsp").forward(req, resp);
         }
     }
@@ -115,15 +115,15 @@ public class ProfessorServlet extends BaseServlet {
                     courseDAO.update(course);
                     getCourseList(req, resp);
                 } else {
-                    req.setAttribute("error", "ç™»å½•è¶…æ—¶");
+                    req.setAttribute("error", "µÇÂ¼³¬Ê±");
                     backToIndex(req,resp);
                 }
             } else {
-                req.setAttribute("error", "ç™»å½•ä¿¡æ¯æœ‰è¯¯");
+                req.setAttribute("error", "µÇÂ¼ĞÅÏ¢ÓĞÎó");
                 backToIndex(req,resp);
             }
         } else {
-            req.setAttribute("error", "è¯¾ç¨‹ä¿¡æ¯è·å–å¤±è´¥ï¼");
+            req.setAttribute("error", "¿Î³ÌĞÅÏ¢»ñÈ¡Ê§°Ü£¡");
             req.getRequestDispatcher("/jsp/Professor/SelectToTeach.jsp").forward(req, resp);
         }
     }
@@ -146,12 +146,12 @@ public class ProfessorServlet extends BaseServlet {
                     req.getRequestDispatcher("/jsp/Professor/SelectToTeach.jsp").forward(req, resp);
                 }
             } else {
-                req.setAttribute("error", "ç™»å½•è¶…æ—¶");
+                req.setAttribute("error", "µÇÂ¼³¬Ê±");
                 backToIndex(req,resp);
                 return;
             }
         }else {
-            req.setAttribute("error", "ç™»å½•ä¿¡æ¯æœ‰è¯¯");
+            req.setAttribute("error", "µÇÂ¼ĞÅÏ¢ÓĞÎó");
             backToIndex(req,resp);
         }
     }

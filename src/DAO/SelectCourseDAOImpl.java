@@ -393,7 +393,7 @@ public class SelectCourseDAOImpl implements SelectCourseDAO{
         try {
             conn=JDBCUtil.getMysqlConnection();
             //Class.forName("com.mysql.jdbc.Driver");
-            //conn=DriverManager.getConnection("jdbc:mysql://localhost:3306/course_selection","root","root");//javaï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+            //conn=DriverManager.getConnection("jdbc:mysql://localhost:3306/course_selection","root","root");//java???????§Õ????????????????
             ps = conn.prepareStatement(sql);
             ps.setString(1, course_id);
             ps.setInt(2, reg_id);
@@ -423,7 +423,7 @@ public class SelectCourseDAOImpl implements SelectCourseDAO{
         try {
             conn=JDBCUtil.getMysqlConnection();
             //Class.forName("com.mysql.jdbc.Driver");
-            //conn=DriverManager.getConnection("jdbc:mysql://localhost:3306/course_selection","root","root");//javaï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+            //conn=DriverManager.getConnection("jdbc:mysql://localhost:3306/course_selection","root","root");//java???????§Õ????????????????
             ps = conn.prepareStatement(sql);
             ps.setString(1, course_id);
             ps.setInt(2, reg_id);

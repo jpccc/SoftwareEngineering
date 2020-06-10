@@ -26,7 +26,7 @@ public class LoginServlet extends HttpServlet {
         String username=request.getParameter("username");
         String password=request.getParameter("password");
         if(username==null||password==null){
-            request.setAttribute("error","ç½‘ç»œé”™è¯¯ï¼Œè¯·é‡è¯•");
+            request.setAttribute("error","ÍøÂç´íÎó£¬ÇëÖØÊÔ");
             request.getRequestDispatcher("index.jsp").forward(request,response);
             return;
         }else{
@@ -86,8 +86,9 @@ public class LoginServlet extends HttpServlet {
                     break;
                 }
             }
-            request.setAttribute("error","è´¦å·æˆ–å¯†ç é”™è¯¯");
+            request.setAttribute("error","ÕËºÅ»òÃÜÂë´íÎó");
             request.getRequestDispatcher("index.jsp").forward(request,response);
+            return;
         }
     }
 
