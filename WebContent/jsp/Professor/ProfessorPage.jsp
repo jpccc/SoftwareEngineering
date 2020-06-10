@@ -97,7 +97,7 @@
                 <a href="/SoftwareEngineering/jsp/Professor/SelectToTeach.jsp">
                     <li>选择课程</li>
                 </a>
-                <a href="/SoftwareEngineering/jsp/Professor/SubmitGrades.jsp">
+                <a href="/SoftwareEngineering/GradesServlet?method=queryCourses">
                     <li>提交分数</li>
                 </a>
                 <a href="/SoftwareEngineering/ProfessorServlet?method=backToIndex">

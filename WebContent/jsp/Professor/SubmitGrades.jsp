@@ -156,17 +156,17 @@
                 <a href="/SoftwareEngineering/GradesServlet?method=backToMainPage">
                     <li>教师首页</li>
                 </a>
-                <form action="/SoftwareEngineering/GradesServlet?method=queryCourses" method="post">
-                    <div>
-                        注册日期：<input class="inputBox" style="width:100px;height: 20px" type="text" name="year"
-                                    value="<%=reg.getYear()%>"/>
-                    </div>
-                    <div>
-                        注册学期：<input class="inputBox" style="width:100px;height: 20px" type="text" name="semester"
-                                    value="<%=reg.getSemester()%>"/>
-                    </div>
-                    <input type="submit" value="查询"/>
-                </form>
+<%--                <form action="/SoftwareEngineering/GradesServlet?method=queryCourses" method="post">--%>
+<%--                    <div>--%>
+<%--                        注册日期：<input class="inputBox" style="width:100px;height: 20px" type="text" name="year"--%>
+<%--                                    value="<%=reg.getYear()%>"/>--%>
+<%--                    </div>--%>
+<%--                    <div>--%>
+<%--                        注册学期：<input class="inputBox" style="width:100px;height: 20px" type="text" name="semester"--%>
+<%--                                    value="<%=reg.getSemester()%>"/>--%>
+<%--                    </div>--%>
+<%--                    <input type="submit" value="查询"/>--%>
+<%--                </form>--%>
             </ul>
         </aside>
     </div>
