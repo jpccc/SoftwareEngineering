@@ -69,7 +69,6 @@ public class StudentDAOImpl implements StudentDAO{
         }
     }
 
-
     @Override
     public void delete(String id) throws Exception {
         String sql = "delete from student_info where s_id=?";
@@ -80,7 +79,6 @@ public class StudentDAOImpl implements StudentDAO{
             ps = conn.prepareStatement(sql);
             ps.setString(1, id);
             ps.executeUpdate();
-            ps.close();
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

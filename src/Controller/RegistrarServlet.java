@@ -1,10 +1,8 @@
 package Controller;
-
 import Beans.Professor;
 import Beans.Student;
 import Beans.Registrar;
 import DAO.*;
-
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -38,12 +36,8 @@ public class RegistrarServlet extends BaseServlet {
         return pattern.matcher(str).matches();
     }
     public void addProfessor(HttpServletRequest req, HttpServletResponse resp) throws Exception {
-        String p_id = req.getParameter("p_id");
-        if(p_id==null||hasSpecialChar(p_id)){
-            req.setAttribute("error", "id含有非法字符！");
-            req.getRequestDispatcher("/jsp/Registrar/NewProfessor.jsp").forward(req, resp);
-            return;
-        }
+        String p_id="P"+generateID(req);
+        System.out.println(p_id);
         String p_name = req.getParameter("p_name");
         if(p_name==null||hasSpecialChar(p_name)){
             req.setAttribute("error", "name含有非法字符！");
@@ -51,11 +45,14 @@ public class RegistrarServlet extends BaseServlet {
             return;
         }
         String time = req.getParameter("birthday");
+        /*
         if(time==null){
             req.setAttribute("error", "birthday不能为空！");
             req.getRequestDispatcher("/jsp/Registrar/NewProfessor.jsp").forward(req, resp);
             return;
         }
+        前端已经处理
+        */
         java.util.Date utilDate = new SimpleDateFormat("yyyy-MM-dd").parse(time);
         Date birthday = new Date(utilDate.getTime());
         String identify_num = req.getParameter("identify_num");
@@ -65,17 +62,23 @@ public class RegistrarServlet extends BaseServlet {
             return;
         }
         String status = req.getParameter("status");
+        /*
         if(status==null||isInteger(status)){
             req.setAttribute("error", "status需为数字");
             req.getRequestDispatcher("/jsp/Registrar/NewProfessor.jsp").forward(req, resp);
             return;
         }
+        status不为数字
+         */
         String sdept_id = req.getParameter("dept_id");
+        /*
         if(sdept_id==null||isInteger(sdept_id)){
             req.setAttribute("error", "部门编号需为数字");
             req.getRequestDispatcher("/jsp/Registrar/NewProfessor.jsp").forward(req, resp);
             return;
         }
+        前端已处理
+         */
         int dept_id = Integer.parseInt(sdept_id);
         String password = req.getParameter("password");
         if(password==null||hasSpecialChar(password)){
@@ -109,16 +112,31 @@ public class RegistrarServlet extends BaseServlet {
     public void addStudent(HttpServletRequest req, HttpServletResponse resp) throws Exception {
         String s_id="S"+generateID(req);
         String s_name = req.getParameter("s_name");
+        if(s_name==null||hasSpecialChar(s_name)){
+            req.setAttribute("error", "name含有非法字符！");
+            req.getRequestDispatcher("/jsp/Registrar/NewProfessor.jsp").forward(req, resp);
+            return;
+        }
         String time = req.getParameter("birthday");
         java.util.Date utilDate = new SimpleDateFormat("yyyy-MM-dd").parse(time);
         Date birthday = new Date(utilDate.getTime());
         String identify_num = req.getParameter("identify_num");
+        if(identify_num==null||isInteger(identify_num)){
+            req.setAttribute("error", "identify num需为数字");
+            req.getRequestDispatcher("/jsp/Registrar/NewProfessor.jsp").forward(req, resp);
+            return;
+        }
         String status = req.getParameter("status");
         int dept_id = Integer.parseInt(req.getParameter("dept_id"));
         String graduate_time = req.getParameter("birthday");
         java.util.Date graduate_Date = new SimpleDateFormat("yyyy-MM-dd").parse(graduate_time);
         Date graduate = new Date(graduate_Date.getTime());
         String password = req.getParameter("password");
+        if(password==null||hasSpecialChar(password)){
+            req.setAttribute("error", "密码含有非法字符");
+            req.getRequestDispatcher("/jsp/Registrar/NewProfessor.jsp").forward(req, resp);
+            return;
+        }
         //格式在jsp页面进行判断
         Registrar registerer = (Registrar) req.getSession().getAttribute("user");
         Registrar server_register = new RegistrarDAOImpl().findById(registerer.getR_id());
@@ -242,12 +260,14 @@ public class RegistrarServlet extends BaseServlet {
         }
     }
     public void modifyProfessor(HttpServletRequest req, HttpServletResponse resp) throws Exception {
-        String p_id = req.getParameter("p_id");
+        String p_id = req.getParameter("id");
+        /*
         if(p_id==null){
             req.setAttribute("error", "id为空");
             req.getRequestDispatcher("/jsp/Registrar/NewProfessor.jsp").forward(req, resp);
             return;
         }
+        */
         String p_name = req.getParameter("p_name");
         if(p_name==null||hasSpecialChar(p_name)){
             req.setAttribute("error", "name含有非法字符！");
@@ -255,31 +275,41 @@ public class RegistrarServlet extends BaseServlet {
             return;
         }
         String time = req.getParameter("birthday");
+        /*
         if(time==null){
             req.setAttribute("error", "birthday不能为空！");
             req.getRequestDispatcher("/jsp/Registrar/NewProfessor.jsp").forward(req, resp);
             return;
         }
+
+         */
         java.util.Date utilDate = new SimpleDateFormat("yyyy-MM-dd").parse(time);
         Date birthday = new Date(utilDate.getTime());
         String identify_num = req.getParameter("identify_num");
+
         if(identify_num==null||isInteger(identify_num)){
             req.setAttribute("error", "identify num需为数字");
             req.getRequestDispatcher("/jsp/Registrar/NewProfessor.jsp").forward(req, resp);
             return;
         }
+
         String status = req.getParameter("status");
+        /*
         if(status==null||isInteger(status)){
             req.setAttribute("error", "status需为数字");
             req.getRequestDispatcher("/jsp/Registrar/NewProfessor.jsp").forward(req, resp);
             return;
         }
+         */
         String sdept_id = req.getParameter("dept_id");
+        /*
         if(sdept_id==null||isInteger(sdept_id)){
             req.setAttribute("error", "部门编号需为数字");
             req.getRequestDispatcher("/jsp/Registrar/NewProfessor.jsp").forward(req, resp);
             return;
         }
+
+         */
         int dept_id = Integer.parseInt(sdept_id);
         String password = req.getParameter("password");
         if(password==null||hasSpecialChar(password)){
