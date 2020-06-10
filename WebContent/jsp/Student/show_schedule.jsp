@@ -124,18 +124,6 @@
                 <a href="/SoftwareEngineering/jsp/Student/StudentPage.jsp">
                     <li>首页</li>
                 </a>
-                <a href="/SoftwareEngineering/ViewReportCardServlet">
-                    <li>查询成绩</li>
-                </a>
-                <a href="/SoftwareEngineering/jsp/Student/add_course.jsp">
-                    <li>选择课程</li>
-                </a>
-                <a href="/SoftwareEngineering/jsp/Student/show_schedule.jsp">
-                    <li>查询课表</li>
-                </a>
-                <a href="/SoftwareEngineering/BillServlet">
-                    <li>查看邮箱</li>
-                </a>
             </ul>
         </aside>
     </div>
