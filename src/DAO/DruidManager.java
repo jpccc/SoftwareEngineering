@@ -17,12 +17,12 @@ import java.util.HashMap;
  * 浣跨敤鏃惰鑷淇敼鍏朵腑鐨勬暟鎹簱鐢ㄦ埛鍚嶏紝url鍜屽瘑鐮�
  */
 public class DruidManager {
-    private static final String DB_URL = "jdbc:mysql://127.0.0.1:3306/registration?characterEncoding=utf-8&useSSL=false&serverTimezone=UTC"; // 鏁版嵁搴撹繛鎺RL
+    private static final String DB_URL = "jdbc:mysql://127.0.0.1:3306/course_selection?characterEncoding=utf-8&useSSL=false&serverTimezone=UTC"; // 鏁版嵁搴撹繛鎺RL
     private static final String DB_USERNAME = "root"; // 鏁版嵁搴撶敤鎴峰悕
-    private static final String DB_PASSWORD = "123456"; // 鏁版嵁搴撳瘑鐮�
-    private static final String OLDSYS_URL = "jdbc:mysql://127.0.0.1:3306/registration?characterEncoding=utf-8&useSSL=false&serverTimezone=UTC"; // 鏁版嵁搴撹繛鎺RL
+    private static final String DB_PASSWORD = "010233"; // 鏁版嵁搴撳瘑鐮�
+    private static final String OLDSYS_URL = "jdbc:mysql://127.0.0.1:3306/old_sys?characterEncoding=utf-8&useSSL=false&serverTimezone=UTC"; // 鏁版嵁搴撹繛鎺RL
     private static final String OLDSYS_USERNAME = "root"; // 鏁版嵁搴撶敤鎴峰悕
-    private static final String OLDSYS_PASSWORD = "123456"; // 鏁版嵁搴撳瘑鐮�
+    private static final String OLDSYS_PASSWORD = "010233"; // 鏁版嵁搴撳瘑鐮�
     private static DruidDataSource druidDataSource=null;//杩炴帴姹燚ataSource
     private static DruidDataSource oldSysDatasource=null;
     public static final int OLDSYS_FLAG=1;
@@ -57,7 +57,7 @@ public class DruidManager {
         if(druidDataSource==null){
             synchronized (DruidDataSource.class) {
                 if (druidDataSource == null) {
-                    druidDataSource =CreateDataSource();
+                    druidDataSource =CreateDataSource(DB_URL,DB_USERNAME,DB_PASSWORD);
                 }
             }
             return druidDataSource;
@@ -65,7 +65,7 @@ public class DruidManager {
     }
 
     private static DruidDataSource CreateDataSource(String URL,String Username,String Password){
-        druidDataSource=new DruidDataSource();
+        DruidDataSource druidDataSource=new DruidDataSource();
         //杩炴帴鍚姩鍙傛暟
         druidDataSource.setUrl(URL);
         druidDataSource.setUsername(Username);
@@ -95,16 +95,17 @@ public class DruidManager {
         return CreateDataSource(DB_URL,DB_USERNAME,DB_PASSWORD);
     }
     private static DruidDataSource getDruidDataSource(int flag){
-        switch(flag){
-            case OLDSYS_FLAG:
-                if(oldSysDatasource==null){
+        switch (flag){
+            case OLDSYS_FLAG: {
+                if (oldSysDatasource == null) {
                     synchronized (DruidDataSource.class) {
                         if (oldSysDatasource == null) {
-                            oldSysDatasource =CreateDataSource(OLDSYS_URL,OLDSYS_USERNAME,OLDSYS_PASSWORD);
+                            oldSysDatasource = CreateDataSource(OLDSYS_URL, OLDSYS_USERNAME, OLDSYS_PASSWORD);
                         }
                     }
                     return oldSysDatasource;
-                }else return oldSysDatasource;
+                } else return oldSysDatasource;
+            }
             default: return null;
         }
     }
