@@ -42,7 +42,9 @@ public class CloseRegisServlet extends HttpServlet {
         ServletContext application=session.getServletContext();
         Integer onLineCount= (Integer) application.getAttribute("onLineCount");
         System.out.println("onLineCount="+onLineCount);
-        if(onLineCount>1) {        	
+        if(onLineCount>1) {
+			request.setAttribute("close_error", "Someone online!");
+			request.getRequestDispatcher("/jsp/Registrar/RegistrarPage.jsp").forward(request, response);
         	return;
         }
 		//get registration
@@ -52,6 +54,8 @@ public class CloseRegisServlet extends HttpServlet {
 		//check if registration is open
 		if(reg.getStatus().equals("closed")) {
 			System.out.println("registration have been closed");
+			request.setAttribute("close_error", "Registration has been closed!");
+			request.getRequestDispatcher("/jsp/Registrar/RegistrarPage.jsp").forward(request, response);
 			return;
 		}
 		
@@ -126,6 +130,8 @@ public class CloseRegisServlet extends HttpServlet {
 				System.out.println("alternate:"+alternateCourse);
 			}
 		}
+		request.setAttribute("close_success", "Registration has been closed successfully!");
+		request.getRequestDispatcher("/jsp/Registrar/RegistrarPage.jsp").forward(request, response);
 		System.out.println("close registration");
 	}
 
