@@ -62,6 +62,7 @@
                         <th class="text-center">教师姓名</th>
                         <th class="text-center">已选人数</th>
                         <th class="text-center">选课种类</th>
+
                     </tr>
                     <%
                         SelectCourseDAO select_course_dao = new DAO.SelectCourseDAOImpl();
@@ -86,11 +87,11 @@
 
                         <td>
                             <input type="radio"
-                                   value="<%=list.get(i).getCourse_id() %>  <%=list.get(i).getReg_id() %> first"
+                                   value="<%=list.get(i).getCourse_id() %>  <%=list.get(i).getReg_id()%> primary <%=list.get(i).getPrice() %>"
                                    name=<%=name%>
                             />首选
                             <input type="radio"
-                                   value="<%=list.get(i).getCourse_id() %>  <%=list.get(i).getReg_id() %> second"
+                                   value="<%=list.get(i).getCourse_id() %>  <%=list.get(i).getReg_id() %> second  <%=list.get(i).getPrice() %>"
                                    name=<%=name%>
                             />
                             备选
@@ -122,7 +123,7 @@
                 <a href="/SoftwareEngineering/jsp/Student/StudentPage.jsp">
                     <li>学生首页</li>
                 </a>
-                <a href="/SoftwareEngineering/ViewReportCardServlet">
+                <a href="/SoftwareEngineering/jsp/Student/ViewReportCard.jsp">
                     <li>查询成绩</li>
                 </a>
                 <a href="/SoftwareEngineering/jsp/Student/add_course.jsp">
