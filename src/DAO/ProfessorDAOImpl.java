@@ -27,7 +27,7 @@ public class ProfessorDAOImpl implements ProfessorDAO {
             preparedStatement.executeUpdate();
             preparedStatement.close();
         } catch (Exception e) {
-            throw new Exception("insert professor鎿嶄綔鍑虹幇寮傚父");
+            throw new Exception("insert professor操作出现异常");
         } finally {
             if(conn!=null) {
                 conn.close();
@@ -53,7 +53,7 @@ public class ProfessorDAOImpl implements ProfessorDAO {
             preparedStatement.executeUpdate();
             preparedStatement.close();
         } catch (Exception e) {
-            throw new Exception("update professor鎿嶄綔鍑虹幇寮傚父");
+            throw new Exception("update professor操作出现异常");
         } finally {
             if(conn!=null) {
                 conn.close();
@@ -104,7 +104,7 @@ public class ProfessorDAOImpl implements ProfessorDAO {
             rSet.close();
             ps.close();
         } catch (Exception e) {
-            throw new Exception("findByName鎿嶄綔鍑虹幇寮傚父");
+            throw new Exception("findByName操作出现异常");
         } finally {
             conn.close();
         }
@@ -168,7 +168,7 @@ public class ProfessorDAOImpl implements ProfessorDAO {
             rSet.close();
             ps.close();
         } catch (Exception e) {
-            throw new Exception("findAll鎿嶄綔鍑虹幇寮傚父");
+            throw new Exception("findAll操作出现异常");
         } finally {
             if(conn==null)conn.close();
         }

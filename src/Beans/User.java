@@ -1,7 +1,7 @@
 package Beans;
 
 /**
- * 鐢ㄦ潵琛ㄦ槑鐢ㄦ埛韬唤鐨勭埗绫伙紝浠呬负浜嗛伩鍏嶇洿鎺ヤ娇鐢∣bject
+ * 用来表明用户身份的父类，仅为了避免直接使用Object
  */
 public class User {
     User(){

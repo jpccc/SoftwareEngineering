@@ -85,7 +85,7 @@ public class RegistrationDAOImpl implements RegistrationDAO {
             ps.setInt(2,reg.getYear());
             ps.setString(3,reg.getSemester());
             ps.execute();
-            ResultSet re=ps.getGeneratedKeys();    //è¿”å›žä¸»é”®
+            ResultSet re=ps.getGeneratedKeys();    //·µ»ØÖ÷¼ü
             re.next();
             key=re.getInt(1);
         } catch (SQLException e) {

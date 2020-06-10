@@ -55,7 +55,14 @@
                     <th height="57" class="text-center">ID</th>
                 </tr>
                 <tr class="text-value">
-                    <%Registrar registrar = (Registrar) session.getAttribute("user");%>
+                    <%
+                        Registrar registrar = (Registrar) session.getAttribute("user");
+                        if(registrar==null){
+                            request.setAttribute("error","登录超时，请重新登录");
+                            request.getRequestDispatcher("/SoftwareEngineering/ProfessorServlet?method=backToIndex")
+                                    .forward(request,response);
+                        }
+                    %>
                     <td height="62"><%=registrar.getR_id()%>
                     </td>
                 </tr>

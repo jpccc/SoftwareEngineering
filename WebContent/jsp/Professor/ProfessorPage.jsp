@@ -57,7 +57,13 @@
                     <th class="text-center">Status</th>
                 </tr>
                 <tr class="text-value">
-                    <%Professor professor = (Professor) session.getAttribute("user");%>
+                    <%Professor professor = (Professor) session.getAttribute("user");
+                    if(professor==null){
+                        request.setAttribute("error","登录超时，请重新登录");
+                        request.getRequestDispatcher("/SoftwareEngineering/ProfessorServlet?method=backToIndex")
+                            .forward(request,response);
+                    }
+                    %>
                     <td height="62"><%=professor.getP_name()%>
                     </td>
                     <td><%=professor.getBirthday()%>

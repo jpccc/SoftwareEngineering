@@ -112,7 +112,7 @@ public class CourseDAOImpl implements CourseDAO{
             preparedStatement.executeUpdate();
             preparedStatement.close();
         } catch (Exception e) {
-            throw new Exception("update course鎿嶄綔鍑虹幇寮傚父");
+            throw new Exception("update course操作出现异常");
         } finally {
             if(conn!=null) {
                 conn.close();
@@ -247,8 +247,9 @@ public class CourseDAOImpl implements CourseDAO{
                 ps.setInt(2,grade.getReg_id());
                 ps.setString(3,grade.getCourse_id());
                 ps.setString(4,grade.getStudent_id());
-                ps.executeUpdate();
+                ps.addBatch();
             }
+            ps.executeBatch();
         } catch (SQLException e) {
             e.printStackTrace();
         }finally {

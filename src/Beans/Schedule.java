@@ -4,14 +4,14 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * selection表中的设计没有直接体现选课的顺序，为设计中的不合理，可能导致此实体类的问题<br/>
- * 考虑解决办法为：<br/>
- * 1.在每一项后加入一个新属性，为其编号1-4<br/>
- * 2.利用select_status项，取值可以为‘enrolled in’<br/>
- * ，‘primary（加上序号）’，‘alternative（加上序号）’<br/>
- * 3.进行更大的修改，将表项拆分，设置一个关系表项，其中包含一个人的选课列表
- * selection表项改为grades表项，只记录成绩信息
- * 如果有想法请联系我       --李睿宸
+ * selection���е����û��ֱ������ѡ�ε�˳��Ϊ����еĲ����������ܵ��´�ʵ���������<br/>
+ * ���ǽ���취Ϊ��<br/>
+ * 1.��ÿһ������һ�������ԣ�Ϊ����1-4<br/>
+ * 2.����select_status�ȡֵ����Ϊ��enrolled in��<br/>
+ * ����primary��������ţ�������alternative��������ţ���<br/>
+ * 3.���и�����޸ģ��������֣�����һ����ϵ������а���һ���˵�ѡ���б�
+ * selection�����Ϊgrades���ֻ��¼�ɼ���Ϣ
+ * ������뷨����ϵ��       --����
  */
 public class Schedule implements Serializable {
 	private String student_id;

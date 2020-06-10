@@ -54,7 +54,7 @@ public class ViewReportCardServlet extends HttpServlet {
 		for(Map.Entry<Course, String> entry : ReportCard.entrySet()) {
 			System.out.println("ReportCard: course_id="+entry.getKey().getCourse_id()+",grade="+entry.getValue());
 		}
-		//����jsp
+		//
 		List<Course> courseList=new ArrayList<Course>(ReportCard.keySet());
 		List<String> gradeList=new ArrayList<String>(ReportCard.values());
         request.setAttribute("CourseList", courseList);

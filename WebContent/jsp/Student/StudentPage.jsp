@@ -64,7 +64,14 @@
                     <th class="text-center">系ID</th>
                 </tr>
                 <tr class="text-value">
-                    <!-- <%Student student = (Student) session.getAttribute("user");%> -->
+                     <%
+                         Student student = (Student) session.getAttribute("user");
+                         if(student==null){
+                             request.setAttribute("error","登录超时，请重新登录");
+                             request.getRequestDispatcher("/SoftwareEngineering/ProfessorServlet?method=backToIndex")
+                                     .forward(request,response);
+                         }
+                    %>
                     <td height="62"><%=student.getS_name()%></td>
                     <td><%=student.getBirthday()%></td>
                     <td><%=student.getIdentify_num()%></td>
