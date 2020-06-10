@@ -300,6 +300,38 @@ public class CourseDAOImpl implements CourseDAO{
     }
 
     @Override
+    public List<Course> findAll(int flag) {
+        List<Course> res=new ArrayList<>();
+        Connection conn=null;
+        PreparedStatement ps=null;
+        ResultSet rs=null;
+        String sql="select * from course_info";
+        try {
+            conn=DruidManager.getConnection(DruidManager.OLDSYS_FLAG);
+            if(conn==null)return res;
+            ps=conn.prepareStatement(sql);
+            rs=ps.executeQuery();
+            while(rs.next()){
+                Course course=new Course();
+                course.setCourse_id(rs.getString("course_id"));
+                course.setDept_id(rs.getInt("dept_id"));
+                course.setCourse_name(rs.getString("course_name"));
+                course.setPrice(rs.getFloat("price"));
+                res.add(course);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally {
+            try {
+                DruidManager.close(conn,ps,rs);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return res;
+    }
+
+    @Override
     public void insert(List<Course> cList) throws SQLException {
         List<Course> res=new ArrayList<>();
         Connection conn=null;

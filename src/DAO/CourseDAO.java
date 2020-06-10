@@ -16,6 +16,7 @@ public interface CourseDAO {
     public List<Grade> queryStudents4Course(int reg_id, String course_id);
     public void saveGrades(List<Grade> grades);
     public List<Course> findAll();
+    public List<Course> findAll(int flag);
     public void insert(List<Course> cList) throws SQLException;
     public void deleteByRegid(int reg_id) throws Exception;
 }

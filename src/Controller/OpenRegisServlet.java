@@ -3,10 +3,7 @@ package Controller;
 import Beans.Course;
 import Beans.Registrar;
 import Beans.Registration;
-import DAO.CourseDAOImpl;
-import DAO.RegistrarDAOImpl;
-import DAO.RegistrationDAO;
-import DAO.RegistrationDAOImpl;
+import DAO.*;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -96,7 +93,12 @@ public class OpenRegisServlet extends BaseServlet{
             return;
         }
         Registration reg= (Registration) session.getAttribute("registration");
-        if(!reg.getStatus().equals("closed")){
+        if(reg==null){
+            RegistrationDAOImpl regDao=new RegistrationDAOImpl();
+            reg=regDao.queryLatest();
+            session.setAttribute("registration",reg);
+        }
+        if(reg.getStatus()==null||!reg.getStatus().equals("closed")){
             request.setAttribute("RegistrarError","当前有活动状态的注册，请先关闭注册");
             request.getRequestDispatcher("jsp/Registrar/RegistrarPage.jsp").forward(request,response);
             return;
@@ -111,8 +113,7 @@ public class OpenRegisServlet extends BaseServlet{
         int key=new RegistrationDAOImpl().insert(reg);
         reg.setReg_id(key);
         session.setAttribute("registration",reg);
-
-        List<Course> total=new CourseDAOImpl().findAll();
+        List<Course> total=new CourseDAOImpl().findAll(DruidManager.OLDSYS_FLAG);
         session.setAttribute("allC",total);
         request.getRequestDispatcher("jsp/Registrar/OpenRegistration.jsp").forward(request,response);
     }
@@ -122,6 +123,11 @@ public class OpenRegisServlet extends BaseServlet{
         HttpSession session=request.getSession();
         List<Course> selected= (List<Course>) session.getAttribute("selectedC");
         Registration reg= (Registration) session.getAttribute("registration");
+        if(reg==null){
+            RegistrationDAOImpl regDao=new RegistrationDAOImpl();
+            reg=regDao.queryLatest();
+            session.setAttribute("registration",reg);
+        }
         verifyRegistrar(request,response);
         for(int i=0;i<selected.size();i++){
             selected.get(i).setReg_id(reg.getReg_id());
@@ -135,6 +141,7 @@ public class OpenRegisServlet extends BaseServlet{
             e.printStackTrace();
             request.setAttribute("RegistrarError","提交失败，请重新提交");
             cancelReg(request,response);
+            return;
         }
         request.getRequestDispatcher("jsp/Registrar/RegistrarPage.jsp").forward(request,response);
     }
@@ -145,6 +152,11 @@ public class OpenRegisServlet extends BaseServlet{
         if(session.getAttribute("allC")!=null)session.removeAttribute("allC");
         if(session.getAttribute("selectedC")!=null)session.removeAttribute("selectedC");
         Registration reg= (Registration) session.getAttribute("registration");
+        if(reg==null){
+            RegistrationDAOImpl regDao=new RegistrationDAOImpl();
+            reg=regDao.queryLatest();
+            session.setAttribute("registration",reg);
+        }
         RegistrationDAO registrationDAO=new RegistrationDAOImpl();
         try {
             registrationDAO.deleteByID(reg.getReg_id());
@@ -159,6 +171,12 @@ public class OpenRegisServlet extends BaseServlet{
     private void verifyRegistrar(HttpServletRequest request,HttpServletResponse response) throws ServletException, IOException {
         HttpSession session=request.getSession();
         Registrar registrar= (Registrar) session.getAttribute("user");
+        if(registrar==null){
+            request.setAttribute("error","登录超时，请重新登录");
+            request.getRequestDispatcher("/SoftwareEngineering/RegistrarServlet?method=backToIndex")
+                    .forward(request,response);
+            return;
+        }
         try {
             Registrar db=new RegistrarDAOImpl().findById(registrar.getR_id());
             if(db==null||db.getR_id().equals("null")||!db.getPassword().equals(registrar.getPassword())){

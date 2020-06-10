@@ -94,7 +94,7 @@
                 <a href="/SoftwareEngineering/jsp/Professor/SubmitGrades.jsp">
                     <li>提交分数</li>
                 </a>
-                <a href="/SoftwareEngineering/GradesServlet?method=backToIndex">
+                <a href="/SoftwareEngineering/ProfessorServlet?method=backToIndex">
                     <li>退出登录</li>
                 </a>
             </ul>

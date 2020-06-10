@@ -121,7 +121,7 @@
         <aside id="list">
             <h2>功能列表</h2>
             <ul id="sideul">
-                <a href="##">
+                <a href="/SoftwareEngineering/jsp/Student/StudentPage.jsp">
                     <li>首页</li>
                 </a>
                 <a href="/SoftwareEngineering/ViewReportCardServlet">

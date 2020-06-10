@@ -95,20 +95,6 @@ public class GradesServlet extends BaseServlet {
         HttpSession session=request.getSession();
         if(!verifyProfessor(request,response))return;
         List<Grade> grades= getNewGrades(request);
-        Professor professor= (Professor) session.getAttribute("user");
-        try {
-            Professor db=new ProfessorDAOImpl().findById(professor.getP_id());
-            if(!db.getPassword().equals(professor.getPassword())){
-                request.setAttribute("queryError", "登录信息无效，请查证后重新登录！");
-                request.getRequestDispatcher("/jsp/Professor/SubmitGrades.jsp").forward(request, response);
-                return;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            request.setAttribute("queryError", "数据库连接失败，请重试");
-            request.getRequestDispatcher("/jsp/Professor/SubmitGrades.jsp").forward(request, response);
-            return;
-        }
         if(!checkGrades(grades)){
             request.setAttribute("queryError", "非法成绩信息！请检查后重新提交！");
             request.getRequestDispatcher("/jsp/Professor/SubmitGrades.jsp").forward(request, response);
@@ -151,6 +137,7 @@ public class GradesServlet extends BaseServlet {
     }
     private boolean checkGrades(List<Grade> grades){
         boolean flag=true;
+        if(grades==null)return false;
         for (Grade value : grades) {
             String grade = value.getGrade();
             if (!(grade.equals("A") ||
@@ -169,6 +156,11 @@ public class GradesServlet extends BaseServlet {
     private boolean verifyProfessor(HttpServletRequest request,HttpServletResponse response)throws ServletException,IOException{
         HttpSession session=request.getSession();
         Professor curr= (Professor) session.getAttribute("user");
+        if(curr==null){
+            request.setAttribute("error", "登录超时！");
+            request.getRequestDispatcher("/SoftwareEngineering/ProfessorServlet?method=backToIndex").forward(request, response);
+            return false;
+        }
         ProfessorDAO professorDAO=new ProfessorDAOImpl();
         Professor db=null;
         boolean flag=true;
@@ -176,6 +168,9 @@ public class GradesServlet extends BaseServlet {
             db=professorDAO.findById(curr.getP_id());
         } catch (Exception e) {
             e.printStackTrace();
+            request.setAttribute("queryError", "数据库连接失败，请重试");
+            request.getRequestDispatcher("/jsp/Professor/SubmitGrades.jsp").forward(request, response);
+            return false;
         }
         if(db==null||db.getP_id().equals("null")||!db.getPassword().equals(curr.getPassword())){
             flag=false;
@@ -183,7 +178,6 @@ public class GradesServlet extends BaseServlet {
             if(session.getAttribute("courseList")!=null)session.removeAttribute("courseList");
             if(session.getAttribute("gradeList")!=null)session.removeAttribute("gradeList");
             request.getRequestDispatcher("ProfessorServlet?method=backToIndex").forward(request, response);
-
         }
         return flag;
     }
