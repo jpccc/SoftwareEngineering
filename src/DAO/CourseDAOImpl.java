@@ -17,7 +17,7 @@ public class CourseDAOImpl implements CourseDAO{
         Connection conn=null;
         PreparedStatement ps=null;
         ResultSet rs=null;
-        String sql="select * from course_info where dept_id=? and reg_id=? and professor_id='0'";
+        String sql="select * from course_info where dept_id=? and reg_id=? and ISNULL(professor_id)";
         try {
             conn=JDBCUtil.getMysqlConnection();
             ps=conn.prepareStatement(sql);
