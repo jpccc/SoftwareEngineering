@@ -6,11 +6,12 @@
 <html>
 <head>
     <link rel="stylesheet" type="text/css" href="/SoftwareEngineering/jsp/Registrar/css/form.css"/>
+    <script type="text/javascript" src="/SoftwareEngineering/jsp/Registrar/js/addUser.js"></script>
     <title>维护学生信息</title>
 </head>
-<body background="images/reg_back.jpg">
+<body background="/SoftwareEngineering/jsp/Registrar/images/reg_back.jpg">
 <h1 style="color: aqua">管理学生档案</h1>
-<form class="modifyInfo" action="/SoftwareEngineering/RegistrarServlet?method=modifyStudent&id=${student.s_id}" method="post">
+<form class="modifyInfo" action="/SoftwareEngineering/RegistrarServlet?method=modifyStudent&id=${student.s_id}" method="post" onsubmit="return subInfo();">
     <div style="color: #00ff6b" class="inputBox" >
         id<br><input type="text" class="password" name="s_id" value="${student.s_id}" disabled><br>
         姓名<br><input type="text" class="password" name="s_name" value="${student.s_name}"><br>
@@ -18,6 +19,7 @@
         identify number<br><input type="text" class="password" name="identify_num" value="${student.identify_num}" ><br>
         状态<br><input type="text" class="password" name="status" value="${student.status}"><br>
         部门id<br><input type="text" class="password" name="dept_id" value="${student.dept_id}"><br>
+        毕业日期<br><input type="Date" class="password" name="graduate_date" value="${student.graduate_date}"><br>
         密码 <input type="text" class="password" name="password" value="${student.password}"><br>
     </div>
     <br>

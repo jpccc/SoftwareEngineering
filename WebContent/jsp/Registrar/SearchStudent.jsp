@@ -48,8 +48,8 @@
                 <th>密码</th>
                 <th>...</th>
             </tr>
-            <c:if test="${not empty list}">
-                <c:forEach items="${list}" var="student">
+            <c:if test="${not empty list_stu}">
+                <c:forEach items="${list_stu}" var="student">
                     <tr>
                         <th>${student.s_id}</th>
                         <th>${student.s_name}</th>
@@ -76,7 +76,7 @@
 <div class="bottom">
     <div class="bottom_center">
         <table align="center">
-            <form style="color: #00ff6b" action="/SoftwareEngineering/RegistrarServlet?method=searchProfessor"
+            <form style="color: #00ff6b" action="/SoftwareEngineering/RegistrarServlet?method=searchStudent"
                   method="post">
                 <tr>
                     <th style="color: red">按编号：</th>

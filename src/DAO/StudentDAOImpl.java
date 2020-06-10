@@ -24,10 +24,13 @@ public class StudentDAOImpl implements StudentDAO{
 	            preparedStatement.setInt(6,student.getDept_id());
 	            preparedStatement.setDate(7,student.getGraduate_date());
 	            preparedStatement.setString(8,student.getPassword());
+                System.out.println(student.getS_id());
+                System.out.println(student.getS_name());
+                System.out.println(student.getDept_id());
 	            preparedStatement.executeUpdate();
 	            preparedStatement.close();
 	        } catch (Exception e) {
-	            throw new Exception("insert professor操作出现异常");
+	            throw new Exception("insert student 操作出现异常");
 	        } finally {
 	            DAO.DruidManager.close(conn,preparedStatement,null);
 	        }
@@ -36,28 +39,33 @@ public class StudentDAOImpl implements StudentDAO{
 
     @Override
     public void update(Student student) throws Exception {
-        String sql = "update student_info " +
-                "set s_name=?,birthday=?,identify_num=?,status=?,dept_id=?,graduate_date=?,password=? " +
-                "where s_id=?";
+        String sql = "update student_info set s_name=?,birthday=?,identify_num=?,status=?,dept_id=?,graduate_date=?,password=? where s_id=?";
         PreparedStatement preparedStatement = null;
         Connection conn = null;
         try {
-            conn = DAO.DruidManager.getConnection();
+            conn = JDBCUtil.getMysqlConnection();
             preparedStatement = conn.prepareStatement(sql);
             preparedStatement.setString(1, student.getS_name());
             preparedStatement.setDate(2, student.getBirthday());
             preparedStatement.setString(3,student.getIdentify_num());
             preparedStatement.setString(4, student.getStatus());
             preparedStatement.setInt(5,student.getDept_id());
-            preparedStatement.setString(6,student.getPassword());
-            preparedStatement.setDate(7,student.getGraduate_date());
+            preparedStatement.setDate(6,student.getGraduate_date());
+            preparedStatement.setString(7,student.getPassword());
             preparedStatement.setString(8, student.getS_id());
+            System.out.println(sql);
+            System.out.println(student.getS_name()+666);
+            System.out.println(student.getDept_id());
+            System.out.println(student.getS_id()+666);
+            System.out.println(student.getGraduate_date());
             preparedStatement.executeUpdate();
             preparedStatement.close();
         } catch (Exception e) {
-            throw new Exception("update student操作出现异常");
+            throw new Exception("update student is error!");
         } finally {
-            DAO.DruidManager.close(conn,preparedStatement,null);
+            if(conn!=null) {
+                conn.close();
+            }
         }
     }
 
