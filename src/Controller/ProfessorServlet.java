@@ -65,98 +65,117 @@ public class ProfessorServlet extends BaseServlet {
                 req.getSession().setAttribute("conflictList", conflictList);
                 resp.sendRedirect("/SoftwareEngineering/jsp/Professor/SelectToTeach.jsp");
             } else {
-                req.setAttribute("error", "ÁôªÂΩïË∂ÖÊó∂ÔºÅ");
-                backToIndex(req,resp);
+                req.setAttribute("error", "µ«¬º≥¨ ±£°");
+                backToIndex(req, resp);
             }
         } else {
-            req.setAttribute("error", "ËØæË°®Á≥ªÁªüÊïÖÈöúÔºÅ");
+            req.setAttribute("error", "øŒ±ÌœµÕ≥π ’œ£°");
             req.getRequestDispatcher("/jsp/Professor/SelectToTeach.jsp").forward(req, resp);
         }
     }
 
     public void select(HttpServletRequest req, HttpServletResponse resp) throws Exception {
-        String course_id = req.getParameter("course_id");
-        CourseDAO courseDAO = new CourseDAOImpl();
-        Course course = courseDAO.findById(course_id);
-        if (!course.getCourse_id().equals("-1")) {
-            //found!
-            Professor professor = (Professor) req.getSession().getAttribute("user");
-            Professor server_professor = new ProfessorDAOImpl().findById(professor.getP_id());
-            if (professor.getPassword().equals(server_professor.getPassword())) {
-                if (professor != null) {
-                    course.setProfessor_id(professor.getP_id());
-                    courseDAO.update(course);
-                    getCourseList(req, resp);
+        Registration registration = (Registration) req.getSession().getAttribute("registration");
+        if (registration.getStatus().equals("open")) {
+            String course_id = req.getParameter("course_id");
+            CourseDAO courseDAO = new CourseDAOImpl();
+            Course course = courseDAO.findById(course_id);
+            if (!course.getCourse_id().equals("-1")) {
+                //found!
+                Professor professor = (Professor) req.getSession().getAttribute("user");
+                Professor server_professor = new ProfessorDAOImpl().findById(professor.getP_id());
+                if (professor.getPassword().equals(server_professor.getPassword())) {
+                    if (professor != null) {
+                        course.setProfessor_id(professor.getP_id());
+                        courseDAO.update(course);
+                        getCourseList(req, resp);
+                    } else {
+                        req.setAttribute("error", "µ«¬º≥¨ ±");
+                        backToIndex(req, resp);
+                    }
                 } else {
-                    req.setAttribute("error", "ÁôªÂΩïË∂ÖÊó∂");
-                    backToIndex(req,resp);
+                    req.setAttribute("error", "µ«¬º–≈œ¢”–ŒÛ");
+                    backToIndex(req, resp);
                 }
             } else {
-                req.setAttribute("error", "ÁôªÂΩï‰ø°ÊÅØÊúâËØØ");
-                backToIndex(req,resp);
+                req.setAttribute("error", "øŒ≥Ã–≈œ¢ªÒ»° ß∞‹£°");
+                req.getRequestDispatcher("/jsp/Professor/SelectToTeach.jsp").forward(req, resp);
             }
         } else {
-            req.setAttribute("error", "ËØæÁ®ã‰ø°ÊÅØËé∑ÂèñÂ§±Ë¥•ÔºÅ");
+            req.setAttribute("error", "◊¢≤·Œ¥ø™∆Ù£°");
             req.getRequestDispatcher("/jsp/Professor/SelectToTeach.jsp").forward(req, resp);
         }
     }
 
     public void deSelect(HttpServletRequest req, HttpServletResponse resp) throws Exception {
-        String course_id = req.getParameter("course_id");
-        CourseDAO courseDAO = new CourseDAOImpl();
-        Course course = courseDAO.findById(course_id);
-        if (!course.getCourse_id().equals("-1")) {
-            //found!
-            Professor professor = (Professor) req.getSession().getAttribute("user");
-            Professor server_professor = new ProfessorDAOImpl().findById(professor.getP_id());
-            if (professor.getPassword().equals(server_professor.getPassword())) {
-                if (professor != null) {
-                    course.setProfessor_id(null);
-                    courseDAO.update(course);
-                    getCourseList(req, resp);
+        Registration registration = (Registration) req.getSession().getAttribute("registration");
+        if (registration.getStatus().equals("open")) {
+            String course_id = req.getParameter("course_id");
+            CourseDAO courseDAO = new CourseDAOImpl();
+            Course course = courseDAO.findById(course_id);
+            if (!course.getCourse_id().equals("-1")) {
+                //found!
+                Professor professor = (Professor) req.getSession().getAttribute("user");
+                Professor server_professor = new ProfessorDAOImpl().findById(professor.getP_id());
+                if (professor.getPassword().equals(server_professor.getPassword())) {
+                    if (professor != null) {
+                        course.setProfessor_id(null);
+                        courseDAO.update(course);
+                        getCourseList(req, resp);
+                    } else {
+                        req.setAttribute("error", "µ«¬º≥¨ ±");
+                        backToIndex(req, resp);
+                    }
                 } else {
-                    req.setAttribute("error", "ÁôªÂΩïË∂ÖÊó∂");
-                    backToIndex(req,resp);
+                    req.setAttribute("error", "µ«¬º–≈œ¢”–ŒÛ");
+                    backToIndex(req, resp);
                 }
             } else {
-                req.setAttribute("error", "ÁôªÂΩï‰ø°ÊÅØÊúâËØØ");
-                backToIndex(req,resp);
+                req.setAttribute("error", "øŒ≥Ã–≈œ¢ªÒ»° ß∞‹£°");
+                req.getRequestDispatcher("/jsp/Professor/SelectToTeach.jsp").forward(req, resp);
             }
         } else {
-            req.setAttribute("error", "ËØæÁ®ã‰ø°ÊÅØËé∑ÂèñÂ§±Ë¥•ÔºÅ");
+            req.setAttribute("error", "◊¢≤·Œ¥ø™∆Ù£°");
             req.getRequestDispatcher("/jsp/Professor/SelectToTeach.jsp").forward(req, resp);
         }
     }
 
     public void deSelectAll(HttpServletRequest req, HttpServletResponse resp) throws Exception {
-        CourseDAO courseDAO = new CourseDAOImpl();
-        Professor professor = (Professor) req.getSession().getAttribute("user");
-        Professor server_professor = new ProfessorDAOImpl().findById(professor.getP_id());
-        if(professor.getPassword().equals(server_professor.getPassword())) {
-            Registration registration = (Registration) req.getSession().getAttribute("registration");
-            if (professor != null) {
-                List<Course> slist = courseDAO.findSelected(professor.getP_id(), registration.getReg_id());
-                if (slist.size() != 0) {
-                    for (Course course : slist) {
-                        course.setProfessor_id(null);
-                        courseDAO.update(course);
+        Registration registration1 = (Registration) req.getSession().getAttribute("registration");
+        if (registration1.getStatus().equals("open")) {
+            CourseDAO courseDAO = new CourseDAOImpl();
+            Professor professor = (Professor) req.getSession().getAttribute("user");
+            Professor server_professor = new ProfessorDAOImpl().findById(professor.getP_id());
+            if (professor.getPassword().equals(server_professor.getPassword())) {
+                Registration registration = (Registration) req.getSession().getAttribute("registration");
+                if (professor != null) {
+                    List<Course> slist = courseDAO.findSelected(professor.getP_id(), registration.getReg_id());
+                    if (slist.size() != 0) {
+                        for (Course course : slist) {
+                            course.setProfessor_id(null);
+                            courseDAO.update(course);
+                        }
+                        getCourseList(req, resp);
+                    } else {
+                        req.getRequestDispatcher("/jsp/Professor/SelectToTeach.jsp").forward(req, resp);
                     }
-                    getCourseList(req, resp);
                 } else {
-                    req.getRequestDispatcher("/jsp/Professor/SelectToTeach.jsp").forward(req, resp);
+                    req.setAttribute("error", "µ«¬º≥¨ ±");
+                    backToIndex(req, resp);
+                    return;
                 }
             } else {
-                req.setAttribute("error", "ÁôªÂΩïË∂ÖÊó∂");
-                backToIndex(req,resp);
-                return;
+                req.setAttribute("error", "µ«¬º–≈œ¢”–ŒÛ");
+                backToIndex(req, resp);
             }
-        }else {
-            req.setAttribute("error", "ÁôªÂΩï‰ø°ÊÅØÊúâËØØ");
-            backToIndex(req,resp);
+        } else {
+            req.setAttribute("error", "◊¢≤·Œ¥ø™∆Ù£°");
+            req.getRequestDispatcher("/jsp/Professor/SelectToTeach.jsp").forward(req, resp);
         }
     }
-    public void backToIndex(HttpServletRequest request,HttpServletResponse response)throws ServletException,IOException{
-        HttpSession session=request.getSession();
+
+    public void backToIndex(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession();
         session.removeAttribute("user");
         session.removeAttribute("registration");
         session.removeAttribute("courseList");

@@ -28,29 +28,29 @@ public class RegistrarServlet extends BaseServlet {
             return true;
     }
     public static boolean hasSpecialChar(String str) {
-        String regEx = "[ _`~!@#$%^&*()+=|{}':;',\\[\\].<>/?~ï¼@#ï¿¥%â€¦â€¦&*ï¼ˆï¼‰â€”â€”+|{}ã€ã€‘â€˜ï¼›ï¼šâ€â€œâ€™ã€‚ï¼Œã€ï¼Ÿ]|\n|\r|\t";
+        String regEx = "[ _`~!@#$%^&*()+=|{}':;',\\[\\].<>/?~£¡@#£¤%¡­¡­&*£¨£©¡ª¡ª+|{}¡¾¡¿¡®£»£º¡±¡°¡¯¡££¬¡¢£¿]|\n|\r|\t";
         Pattern p = Pattern.compile(regEx);
         Matcher m = p.matcher(str);
         return m.find();
     }
     public static boolean valideIdCard(String idCard) {
 
-        String idCardPattern = "^\\d{17}(\\d|X)$";  // å‰17ä½ä¸ºæ•°å­—ï¼Œæœ€åä¸€ä½ä¸ºæ•°å­—æˆ–X
+        String idCardPattern = "^\\d{17}(\\d|X)$";  // Ç°17Î»ÎªÊı×Ö£¬×îºóÒ»Î»ÎªÊı×Ö»òX
         String provinces = "11, 12, 13, 14, 15, 21, 22, 23, 31, 32, 33, 34, 35, 36, 37, 41, 42, 43, 44, 45, 46, 50, 51, 52, 53, 54, 61, 62, 63, 64, 65, 71, 81, 82";
 
-        // éªŒè¯é•¿åº¦
+        // ÑéÖ¤³¤¶È
         if (idCard.length() != 18) {
             return false;
         }
-        // éªŒè¯æ ¼å¼
+        // ÑéÖ¤¸ñÊ½
         if (!Pattern.matches(idCardPattern, idCard)) {
             return false;
         }
-        // éªŒè¯çœçº§ä»£ç 
+        // ÑéÖ¤Ê¡¼¶´úÂë
         if (!provinces.contains(idCard.substring(0,2))) {
             return false;
         }
-        // éªŒè¯å¹´æœˆæ—¥
+        // ÑéÖ¤ÄêÔÂÈÕ
         DateFormat df = new SimpleDateFormat("yyyyMMdd");
         try {
             java.util.Date birthday = df.parse(idCard.substring(6, 14));
@@ -78,13 +78,13 @@ public class RegistrarServlet extends BaseServlet {
         String p_id="P"+generateID(req);
         String p_name = req.getParameter("p_name");
         if(p_name==null||hasSpecialChar(p_name)){
-            req.setAttribute("error", "nameå«æœ‰éæ³•å­—ç¬¦ï¼");
+            req.setAttribute("error", "nameº¬ÓĞ·Ç·¨×Ö·û£¡");
             req.getRequestDispatcher("/jsp/Registrar/NewProfessor.jsp").forward(req, resp);
             return;
         }
         String time = req.getParameter("birthday");
         if(time==null){
-            req.setAttribute("error", "birthdayä¸èƒ½ä¸ºç©ºï¼");
+            req.setAttribute("error", "birthday²»ÄÜÎª¿Õ£¡");
             req.getRequestDispatcher("/jsp/Registrar/NewProfessor.jsp").forward(req, resp);
             return;
         }
@@ -92,26 +92,26 @@ public class RegistrarServlet extends BaseServlet {
         Date birthday = new Date(utilDate.getTime());
         String identify_num = req.getParameter("identify_num");
         if(identify_num==null||!valideIdCard(identify_num)){
-            req.setAttribute("error", "èº«ä»½è¯æ ¼å¼æœ‰è¯¯ï¼");
+            req.setAttribute("error", "Éí·İÖ¤¸ñÊ½ÓĞÎó£¡");
             req.getRequestDispatcher("/jsp/Registrar/NewProfessor.jsp").forward(req, resp);
             return;
         }
         String status = req.getParameter("status");
         if(status==null||hasSpecialChar(status)){
-            req.setAttribute("error", "statuså«æœ‰éæ³•å­—ç¬¦");
+            req.setAttribute("error", "statusº¬ÓĞ·Ç·¨×Ö·û");
             req.getRequestDispatcher("/jsp/Registrar/NewProfessor.jsp").forward(req, resp);
             return;
         }
         String sdept_id = req.getParameter("dept_id");
         if(sdept_id==null||!isInteger(sdept_id)){
-            req.setAttribute("error", "éƒ¨é—¨ç¼–å·éœ€ä¸ºæ•°å­—");
+            req.setAttribute("error", "²¿ÃÅ±àºÅĞèÎªÊı×Ö");
             req.getRequestDispatcher("/jsp/Registrar/NewProfessor.jsp").forward(req, resp);
             return;
         }
         int dept_id = Integer.parseInt(sdept_id);
         String password = req.getParameter("password");
         if(password==null||hasSpecialChar(password)){
-            req.setAttribute("error", "å¯†ç å«æœ‰éæ³•å­—ç¬¦");
+            req.setAttribute("error", "ÃÜÂëº¬ÓĞ·Ç·¨×Ö·û");
             req.getRequestDispatcher("/jsp/Registrar/NewProfessor.jsp").forward(req, resp);
             return;
         }
@@ -128,12 +128,12 @@ public class RegistrarServlet extends BaseServlet {
                 req.setAttribute("list", list);
                 req.getRequestDispatcher("/jsp/Registrar/SearchProfessor.jsp").forward(req, resp);
             } else {
-                req.setAttribute("error", "idå·²å­˜åœ¨ï¼");
+                req.setAttribute("error", "idÒÑ´æÔÚ£¡");
                 req.getRequestDispatcher("/jsp/Registrar/NewProfessor.jsp").forward(req, resp);
                 return;
             }
         }else{
-            req.setAttribute("error", "ç™»å½•ä¿¡æ¯æœ‰è¯¯ï¼");
+            req.setAttribute("error", "µÇÂ¼ĞÅÏ¢ÓĞÎó£¡");
             backToIndex(req, resp);
         }
 
@@ -142,7 +142,7 @@ public class RegistrarServlet extends BaseServlet {
         String s_id="S"+generateID(req);
         String s_name = req.getParameter("s_name");
         if(s_name==null||hasSpecialChar(s_name)){
-            req.setAttribute("error", "nameå«æœ‰éæ³•å­—ç¬¦ï¼");
+            req.setAttribute("error", "nameº¬ÓĞ·Ç·¨×Ö·û£¡");
             req.getRequestDispatcher("/jsp/Registrar/NewStudent.jsp").forward(req, resp);
             return;
         }
@@ -151,7 +151,7 @@ public class RegistrarServlet extends BaseServlet {
         Date birthday = new Date(utilDate.getTime());
         String identify_num = req.getParameter("identify_num");
         if(identify_num==null||!valideIdCard(identify_num)){
-            req.setAttribute("error", "èº«ä»½è¯æ ¼å¼æœ‰è¯¯");
+            req.setAttribute("error", "Éí·İÖ¤¸ñÊ½ÓĞÎó");
             req.getRequestDispatcher("/jsp/Registrar/NewStudent.jsp").forward(req, resp);
             return;
         }
@@ -162,11 +162,11 @@ public class RegistrarServlet extends BaseServlet {
         Date graduate = new Date(graduate_Date.getTime());
         String password = req.getParameter("password");
         if(password==null||hasSpecialChar(password)){
-            req.setAttribute("error", "å¯†ç å«æœ‰éæ³•å­—ç¬¦");
+            req.setAttribute("error", "ÃÜÂëº¬ÓĞ·Ç·¨×Ö·û");
             req.getRequestDispatcher("/jsp/Registrar/NewStudent.jsp").forward(req, resp);
             return;
         }
-        //æ ¼å¼åœ¨jspé¡µé¢è¿›è¡Œåˆ¤æ–­
+        //¸ñÊ½ÔÚjspÒ³Ãæ½øĞĞÅĞ¶Ï
         Registrar registerer = (Registrar) req.getSession().getAttribute("user");
         Registrar server_register = new RegistrarDAOImpl().findById(registerer.getR_id());
         if(registerer.getPassword().equals(server_register.getPassword())) {
@@ -253,7 +253,7 @@ public class RegistrarServlet extends BaseServlet {
         resp.sendRedirect("/SoftwareEngineering/jsp/Registrar/SearchStudent.jsp");
     }
     public void modify(HttpServletRequest req, HttpServletResponse resp) throws Exception {
-        //æ­¤ä¸ºæŸ¥è¯¢ç•Œé¢è·³è½¬åˆ°ä¿®æ”¹é¡µé¢çš„å‡½æ•°
+        //´ËÎª²éÑ¯½çÃæÌø×ªµ½ĞŞ¸ÄÒ³ÃæµÄº¯Êı
         ProfessorDAO professorDAO = new ProfessorDAOImpl();
         try {
             String id = req.getParameter("id");
@@ -263,7 +263,7 @@ public class RegistrarServlet extends BaseServlet {
                 session.setAttribute("professor", professor);
                 req.getRequestDispatcher("/jsp/Registrar/MaintainProfessor.jsp").forward(req,resp);
             }else{
-                req.setAttribute("error", "idé”™è¯¯æ— æ³•ä¿®æ”¹");
+                req.setAttribute("error", "id´íÎóÎŞ·¨ĞŞ¸Ä");
                 req.getRequestDispatcher("/jsp/Registrar/SearchProfessor.jsp").forward(req,resp);
             }
         } catch (Exception e) {
@@ -271,7 +271,7 @@ public class RegistrarServlet extends BaseServlet {
         }
     }
     public void modifyStu(HttpServletRequest req, HttpServletResponse resp) throws Exception {
-        //æ­¤ä¸ºæŸ¥è¯¢ç•Œé¢è·³è½¬åˆ°ä¿®æ”¹é¡µé¢çš„å‡½æ•°
+        //´ËÎª²éÑ¯½çÃæÌø×ªµ½ĞŞ¸ÄÒ³ÃæµÄº¯Êı
         StudentDAO studentDAO = new StudentDAOImpl();
         try {
             String id = req.getParameter("id");
@@ -281,7 +281,7 @@ public class RegistrarServlet extends BaseServlet {
                 session.setAttribute("student",student);
                 req.getRequestDispatcher("/jsp/Registrar/MaintainStudent.jsp").forward(req,resp);
             }else{
-                req.setAttribute("error", "idé”™è¯¯æ— æ³•ä¿®æ”¹");
+                req.setAttribute("error", "id´íÎóÎŞ·¨ĞŞ¸Ä");
                 req.getRequestDispatcher("/jsp/Registrar/SearchStudent.jsp").forward(req,resp);
             }
         } catch (Exception e) {
@@ -291,20 +291,20 @@ public class RegistrarServlet extends BaseServlet {
     public void modifyProfessor(HttpServletRequest req, HttpServletResponse resp) throws Exception {
         Professor professor1 = (Professor) req.getSession().getAttribute("professor");
         if(professor1==null){
-            req.setAttribute("error", "ä¿¡æ¯æœ‰è¯¯ï¼");
+            req.setAttribute("error", "ĞÅÏ¢ÓĞÎó£¡");
             req.getRequestDispatcher("/jsp/Registrar/SearchProfessor.jsp").forward(req, resp);
             return;
         }
         String p_id=professor1.getP_id();
         String p_name = req.getParameter("p_name");
         if(p_name==null||hasSpecialChar(p_name)){
-            req.setAttribute("error", "nameå«æœ‰éæ³•å­—ç¬¦ï¼");
+            req.setAttribute("error", "nameº¬ÓĞ·Ç·¨×Ö·û£¡");
             req.getRequestDispatcher("/jsp/Registrar/SearchProfessor.jsp").forward(req, resp);
             return;
         }
         String time = req.getParameter("birthday");
         if(time==null){
-            req.setAttribute("error", "birthdayä¸èƒ½ä¸ºç©ºï¼");
+            req.setAttribute("error", "birthday²»ÄÜÎª¿Õ£¡");
             req.getRequestDispatcher("/jsp/Registrar/SearchProfessor.jsp").forward(req, resp);
             return;
         }
@@ -312,26 +312,26 @@ public class RegistrarServlet extends BaseServlet {
         Date birthday = new Date(utilDate.getTime());
         String identify_num = req.getParameter("identify_num");
         if(identify_num==null||!valideIdCard(identify_num)){
-            req.setAttribute("error", "èº«ä»½è¯æ ¼å¼æœ‰è¯¯");
+            req.setAttribute("error", "Éí·İÖ¤¸ñÊ½ÓĞÎó");
             req.getRequestDispatcher("/jsp/Registrar/SearchProfessor.jsp").forward(req, resp);
             return;
         }
         String status = req.getParameter("status");
         if(status==null||hasSpecialChar(status)){
-            req.setAttribute("error", "statusåŒ…å«éæ³•å­—ç¬¦");
+            req.setAttribute("error", "status°üº¬·Ç·¨×Ö·û");
             req.getRequestDispatcher("/jsp/Registrar/SearchProfessor.jsp").forward(req, resp);
             return;
         }
         String sdept_id = req.getParameter("dept_id");
         if(sdept_id==null||!isInteger(sdept_id)){
-            req.setAttribute("error", "éƒ¨é—¨ç¼–å·éœ€ä¸ºæ•°å­—");
+            req.setAttribute("error", "²¿ÃÅ±àºÅĞèÎªÊı×Ö");
             req.getRequestDispatcher("/jsp/Registrar/SearchProfessor.jsp").forward(req, resp);
             return;
         }
         int dept_id = Integer.parseInt(sdept_id);
         String password = req.getParameter("password");
         if(password==null||hasSpecialChar(password)){
-            req.setAttribute("error", "å¯†ç å«æœ‰éæ³•å­—ç¬¦");
+            req.setAttribute("error", "ÃÜÂëº¬ÓĞ·Ç·¨×Ö·û");
             req.getRequestDispatcher("/jsp/Registrar/SearchProfessor.jsp").forward(req, resp);
             return;
         }
@@ -348,11 +348,11 @@ public class RegistrarServlet extends BaseServlet {
                 req.setAttribute("list", list);
                 req.getRequestDispatcher("/jsp/Registrar/SearchProfessor.jsp").forward(req, resp);
             }else{
-                req.setAttribute("error", "ç™»å½•ä¿¡æ¯æœ‰è¯¯ï¼");
+                req.setAttribute("error", "µÇÂ¼ĞÅÏ¢ÓĞÎó£¡");
                 backToIndex(req, resp);
             }
         }else{
-            req.setAttribute("error", "ç™»å½•ä¿¡æ¯æœ‰è¯¯ï¼");
+            req.setAttribute("error", "µÇÂ¼ĞÅÏ¢ÓĞÎó£¡");
             backToIndex(req, resp);
         }
 
@@ -387,11 +387,11 @@ public class RegistrarServlet extends BaseServlet {
                 req.setAttribute("list_stu", list);
                 req.getRequestDispatcher("/jsp/Registrar/SearchStudent.jsp").forward(req, resp);
             }else{
-                req.setAttribute("error", "ç™»å½•ä¿¡æ¯æœ‰è¯¯ï¼");
+                req.setAttribute("error", "µÇÂ¼ĞÅÏ¢ÓĞÎó£¡");
                 req.getRequestDispatcher("/index.jsp").forward(req, resp);
             }
         }else{
-            req.setAttribute("error", "ç™»å½•ä¿¡æ¯æœ‰è¯¯ï¼");
+            req.setAttribute("error", "µÇÂ¼ĞÅÏ¢ÓĞÎó£¡");
             backToIndex(req, resp);
         }
 
@@ -407,13 +407,13 @@ public class RegistrarServlet extends BaseServlet {
                 professorDAO.delete(p_id);
                 resp.sendRedirect("/SoftwareEngineering/jsp/Registrar/SearchProfessor.jsp");
             } else {
-                req.setAttribute("error", "idä¸å­˜åœ¨ï¼");
+                req.setAttribute("error", "id²»´æÔÚ£¡");
                 req.getRequestDispatcher("/jsp/Registrar/SearchProfessor.jsp").forward(req, resp);
                 return;
             }
             resp.sendRedirect("/SoftwareEngineering/jsp/Registrar/SearchProfessor.jsp");
         }else{
-            req.setAttribute("error", "ç™»å½•ä¿¡æ¯æœ‰è¯¯ï¼");
+            req.setAttribute("error", "µÇÂ¼ĞÅÏ¢ÓĞÎó£¡");
             backToIndex(req, resp);
         }
     }
@@ -428,13 +428,13 @@ public class RegistrarServlet extends BaseServlet {
                 studentDAO.delete(s_id);
                 resp.sendRedirect("/SoftwareEngineering/jsp/Registrar/SearchStudent.jsp");
             } else {
-                req.setAttribute("error", "idä¸å­˜åœ¨ï¼");
+                req.setAttribute("error", "id²»´æÔÚ£¡");
                 req.getRequestDispatcher("/jsp/Registrar/SearchStudent.jsp").forward(req, resp);
                 return;
             }
             resp.sendRedirect("/SoftwareEngineering/jsp/Registrar/SearchStudent.jsp");
         }else{
-            req.setAttribute("error", "ç™»å½•ä¿¡æ¯æœ‰è¯¯ï¼");
+            req.setAttribute("error", "µÇÂ¼ĞÅÏ¢ÓĞÎó£¡");
             backToIndex(req, resp);
         }
     }
