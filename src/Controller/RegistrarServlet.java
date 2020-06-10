@@ -1,10 +1,9 @@
 package Controller;
-
 import Beans.Professor;
 import Beans.Student;
 import Beans.Registrar;
 import DAO.*;
-
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -13,6 +12,7 @@ import java.io.IOException;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -36,17 +36,7 @@ public class RegistrarServlet extends BaseServlet {
         return pattern.matcher(str).matches();
     }
     public void addProfessor(HttpServletRequest req, HttpServletResponse resp) throws Exception {
-        String p_id = req.getParameter("p_id");
-        if(p_id==null||hasSpecialChar(p_id)){
-            req.setAttribute("error", "id含有非法字符！");
-            req.getRequestDispatcher("/jsp/Registrar/NewProfessor.jsp").forward(req, resp);
-            return;
-        }
-        if(p_id.charAt(0)!='P'){
-            req.setAttribute("error", "ID必须以P打头！");
-            req.getRequestDispatcher("/jsp/Registrar/NewProfessor.jsp").forward(req, resp);
-            return;
-        }
+        String p_id="P"+generateID(req);
         String p_name = req.getParameter("p_name");
         if(p_name==null||hasSpecialChar(p_name)){
             req.setAttribute("error", "name含有非法字符！");
@@ -110,18 +100,33 @@ public class RegistrarServlet extends BaseServlet {
 
     }
     public void addStudent(HttpServletRequest req, HttpServletResponse resp) throws Exception {
-        String s_id = req.getParameter("s_id");
+        String s_id="S"+generateID(req);
         String s_name = req.getParameter("s_name");
+        if(s_name==null||hasSpecialChar(s_name)){
+            req.setAttribute("error", "name含有非法字符！");
+            req.getRequestDispatcher("/jsp/Registrar/NewProfessor.jsp").forward(req, resp);
+            return;
+        }
         String time = req.getParameter("birthday");
         java.util.Date utilDate = new SimpleDateFormat("yyyy-MM-dd").parse(time);
         Date birthday = new Date(utilDate.getTime());
         String identify_num = req.getParameter("identify_num");
+        if(identify_num==null||isInteger(identify_num)){
+            req.setAttribute("error", "identify num需为数字");
+            req.getRequestDispatcher("/jsp/Registrar/NewProfessor.jsp").forward(req, resp);
+            return;
+        }
         String status = req.getParameter("status");
         int dept_id = Integer.parseInt(req.getParameter("dept_id"));
         String graduate_time = req.getParameter("birthday");
         java.util.Date graduate_Date = new SimpleDateFormat("yyyy-MM-dd").parse(graduate_time);
         Date graduate = new Date(graduate_Date.getTime());
         String password = req.getParameter("password");
+        if(password==null||hasSpecialChar(password)){
+            req.setAttribute("error", "密码含有非法字符");
+            req.getRequestDispatcher("/jsp/Registrar/NewProfessor.jsp").forward(req, resp);
+            return;
+        }
         //格式在jsp页面进行判断
         Registrar registerer = (Registrar) req.getSession().getAttribute("user");
         Registrar server_register = new RegistrarDAOImpl().findById(registerer.getR_id());
@@ -136,12 +141,12 @@ public class RegistrarServlet extends BaseServlet {
                 req.setAttribute("list", list);
                 req.getRequestDispatcher("/jsp/Registrar/SearchStudent.jsp").forward(req, resp);
             } else {
-                req.setAttribute("error", "id已存在！");
+                req.setAttribute("error", "id has existed!");
                 req.getRequestDispatcher("/jsp/Registrar/NewStudent.jsp").forward(req, resp);
                 return;
             }
         }else{
-            req.setAttribute("error", "登录信息有误！");
+            req.setAttribute("error", "Incorrect login information!");
             backToIndex(req, resp);
         }
     }
@@ -182,16 +187,16 @@ public class RegistrarServlet extends BaseServlet {
     public void searchStudent(HttpServletRequest req, HttpServletResponse resp) throws Exception {
         String idString=req.getParameter("by_id");
         String name=req.getParameter("by_name");
-        List<Student> list=new ArrayList<Student>();
+        List<Student> list_stu=new ArrayList<Student>();
         StudentDAO studentDAO = new StudentDAOImpl();
         if(!notBlank(idString)&&!notBlank(name)){
-            list=studentDAO.showAll();
+            list_stu=studentDAO.showAll();
         }
         if(notBlank(idString)&&!notBlank(name)){
             //only id
             Student student = studentDAO.findById(idString);
             if (student.getS_id().equals(idString)){//found!
-                list.add(student);
+                list_stu.add(student);
             }//not found add nothing!
         }
         if(!notBlank(idString)&&notBlank(name)){
@@ -199,13 +204,13 @@ public class RegistrarServlet extends BaseServlet {
             List<Student> resultList = studentDAO.findByName(name);
             for(Student student:resultList){
                 if(student!=null)
-                    list.add(student);
+                    list_stu.add(student);
                 //found and add
             }
             //not found add nothing!
         }
         HttpSession session = req.getSession();
-        session.setAttribute("list",list);
+        session.setAttribute("list_stu",list_stu);
         resp.sendRedirect("/SoftwareEngineering/jsp/Registrar/SearchStudent.jsp");
     }
     public void modify(HttpServletRequest req, HttpServletResponse resp) throws Exception {
@@ -234,7 +239,7 @@ public class RegistrarServlet extends BaseServlet {
             if(formatCheck(id)) {
                 Student student = studentDAO.findById(id);
                 HttpSession session=req.getSession();
-                req.setAttribute("student",student);
+                session.setAttribute("student",student);
                 req.getRequestDispatcher("/jsp/Registrar/MaintainStudent.jsp").forward(req,resp);
             }else{
                 req.setAttribute("error", "id错误无法修改");
@@ -315,7 +320,7 @@ public class RegistrarServlet extends BaseServlet {
     }
     public void modifyStudent(HttpServletRequest req, HttpServletResponse resp) throws Exception {
         String s_id = req.getParameter("id");
-        String s_name = req.getParameter("p_name");
+        String s_name = req.getParameter("s_name");
         String time = req.getParameter("birthday");
         java.util.Date utilDate = new SimpleDateFormat("yyyy-MM-dd").parse(time);
         Date birthday = new Date(utilDate.getTime());
@@ -323,23 +328,12 @@ public class RegistrarServlet extends BaseServlet {
         String status = req.getParameter("status");
         int dept_id = Integer.parseInt(req.getParameter("dept_id"));
         String time1 = req.getParameter("graduate_date");
-        java.util.Date utilDate1 = new SimpleDateFormat("yyyy-MM-dd").parse(time);
-        Date graduate = new Date(utilDate.getTime());
+        java.util.Date utilDate1 = new SimpleDateFormat("yyyy-MM-dd").parse(time1);
+        Date graduate = new Date(utilDate1.getTime());
         String password = req.getParameter("password");
-        //格式再判断
-        System.out.println(s_id);
-/*
-        if (!formatCheck(p_id)) {
-            req.setAttribute("error", "id格式有误！");
-            req.getRequestDispatcher("/jsp/Registrar/MaintainProfessor.jsp").forward(req, resp);
-            return;
-        }
- */
-        if (!formatCheck(password)) {
-            req.setAttribute("error", "密码格式有误！");
-            req.getRequestDispatcher("/jsp/Registrar/MaintainProfessor.jsp").forward(req, resp);
-            return;
-        }
+
+        System.out.println(s_id+1239+s_name);
+
         Registrar registerer = (Registrar) req.getSession().getAttribute("user");
         RegistrarDAOImpl registererDAO = new RegistrarDAOImpl();
         if(registerer!=null){
@@ -350,7 +344,7 @@ public class RegistrarServlet extends BaseServlet {
                 studentDAO.update(student);
                 List<Student> list = new ArrayList<Student>();
                 list.add(student);
-                req.setAttribute("list", list);
+                req.setAttribute("list_stu", list);
                 req.getRequestDispatcher("/jsp/Registrar/SearchStudent.jsp").forward(req, resp);
             }else{
                 req.setAttribute("error", "登录信息有误！");
@@ -412,5 +406,24 @@ public class RegistrarServlet extends BaseServlet {
         session.removeAttribute("allC");
         request.getRequestDispatcher("/index.jsp").forward(request,response);
     }
-
+    public String generateID(HttpServletRequest req){
+        HttpSession sessions=req.getSession();
+        ServletContext applications=sessions.getServletContext();
+        Integer Stu_ID;
+        if(applications.getAttribute("Stu_ID")!=null)
+        {
+            Stu_ID= (Integer) applications.getAttribute("Stu_ID");
+            Stu_ID=Stu_ID+1;
+            applications.setAttribute("Stu_ID",Stu_ID);
+        }
+        else{
+            Integer ID=new Integer(100);
+            Stu_ID=ID;
+            applications.setAttribute("Stu_ID",ID);
+        }
+        Calendar date = Calendar.getInstance();
+        String year = String.valueOf(date.get(Calendar.YEAR));
+        String _id=year+Stu_ID;
+        return _id;
+    }
 }
