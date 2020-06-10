@@ -82,12 +82,6 @@ public class RegistrarServlet extends BaseServlet {
             req.getRequestDispatcher("/jsp/Registrar/NewProfessor.jsp").forward(req, resp);
             return;
         }
-        String p_name = req.getParameter("p_name");
-        if(p_name==null||hasSpecialChar(p_name)){
-            req.setAttribute("error", "name含有非法字符！");
-            req.getRequestDispatcher("/jsp/Registrar/NewProfessor.jsp").forward(req, resp);
-            return;
-        }
         String time = req.getParameter("birthday");
         if(time==null){
             req.setAttribute("error", "birthday不能为空！");
