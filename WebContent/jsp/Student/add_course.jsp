@@ -59,7 +59,7 @@
                         <th class="text-center">课程起始时间</th>
                         <th class="text-center">课程结束时间</th>
                         <th class="text-center">WeekDay</th>
-                        <th class="text-center">教师姓名</th>
+                        <th class="text-center">教师ID</th>
                         <th class="text-center">已选人数</th>
                         <th class="text-center">选课种类</th>
                     </tr>
@@ -79,7 +79,7 @@
                         </td>
                         <td><%=list.get(i).getWeekday()%>
                         </td>
-                        <td><%=list.get(i).getWeekday()%>
+                        <td><%=list.get(i).getProfessor_id()%>
                         </td>
                         <td><%=list.get(i).getStudent_count()%>
                         </td>
