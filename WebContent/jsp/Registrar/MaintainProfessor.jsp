@@ -1,12 +1,6 @@
 <%@ page import="Beans.Professor" %>
 <%@ page import="java.text.SimpleDateFormat" %>
-<%@ page import="java.sql.Date" %><%--
-  Created by IntelliJ IDEA.
-  User: mlixi
-  Date: 2020/6/1
-  Time: 17:15
-  To change this template use File | Settings | File Templates.
---%>
+<%@ page import="java.sql.Date" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -14,9 +8,9 @@
     <title>维护教师信息</title>
 </head>
 <body background="images/reg_back.jpg">
-<h1 style="color: antiquewhite"管理教授档案</h1>
-<form class="modifyinfo" action="/SoftwareEngineering/RegistrarServlet?method=modifyProfessor&id=${professor.p_id}" method="post">
-    <div style="color: #00ff6b" class="inputbox" >
+<h1 style="color: antiquewhite">管理教授档案</h1>
+<form class="modifyInfo" action="/SoftwareEngineering/RegistrarServlet?method=modifyProfessor&id=${professor.p_id}" method="post">
+    <div style="color: #00ff6b" class="inputBox" >
         id<br><input type="text" class="password" name="p_id" value="${professor.p_id}" disabled><br>
         姓名<br><input type="text" class="password" name="p_name" value="${professor.p_name}"><br>
         生日<br><input type="Date" class="password" name="birthday" value="${professor.birthday}"><br>

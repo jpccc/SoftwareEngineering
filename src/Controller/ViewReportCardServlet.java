@@ -37,23 +37,26 @@ public class ViewReportCardServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		System.out.println("report card:enter report card");
 		//get registration
 		RegistrationDAO regDao = new RegistrationDAOImpl();
 		Registration reg=regDao.queryLatest();
 		int reg_id=reg.getReg_id();
-		//获取student_id
+		System.out.println("report card: reg_id="+reg_id);
+		//get student_id
 		Student student=(Student) request.getSession().getAttribute("user");
 		String student_id=student.getS_id();
-		//获取ReportCard
+		System.out.println("report card: student_id="+student_id);
+		//get ReportCard
 		ViewReportCardDAO dao=new ViewReportCardDAO();
-		Map<Course,Integer> ReportCard=dao.getReportCard(student_id,reg_id);
+		Map<Course,String> ReportCard=dao.getReportCard(student_id,reg_id);
 		//debug print
-		for(Map.Entry<Course, Integer> entry : ReportCard.entrySet()) {
+		for(Map.Entry<Course, String> entry : ReportCard.entrySet()) {
 			System.out.println("ReportCard: course_id="+entry.getKey().getCourse_id()+",grade="+entry.getValue());
 		}
 		//����jsp
 		List<Course> courseList=new ArrayList<Course>(ReportCard.keySet());
-		List<Integer> gradeList=new ArrayList<Integer>(ReportCard.values());
+		List<String> gradeList=new ArrayList<String>(ReportCard.values());
         request.setAttribute("CourseList", courseList);
         request.setAttribute("GradeList", gradeList);
         request.getRequestDispatcher("jsp/Student/ViewReportCard.jsp").forward(request, response);

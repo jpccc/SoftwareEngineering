@@ -1,5 +1,4 @@
 package Beans;
-
 import java.io.Serializable;
 import java.sql.Date;
 
@@ -87,6 +86,16 @@ public class Student extends User implements Serializable {
     public void setPassword(String password) {
         this.password = password;
     }
-    
+    public Student(String _id, String _name, Date _birthday, String _identify_num, String _status, int _dept_id,Date _graduateDate, String _password){
+        s_id=_id;
+        s_name=_name;
+        password=_password;
+        birthday=_birthday;
+        identify_num=_identify_num;
+        status=_status;
+        graduate_date=_graduateDate;
+        dept_id=_dept_id;
+        type=User.USER_PROFESSOR;
+    }
     
 }

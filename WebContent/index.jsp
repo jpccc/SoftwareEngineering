@@ -8,13 +8,7 @@
 <%@ page import="Beans.User" %>
 <%@ page import="Beans.Registration" %>
 <%@ page import="DAO.RegistrationDAOImpl" %>
-<%@ page import="java.util.Calendar" %><%--
-  Created by IntelliJ IDEA.
-  User: 李睿宸
-  Date: 2020/6/1
-  Time: 20:30
-  To change this template use File | Settings | File Templates.
---%>
+<%@ page import="java.util.Calendar" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%
     if(session.getAttribute("registration")==null){//获取最新的注册信息

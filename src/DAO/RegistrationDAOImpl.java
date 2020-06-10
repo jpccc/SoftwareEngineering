@@ -3,6 +3,8 @@ package DAO;
 import Beans.Registration;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class RegistrationDAOImpl implements RegistrationDAO {
     @Override
@@ -96,5 +98,46 @@ public class RegistrationDAOImpl implements RegistrationDAO {
             }
         }
         return key;
+    }
+
+    @Override
+    public void delete(List<Registration> rList) throws Exception {
+        Connection conn=null;
+        PreparedStatement ps=null;
+        ResultSet rs=null;
+        String sql="delete from registration where reg_id=?";
+        conn=DruidManager.getConnection();
+        ps=conn.prepareStatement(sql);
+        for(Registration reg:rList){
+            ps.setInt(1,reg.getReg_id());
+            ps.addBatch();
+        }
+        ps.executeBatch();
+        DruidManager.close(conn,ps,rs);
+    }
+
+    @Override
+    public void deleteByID(int r_id) throws Exception {
+        Registration registration=new Registration();
+        registration.setReg_id(r_id);
+        List<Registration> rList=new ArrayList<>();
+        rList.add(registration);
+        delete(rList);
+    }
+
+    @Override
+    public void update(Registration reg) throws Exception{
+        Connection conn=null;
+        PreparedStatement ps=null;
+        ResultSet rs=null;
+        String sql="update registration set status=?,year=?,semester=? where reg_id=?";
+        conn=DruidManager.getConnection();
+        ps=conn.prepareStatement(sql);
+        ps.setString(1,reg.getStatus());
+        ps.setInt(2,reg.getYear());
+        ps.setString(3,reg.getSemester());
+        ps.setInt(4,reg.getReg_id());
+        ps.execute();
+        DruidManager.close(conn,ps,rs);
     }
 }
