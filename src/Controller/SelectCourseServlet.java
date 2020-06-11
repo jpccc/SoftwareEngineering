@@ -12,10 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import Beans.Course;
-import Beans.CourseSelection;
-import Beans.Professor;
-import Beans.Student;
+import Beans.*;
 import DAO.ProfessorDAO;
 import DAO.ProfessorDAOImpl;
 import DAO.SelectCourseDAO;
@@ -51,7 +48,12 @@ public class SelectCourseServlet extends HttpServlet {
 			String op=request.getParameter("op");
 			response.getWriter().println(op);
 			String id=(String)request.getParameter("op");
-
+			Registration registration1 = (Registration) request.getSession().getAttribute("registration");
+			if(!registration1.getStatus().equals("open")) {
+				request.setAttribute("message", "系统未开放！");
+				request.getRequestDispatcher("jsp/Student/add_course.jsp").forward(request, response);
+				return;
+			}
 			if( op!=null&& op.equals("addxxx") ){
 				id=(String)request.getParameter("id");
 
