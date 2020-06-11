@@ -45,12 +45,6 @@ public class SelectCourseServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		response.setCharacterEncoding("UTF-8");
 		try {
-			Registration registration1 = (Registration) request.getSession().getAttribute("registration");
-			if(!registration1.getStatus().equals("open")) {
-				request.setAttribute("message", "系统未开放！");
-				request.getRequestDispatcher("jsp/Student/add_course.jsp").forward(request, response);
-				return;
-			}
 			Student student = (Student) request.getSession().getAttribute("user");
 			String student_name=student.getS_name();
 			String student_id=student.getS_id();
@@ -60,9 +54,10 @@ public class SelectCourseServlet extends HttpServlet {
 			response.getWriter().println(op);
 			String id=(String)request.getParameter("op");
 
-
-
-
+			
+			List<CourseSelection> schedule=new ArrayList<CourseSelection>();
+			schedule=select_course_dao.get_schedule(student_id);
+		
 
 			if( op!=null&& op.equals("check")){
 				id=(String)request.getParameter("id");
@@ -82,8 +77,7 @@ public class SelectCourseServlet extends HttpServlet {
 			}
 
 			if(op!=null&& op.contentEquals("add")) {
-				List<CourseSelection> schedule=new ArrayList<CourseSelection>();
-				schedule=select_course_dao.get_schedule(student_id);
+				int in_list_primary=0;
 				for(int i=0;i<100;i++){
 					String str=request.getParameter(String.valueOf(i));
 					System.out.println(request.getParameter(String.valueOf(i)));
@@ -95,7 +89,9 @@ public class SelectCourseServlet extends HttpServlet {
 						int reg_id=Integer.valueOf(arr[1]);
 
 						String type=arr[2];
-
+						if(type.equals("primary")) {
+							in_list_primary+=1;
+						}
 						float price=Float.valueOf(arr[3]);
 						System.out.println("price= "+price);
 
@@ -121,8 +117,8 @@ public class SelectCourseServlet extends HttpServlet {
 							}
 						}
 						if(select_course_dao.satisfy_prerequire(schedule, course_selection).equals("yes")
-								&& select_course_dao.no_conflict(schedule, course_selection).equals("yes")
-								&&pri_num<4) {
+						&& select_course_dao.no_conflict(schedule, course_selection).equals("yes")
+						&&pri_num+in_list_primary<=4) {
 							select_course_dao.add_course_selection(course_selection);
 							select_course_dao.add_student_num(course_id, reg_id);
 							request.setAttribute("message", "add success  PRICE="+price +"type="+type);
@@ -133,20 +129,10 @@ public class SelectCourseServlet extends HttpServlet {
 							if(select_course_dao.no_conflict(schedule, course_selection).equals("no")) {
 								request.setAttribute("message", "time slot conflict!");
 							}
-							if(pri_num==4 ) {
-								if(type.equals("second")) {
-									select_course_dao.add_course_selection(course_selection);
-									select_course_dao.add_student_num(course_id, reg_id);
-									request.setAttribute("message", "add success  PRICE="+price +"type="+type);
-								}
-								else {
-									request.setAttribute("message", "can not select over 4 primary courses!");
-								}
+							if(pri_num+in_list_primary>4) {
+								request.setAttribute("message", "over 4 primary courses!");
 							}
-							if(pri_num>4) {
-								request.setAttribute("message", "already over 4 primary courses!");
-							}
-
+							break;
 						}
 
 					}
@@ -156,6 +142,19 @@ public class SelectCourseServlet extends HttpServlet {
 
 
 			if(op!=null&& op.contentEquals("delete")) {
+				String delete_all=request.getParameter("delete_all");
+				if(delete_all!=null) {
+					//DAO.delete all
+					for(int i=0;i<schedule.size();i++) {
+						String course_id=schedule.get(i).get_course_id();
+						int reg_id=schedule.get(i).get_reg_id();
+						select_course_dao.delete_course_selection(course_id, reg_id,student_id);
+						select_course_dao.add_student_num(course_id, reg_id);
+					}
+					request.setAttribute("message", "delete_all success");
+					request.getRequestDispatcher("jsp/Student/show_schedule.jsp").forward(request, response);
+					return;
+				}
 				for(int i=0;i<300;i++){
 					String str=request.getParameter(String.valueOf(i));
 					System.out.println(request.getParameter(String.valueOf(i)));

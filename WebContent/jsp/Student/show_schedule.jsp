@@ -27,6 +27,8 @@
                 x.submit();
             }
         }
+        
+        
     </script>
 </head>
 <body>
@@ -54,11 +56,18 @@
                             String now = df.format(d);
                         %>
                         当前时间：<%=now %>
+                        <input type="radio"
+                                   value="delete_all"
+                                   name="delete_all" 
+                            />删除所有课程
                     </div class>
                 </caption>
 
                 <div class="table_final">
                     <tr class="text-property">
+                    	
+                    	
+                        
                         <th height="57" class="text-center">课程名</th>
                         <th class="text-center">课程起始时间</th>
                         <th class="text-center">课程结束时间</th>
@@ -93,7 +102,7 @@
                         <td>
                             <input type="radio"
                                    value="<%=list.get(i).get_course_id()%> <%=list.get(i).get_reg_id() %> <%=list.get(i).get_student_id() %> <%=list.get(i).get_select_status() %>"
-                                   name=<%=name%>
+                                   name=<%=name%> 
                             />删除
                         </td>
                     </tr>
@@ -114,6 +123,8 @@
 <div class="fix_place">
     <button class="function" onclick="show()">功能</button>
     <button class="button_submit" onclick="submit()">提交</button>
+    
+    
     <input type="checkbox" id="sideMenu">
     <div class="navigate">
         <aside id="list">
@@ -159,11 +170,11 @@
             Course course = select_course_dao.check_course_from_selection(schedule.get(i));
             int weekday = course.getWeekday();
             int slot = course.getTimeslot_id();
-            List<List<Boolean>> have_course=Course.parseCourseTime(weekday,slot);
-            for (int m = 0; m < 7; m++) {
-                for (int n = 0; n < 8; n++) {
-                    if (have_course.get(m).get(n)) {
-                        main[n][m] = course.getCourse_name();
+            List<List<Boolean>> have_course= Course.parseCourseTime(weekday, slot);
+            for(int m=0;m<7;m++){
+                for(int n=0;n<8;n++){
+                    if(have_course.get(m).get(n)==true){
+                        main[n][m]=course.getCourse_name();
                     }
                 }
             }
