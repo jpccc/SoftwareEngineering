@@ -76,11 +76,11 @@
         	            request.getRequestDispatcher("RegistrarServlet?method=backToIndex")
         	                    .forward(request, response);
         	            return;
-        	        } else if (reg.getStatus()!=null&&!reg.getStatus().equals("closed")){//如果还在选课阶段
-        	            request.setAttribute("queryError", "本次课程注册还在进行中");
-        	            request.getRequestDispatcher("/jsp/Professor/SubmitGrades.jsp").forward(request, response);
+        	        } else if (reg.getStatus()!=null&&!reg.getStatus().equals("open")){//如果不在注册阶段
+        	            request.setAttribute("message", "本次课程注册已经结束");
+        	            request.getRequestDispatcher("/jsp/Student/add_course.jsp").forward(request, response);
         	            return;
-        	        }else { request.removeAttribute("queryError");}
+        	        }else { request.removeAttribute("message");}
         	        
         	        
                         List<Course> list = new ArrayList<Course>();

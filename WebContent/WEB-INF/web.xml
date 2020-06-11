@@ -51,7 +51,7 @@
   </servlet-mapping>
   <session-config>
     <!-- 配置默认的session有效时间，单位：分钟 -->
-    <session-timeout>30</session-timeout>
+    <session-timeout>2</session-timeout>
   </session-config>
   <listener>
     <listener-class>Listener.OnLineListener</listener-class>
