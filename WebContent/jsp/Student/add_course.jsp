@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" import="DAO.SelectCourseDAO" import="DAO.SelectCourseDAOImpl" import="java.util.List"
-         import="java.util.ArrayList" import="Beans.Course" %>
+         import="java.util.ArrayList" import="Beans.Course" import="DAO.RegistrationDAO" import="DAO.RegistrationDAOImpl" 
+         import="Beans.Registration"%>
 <%@ page import="java.util.Date" %>
 <%@ page import="java.text.SimpleDateFormat" %>
 <html>
@@ -67,8 +68,23 @@
                     </tr>
                     <%
                         SelectCourseDAO select_course_dao = new DAO.SelectCourseDAOImpl();
+                    
+                    RegistrationDAO regDao = new RegistrationDAOImpl();
+        			Registration reg = regDao.queryLatest();
+        	        if (reg == null||(reg.getReg_id()==-1)) {
+        	            request.setAttribute("queryError", "登录超时，请重新登录");
+        	            request.getRequestDispatcher("RegistrarServlet?method=backToIndex")
+        	                    .forward(request, response);
+        	            return;
+        	        } else if (reg.getStatus()!=null&&!reg.getStatus().equals("closed")){//如果还在选课阶段
+        	            request.setAttribute("queryError", "本次课程注册还在进行中");
+        	            request.getRequestDispatcher("/jsp/Professor/SubmitGrades.jsp").forward(request, response);
+        	            return;
+        	        }else { request.removeAttribute("queryError");}
+        	        
+        	        
                         List<Course> list = new ArrayList<Course>();
-                        list = select_course_dao.get_all_courses();
+                        list = select_course_dao.get_all_courses(reg.getReg_id());
                         int name = 0;
                         for (int i = 0; i < list.size(); i++) {
                     %>

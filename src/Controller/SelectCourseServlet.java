@@ -15,12 +15,14 @@ import javax.servlet.http.HttpSession;
 import Beans.Course;
 import Beans.CourseSelection;
 import Beans.Professor;
+import Beans.Registration;
 import Beans.Student;
 import DAO.ProfessorDAO;
 import DAO.ProfessorDAOImpl;
 import DAO.SelectCourseDAO;
 import DAO.SelectCourseDAOImpl;
-
+import DAO.RegistrationDAO;
+import DAO.RegistrationDAOImpl;
 /**
  * Servlet implementation class SelectCourseServlet
  */
@@ -52,39 +54,9 @@ public class SelectCourseServlet extends HttpServlet {
 			response.getWriter().println(op);
 			String id=(String)request.getParameter("op");
 
-			if( op!=null&& op.equals("addxxx") ){
-				id=(String)request.getParameter("id");
+			
 
-				System.out.println(id);
-				CourseSelection course_selection=new CourseSelection();
-
-
-
-				course_selection.set_student_id(student_name);
-				course_selection.set_course_id(id);
-				course_selection.set_reg_id(12);
-
-				List<CourseSelection> schedule=new ArrayList<CourseSelection>();
-				schedule=select_course_dao.get_schedule(student_name);
-				System.out.println(select_course_dao.no_conflict(schedule,course_selection));
-				if(select_course_dao.no_conflict(schedule,course_selection).equals("yes")) {
-
-
-					select_course_dao.add_course_selection(course_selection);
-					request.setAttribute("message", "add success");
-				}
-
-				request.getRequestDispatcher("jsp/Student/add_course.jsp").forward(request, response);
-
-			}
-
-			if( op!=null&& op.equals("deletexxx")){
-				id=(String)request.getParameter("id");
-				System.out.println(id);
-				select_course_dao.delete_course_selection(id, 12,"li");
-				request.setAttribute("message", "delete success");
-
-			}
+		
 
 			if( op!=null&& op.equals("check")){
 				id=(String)request.getParameter("id");
@@ -136,9 +108,15 @@ public class SelectCourseServlet extends HttpServlet {
 							request.setAttribute("message", "add success");
 						}
 						*/
+						int pri_num=0;
+						for(int c=0;c<schedule.size();c++) {
+							if(schedule.get(c).get_select_status().equals("primary")) {
+								pri_num+=1;
+							}
+						}
 						if(select_course_dao.satisfy_prerequire(schedule, course_selection).equals("yes")
-								&& select_course_dao.no_conflict(schedule, course_selection).equals("yes")
-								&&schedule.size()+1<=4) {
+						&& select_course_dao.no_conflict(schedule, course_selection).equals("yes")
+						&&pri_num<4) {
 							select_course_dao.add_course_selection(course_selection);
 							select_course_dao.add_student_num(course_id, reg_id);
 							request.setAttribute("message", "add success  PRICE="+price +"type="+type);
@@ -149,9 +127,20 @@ public class SelectCourseServlet extends HttpServlet {
 							if(select_course_dao.no_conflict(schedule, course_selection).equals("no")) {
 								request.setAttribute("message", "time slot conflict!");
 							}
-							if(schedule.size()+1>4) {
-								request.setAttribute("message", "over 4 courses!");
+							if(pri_num==4 ) {
+								if(type.equals("second")) {
+									select_course_dao.add_course_selection(course_selection);
+									select_course_dao.add_student_num(course_id, reg_id);
+									request.setAttribute("message", "add success  PRICE="+price +"type="+type);
+								}				
+								else {
+									request.setAttribute("message", "can not select over 4 primary courses!");
+								}
 							}
+							if(pri_num>4) {
+								request.setAttribute("message", "already over 4 primary courses!");
+							}
+							
 						}
 
 					}
