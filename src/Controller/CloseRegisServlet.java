@@ -105,9 +105,13 @@ public class CloseRegisServlet extends HttpServlet {
 		//cancel courses still not commited
 		for(Map.Entry<String,Schedule> entry : ScheduleList.entrySet()) {
 			List<String> primary=entry.getValue().getPrimary();
-			for(String primaryCourse : primary) {
+			int j=primary.size();//防止因为元素增减变化影响遍历过程
+			for(int i=0;i<j;i++) {
+				String primaryCourse=primary.get(i);
 				if(courseList.get(primaryCourse)==false) {
-					primary.remove(primaryCourse);		
+					primary.remove(primaryCourse);	
+					i--;
+					j--;
 				}
 			}
 		}
@@ -127,8 +131,13 @@ public class CloseRegisServlet extends HttpServlet {
 				dao.deleteSelection(alt, reg_id);
 			}
 		}
+		///update studentCount because of leveling
+		for(Map.Entry<String, Integer> entry : StudentCountList.entrySet()) {
+			dao.updateStudentCount(entry.getKey(),entry.getValue(),reg_id);
+		}
 		///upgrade alternate selection to primary selection(selected)
 		dao.upgradeAlternate(reg_id);
+		
 		///close registration
 		dao.closeRegistration(reg_id);
 		reg.setStatus("closed");

@@ -204,5 +204,19 @@ public class CloseRegisDAO {
         }
 		return 0;
 	}
+	public int updateStudentCount(String course_id, int count,int reg_id) {
+		// TODO Auto-generated method stub
+		try (Connection c = getConnection(); PreparedStatement s = c.prepareStatement("update course_info set student_count= ? where reg_id= ? and course_id= ? ;");) {	
+            s.setInt(1, count);
+            s.setInt(2, reg_id);
+            s.setString(3, course_id);
+            int result=s.executeUpdate();           
+            System.out.println("result:upgradeAlternate count=" + result);
+            return result;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+		return 0;
+	}
 }
 

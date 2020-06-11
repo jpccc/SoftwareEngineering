@@ -2,7 +2,6 @@
 <%@ page import="Beans.Registrar" %>
 <%@ page import="java.util.Date" %>
 <%@ page import="java.text.SimpleDateFormat" %>
-<%@ page import="Listener.OnLineListener" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <html>
 <head>
@@ -47,8 +46,7 @@
                     当前时间：<%=now %>
                 </div>
                 <div>
-                    测试：<%=OnLineListener.getCount()%>
-                    当前在线人数:<%=request.getSession().getServletContext().getAttribute("onLineCount")%>
+                    当前在线人数:<%=application.getAttribute("onLineCount")%>
                 </div>
             </caption>
 
@@ -61,7 +59,7 @@
                         Registrar registrar = (Registrar) session.getAttribute("user");
                         if(registrar==null){
                             request.setAttribute("error","登录超时，请重新登录");
-                            request.getRequestDispatcher("/SoftwareEngineering/RegistrarServlet?method=backToIndex")
+                            request.getRequestDispatcher("/SoftwareEngineering/ProfessorServlet?method=backToIndex")
                                     .forward(request,response);
                         }
                     %>
@@ -78,6 +76,7 @@
         ${close_error}
             ${close_success}
         <br>
+        欢迎使用教务管理系统!
     </div>
 </div>
 <div class="fix_place">
