@@ -1,14 +1,6 @@
-<%@ page import="Beans.Student" %>
-<%@ page import="Beans.Professor" %>
-<%@ page import="java.sql.Connection" %>
-<%@ page import="DAO.DruidManager" %>
-<%@ page import="java.sql.SQLException" %>
-<%@ page import="java.sql.PreparedStatement" %>
-<%@ page import="java.sql.ResultSet" %>
 <%@ page import="Beans.User" %>
 <%@ page import="Beans.Registration" %>
 <%@ page import="DAO.RegistrationDAOImpl" %>
-<%@ page import="java.util.Calendar" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%
     if(session.getAttribute("registration")==null){//获取最新的注册信息

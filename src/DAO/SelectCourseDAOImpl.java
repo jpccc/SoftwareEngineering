@@ -97,15 +97,16 @@ public class SelectCourseDAOImpl implements SelectCourseDAO{
 
 
     @Override
-    public List<Course> get_all_courses() {
+    public List<Course> get_all_courses(int reg_id) {
         List<Course> res=new ArrayList<>();
         Connection conn=null;
         PreparedStatement ps=null;
         ResultSet rs=null;
-        String sql="select * from course_info";
+        String sql="select * from course_info where reg_id=?";
         try {
             conn=JDBCUtil.getMysqlConnection();
             ps=conn.prepareStatement(sql);
+            ps.setInt(1, reg_id);
             rs=ps.executeQuery();
             while(rs.next()){
                 Course course=new Course();

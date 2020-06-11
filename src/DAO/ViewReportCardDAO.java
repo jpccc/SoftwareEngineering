@@ -20,8 +20,8 @@ public class ViewReportCardDAO {
         }
     }
 	public Connection getConnection() throws SQLException {
-        return DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/registration?characterEncoding=utf-8&useSSL=false&useUnicode=true&serverTimezone=UTC", "root",
-                "123456");
+        return DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/course_selection?characterEncoding=utf-8&useSSL=false&useUnicode=true&serverTimezone=UTC", "root",
+                "010233");
     }
 	public Map<Course,String> getReportCard(String student_id,int reg_id){
 		try (Connection c = getConnection();PreparedStatement s = c.prepareStatement("select selection.course_id,grade from selection,course_info where selection.course_id=course_info.course_id and selection.reg_id=course_info.reg_id and student_id= ? and selection.reg_id= ? and status='submit';"); ) {	

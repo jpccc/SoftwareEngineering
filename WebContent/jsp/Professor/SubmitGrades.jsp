@@ -19,6 +19,7 @@
 <head>
     <title>成绩修改页面</title>
     <link rel="stylesheet" href="/SoftwareEngineering/jsp/Professor/css/user.css">
+    <link rel="stylesheet" href="/SoftwareEngineering/jsp/Professor/css/scroll.css">
     <script>
         function show() {
             var x = document.getElementById("sideMenu");
@@ -132,8 +133,6 @@
 <div class="bottom">
     <div class="bottom_center">
         ${queryError}
-        <br>
-        欢迎使用教务管理系统!
     </div>
 </div>
 
@@ -156,17 +155,17 @@
                 <a href="/SoftwareEngineering/GradesServlet?method=backToMainPage">
                     <li>教师首页</li>
                 </a>
-                <form action="/SoftwareEngineering/GradesServlet?method=queryCourses" method="post">
-                    <div>
-                        注册日期：<input class="inputBox" style="width:100px;height: 20px" type="text" name="year"
-                                    value="<%=reg.getYear()%>"/>
-                    </div>
-                    <div>
-                        注册学期：<input class="inputBox" style="width:100px;height: 20px" type="text" name="semester"
-                                    value="<%=reg.getSemester()%>"/>
-                    </div>
-                    <input type="submit" value="查询"/>
-                </form>
+<%--                <form action="/SoftwareEngineering/GradesServlet?method=queryCourses" method="post">--%>
+<%--                    <div>--%>
+<%--                        注册日期：<input class="inputBox" style="width:100px;height: 20px" type="text" name="year"--%>
+<%--                                    value="<%=reg.getYear()%>"/>--%>
+<%--                    </div>--%>
+<%--                    <div>--%>
+<%--                        注册学期：<input class="inputBox" style="width:100px;height: 20px" type="text" name="semester"--%>
+<%--                                    value="<%=reg.getSemester()%>"/>--%>
+<%--                    </div>--%>
+<%--                    <input type="submit" value="查询"/>--%>
+<%--                </form>--%>
             </ul>
         </aside>
     </div>

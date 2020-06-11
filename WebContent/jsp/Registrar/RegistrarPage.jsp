@@ -59,7 +59,7 @@
                         Registrar registrar = (Registrar) session.getAttribute("user");
                         if(registrar==null){
                             request.setAttribute("error","登录超时，请重新登录");
-                            request.getRequestDispatcher("/SoftwareEngineering/ProfessorServlet?method=backToIndex")
+                            request.getRequestDispatcher("/SoftwareEngineering/RegistrarServlet?method=backToIndex")
                                     .forward(request,response);
                         }
                     %>
@@ -76,7 +76,6 @@
         ${close_error}
             ${close_success}
         <br>
-        欢迎使用教务管理系统!
     </div>
 </div>
 <div class="fix_place">

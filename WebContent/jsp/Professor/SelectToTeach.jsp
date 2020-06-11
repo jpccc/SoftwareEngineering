@@ -10,6 +10,7 @@
 <html>
 <head>
     <link rel="stylesheet" type="text/css" href="/SoftwareEngineering/jsp/Professor/css/user.css" />
+    <link rel="stylesheet" href="/SoftwareEngineering/jsp/Professor/css/scroll.css">
     <title>教师选课页面</title>
     <script>
         function show(){
