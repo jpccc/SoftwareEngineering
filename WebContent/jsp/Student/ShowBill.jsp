@@ -28,7 +28,7 @@
         <hr id="line_l">
     </div>
     <div class="head_center">
-        <h2 id="title">学生成绩页面</h2>
+        <h2 id="title">学生账单</h2>
     </div>
     <div class="head_right">
 

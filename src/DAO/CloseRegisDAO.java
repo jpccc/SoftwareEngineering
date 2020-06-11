@@ -191,4 +191,16 @@ public class CloseRegisDAO {
         }
 		return false;
 	}
+	public int upgradeAlternate(int reg_id) {
+		// TODO Auto-generated method stub
+		try (Connection c = getConnection(); PreparedStatement s = c.prepareStatement("update selection set select_status='primary' where reg_id= ? and select_status='alternate';");) {	
+            s.setInt(1, reg_id);
+            int result=s.executeUpdate();           
+            System.out.println("result:upgradeAlternate count=" + result);
+            return result;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+		return 0;
+	}
 }

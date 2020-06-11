@@ -42,6 +42,11 @@ public class CloseRegisServlet extends HttpServlet {
         ServletContext application=session.getServletContext();
         Integer onLineCount= (Integer) application.getAttribute("onLineCount");
         System.out.println("onLineCount="+onLineCount);
+        if(onLineCount==null) {
+        	request.setAttribute("close_error", "fail to read onLineCount!");
+			request.getRequestDispatcher("/jsp/Registrar/RegistrarPage.jsp").forward(request, response);
+        	return;
+        }
         if(onLineCount>1) {
 			request.setAttribute("close_error", "Someone online!");
 			request.getRequestDispatcher("/jsp/Registrar/RegistrarPage.jsp").forward(request, response);
@@ -114,6 +119,15 @@ public class CloseRegisServlet extends HttpServlet {
 				dao.deleteSelection(course,reg_id);
 			}
 		}
+		///remove alternate selections(not selected) 
+		for(Map.Entry<String,Schedule> entry : ScheduleList.entrySet()) {
+			List<String> alternate=entry.getValue().getAlternate();
+			for(String alt : alternate) {
+				dao.deleteSelection(alt, reg_id);
+			}
+		}
+		///upgrade alternate selection to primary selection(selected)
+		dao.upgradeAlternate(reg_id);
 		///close registration
 		dao.closeRegistration(reg_id);
 		reg.setStatus("closed");
