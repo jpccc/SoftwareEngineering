@@ -3,6 +3,7 @@
 <%@ page import="DAO.RegistrationDAOImpl" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%
+    request.getSession();
     if(session.getAttribute("registration")==null){//获取最新的注册信息
         RegistrationDAOImpl regDao=new RegistrationDAOImpl();
         Registration registration=regDao.queryLatest();

@@ -2,6 +2,7 @@
 <%@ page import="Beans.Registrar" %>
 <%@ page import="java.util.Date" %>
 <%@ page import="java.text.SimpleDateFormat" %>
+<%@ page import="Listener.OnLineListener" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <html>
 <head>
@@ -46,7 +47,8 @@
                     当前时间：<%=now %>
                 </div>
                 <div>
-                    当前在线人数:<%=application.getAttribute("onLineCount")%>
+                    测试：<%=OnLineListener.getCount()%>
+                    当前在线人数:<%=request.getSession().getServletContext().getAttribute("onLineCount")%>
                 </div>
             </caption>
 

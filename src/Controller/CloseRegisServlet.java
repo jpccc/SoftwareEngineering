@@ -52,9 +52,9 @@ public class CloseRegisServlet extends HttpServlet {
 		Registration reg=regdao.queryLatest();		
 		int reg_id=reg.getReg_id();
 		//check if registration is open
-		if(reg.getStatus().equals("closed")) {
+		if(!reg.getStatus().equals("open")) {
 			System.out.println("registration have been closed");
-			request.setAttribute("close_error", "Registration has been closed!");
+			request.setAttribute("close_error", "当前没有进行中的课程注册");
 			request.getRequestDispatcher("/jsp/Registrar/RegistrarPage.jsp").forward(request, response);
 			return;
 		}

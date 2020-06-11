@@ -159,11 +159,11 @@
             Course course = select_course_dao.check_course_from_selection(schedule.get(i));
             int weekday = course.getWeekday();
             int slot = course.getTimeslot_id();
-            List<List<Boolean>> have_course= Course.parseCourseTime(weekday, slot);
-            for(int m=0;m<7;m++){
-                for(int n=0;n<8;n++){
-                    if(have_course.get(m).get(n)==true){
-                        main[n][m]=course.getCourse_name();
+            List<List<Boolean>> have_course=Course.parseCourseTime(weekday,slot);
+            for (int m = 0; m < 7; m++) {
+                for (int n = 0; n < 8; n++) {
+                    if (have_course.get(m).get(n)) {
+                        main[n][m] = course.getCourse_name();
                     }
                 }
             }
