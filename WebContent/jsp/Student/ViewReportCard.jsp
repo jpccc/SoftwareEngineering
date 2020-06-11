@@ -7,6 +7,7 @@
 <head>
     <title>学生成绩页面</title>
     <link rel="stylesheet" href="/SoftwareEngineering/jsp/Student/css/user.css">
+    <link rel="stylesheet" href="/SoftwareEngineering/jsp/Student/css/scroll.css">
     <script>
         function show() {
             var x = document.getElementById("sideMenu");
@@ -76,7 +77,6 @@
 <div class="bottom">
     <div class="bottom_center">
         ${message}
-        欢迎使用教务管理系统!
     </div>
 </div>
 
@@ -89,18 +89,6 @@
             <ul id="sideul">
                 <a href="/SoftwareEngineering/jsp/Student/StudentPage.jsp">
                     <li>首页</li>
-                </a>
-                <a href="/SoftwareEngineering/ViewReportCardServlet">
-                    <li>查询成绩</li>
-                </a>
-                <a href="/SoftwareEngineering/jsp/Student/add_course.jsp">
-                    <li>选择课程</li>
-                </a>
-                <a href="/SoftwareEngineering/jsp/Student/show_schedule.jsp">
-                    <li>查询课表</li>
-                </a>
-                <a href="/SoftwareEngineering/BillServlet">
-                    <li>查看邮箱</li>
                 </a>
             </ul>
         </aside>

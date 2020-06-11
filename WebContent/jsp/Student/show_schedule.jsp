@@ -7,6 +7,7 @@
 <head>
     <title>学生课表</title>
     <link rel="stylesheet" href="/SoftwareEngineering/jsp/Student/css/user.css">
+    <link rel="stylesheet" href="/SoftwareEngineering/jsp/Student/css/scroll.css">
     <script>
         function show() {
             var x = document.getElementById("sideMenu");
@@ -26,6 +27,8 @@
                 x.submit();
             }
         }
+        
+        
     </script>
 </head>
 <body>
@@ -41,7 +44,6 @@
         <hr id="line_r">
     </div>
 </div>
-
 <div class="body">
     <div class="table_one">
         <form id="course_form" action="/SoftwareEngineering/SelectCourseServlet?op=delete" method="post">
@@ -54,11 +56,18 @@
                             String now = df.format(d);
                         %>
                         当前时间：<%=now %>
+                        <input type="radio"
+                                   value="delete_all"
+                                   name="delete_all" 
+                            />删除所有课程
                     </div class>
                 </caption>
 
                 <div class="table_final">
                     <tr class="text-property">
+                    	
+                    	
+                        
                         <th height="57" class="text-center">课程名</th>
                         <th class="text-center">课程起始时间</th>
                         <th class="text-center">课程结束时间</th>
@@ -93,7 +102,7 @@
                         <td>
                             <input type="radio"
                                    value="<%=list.get(i).get_course_id()%> <%=list.get(i).get_reg_id() %> <%=list.get(i).get_student_id() %> <%=list.get(i).get_select_status() %>"
-                                   name=<%=name%>
+                                   name=<%=name%> 
                             />删除
                         </td>
                     </tr>
@@ -106,16 +115,16 @@
         </form>
     </div>
 </div>
-
 <div class="bottom">
     <div class="bottom_center">
         ${message}
-        欢迎使用教务管理系统!
     </div>
 </div>
 <div class="fix_place">
     <button class="function" onclick="show()">功能</button>
     <button class="button_submit" onclick="submit()">提交</button>
+    
+    
     <input type="checkbox" id="sideMenu">
     <div class="navigate">
         <aside id="list">
@@ -155,27 +164,28 @@
 
 
         List<CourseSelection> schedule = new ArrayList<CourseSelection>();
-        String[][] schedule_flag = new String[8][7];
+        //String[][] schedule_flag = new String[8][7];
         schedule = select_course_dao.get_schedule(s_id);
         for (int i = 0; i < schedule.size(); i++) {
-            Course course = select_course_dao.check_course_from_selection(schedule.get(i));
-            int weekday = course.getWeekday();
-            int slot = course.getTimeslot_id();
-            for (int m = 0; m < 8; m++) {
-                System.out.print("m=" + m + "\n");
-                if (SelectCourseDAOImpl.get(slot, m) == 1) {
-                    for (int n = 0; n < 7; n++) {
-                        System.out.println("n=" + n);
-                        if (SelectCourseDAOImpl.get(weekday, n) == 1) {
-                            main[m][n] = course.getCourse_name();
-                        }
-                    }
-                }
-            }
+        	
+        	if(schedule.get(i).get_select_status().equals("primary")){
+        		System.out.println(schedule.get(i).get_select_status());
+	            Course course = select_course_dao.check_course_from_selection(schedule.get(i));
+	            int weekday = course.getWeekday();
+	            int slot = course.getTimeslot_id();
+	            List<List<Boolean>> have_course= Course.parseCourseTime(weekday, slot);
+	            for(int m=0;m<7;m++){
+	                for(int n=0;n<8;n++){
+	                    if(have_course.get(m).get(n)==true){
+	                        main[n][m]=course.getCourse_name();
+	                    }
+	                }
+	            }
+        	}
         }
     %>
 	<center><b>大学生课程表</b></center>
-	<table width="500" height="100" border="1" align="center">
+	<table style="color: #00ff6b" width="500" height="100" border="1" align="center">
 		<%
             for (int i = 0; i < 9; i++) {   //课程表有9行
                 out.print("<tr>");

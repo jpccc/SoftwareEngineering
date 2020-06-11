@@ -5,6 +5,7 @@
 <head>
     <title>编辑课程信息</title>
     <link rel="stylesheet" href="/SoftwareEngineering/jsp/Registrar/css/user.css">
+    <link rel="stylesheet" href="/SoftwareEngineering/jsp/Registrar/css/scroll.css">
     <script>
         function show() {
             var x = document.getElementById("sideMenu");

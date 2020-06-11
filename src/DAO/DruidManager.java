@@ -17,12 +17,12 @@ import java.util.HashMap;
  * 使用时请自行修改其中的数据库用户名，url和密�?
  */
 public class DruidManager {
-    private static final String DB_URL = "jdbc:mysql://127.0.0.1:3306/registration?characterEncoding=utf-8&useSSL=false&serverTimezone=UTC"; // 鏁版嵁搴撹繛鎺RL
+    private static final String DB_URL = "jdbc:mysql://127.0.0.1:3306/course_selection?characterEncoding=utf-8&useSSL=false&serverTimezone=UTC"; // 鏁版嵁搴撹繛鎺RL
     private static final String DB_USERNAME = "root"; // 鏁版嵁搴撶敤鎴峰悕
-    private static final String DB_PASSWORD = "123456"; // 鏁版嵁搴撳瘑鐮�
+    private static final String DB_PASSWORD = "010233"; // 鏁版嵁搴撳瘑鐮�
     private static final String OLDSYS_URL = "jdbc:mysql://127.0.0.1:3306/old_sys?characterEncoding=utf-8&useSSL=false&serverTimezone=UTC"; // 鏁版嵁搴撹繛鎺RL
     private static final String OLDSYS_USERNAME = "root"; // 鏁版嵁搴撶敤鎴峰悕
-    private static final String OLDSYS_PASSWORD = "123456"; // 鏁版嵁搴撳瘑鐮�
+    private static final String OLDSYS_PASSWORD = "010233"; // 鏁版嵁搴撳瘑鐮�
     private static DruidDataSource druidDataSource=null;//杩炴帴姹燚ataSource
     private static DruidDataSource oldSysDatasource=null;
     public static final int OLDSYS_FLAG=1;

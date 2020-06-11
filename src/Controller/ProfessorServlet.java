@@ -26,13 +26,15 @@ public class ProfessorServlet extends BaseServlet {
                 if (course1.getCourse_id() != course2.getCourse_id()) {
                     if (course1.getStart_date().before(course2.getEnd_date())
                             && course1.getStart_date().after(course2.getStart_date())
-                            && course1.getWeekday() == course2.getWeekday()) {
+                            && (course1.getWeekday() == course2.getWeekday())
+                            &&(course1.getTimeslot_id()&course2.getTimeslot_id())!=0) {
                         conflictList.add(course1);
                         conflictList.add(course2);
                     }
                     if (course2.getStart_date().before(course1.getStart_date())
                             && course2.getEnd_date().after(course1.getEnd_date())
-                            && course1.getWeekday() == course2.getWeekday()) {
+                            && course1.getWeekday() == course2.getWeekday()
+                            &&(course1.getTimeslot_id()&course2.getTimeslot_id())!=0) {
                         conflictList.add(course1);
                         conflictList.add(course2);
                     }

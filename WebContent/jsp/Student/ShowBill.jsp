@@ -57,7 +57,6 @@
                     <th>course_id</th>
                     <th>course_name</th>
                     <th>price</th>
-                    <th>total_cost</th>
                 </tr>
 
                 <c:if test="${not empty CourseList}">
@@ -66,7 +65,10 @@
                             <td>${Course.course_id}</td>
                             <td>${Course.course_name}</td>
                             <td>${CostList[st.index]}</td>
-                            <td>${TotalCost}</td>
+                        </tr>
+                        <tr>
+                            <th>total_cost</th>
+                            <td colspan="2">${TotalCost}</td>
                         </tr>
                     </c:forEach>
                 </c:if>
@@ -79,7 +81,6 @@
 <div class="bottom">
     <div class="bottom_center">
         ${message}
-        欢迎使用教务管理系统!
     </div>
 </div>
 <div class="fix_place">
@@ -92,18 +93,6 @@
             <ul id="sideul">
                 <a href="/SoftwareEngineering/jsp/Student/StudentPage.jsp">
                     <li>首页</li>
-                </a>
-                <a href="/SoftwareEngineering/ViewReportCardServlet">
-                    <li>查询成绩</li>
-                </a>
-                <a href="/SoftwareEngineering/jsp/Student/add_course.jsp">
-                    <li>选择课程</li>
-                </a>
-                <a href="/SoftwareEngineering/jsp/Student/show_schedule.jsp">
-                    <li>查询课表</li>
-                </a>
-                <a href="/SoftwareEngineering/BillServlet">
-                    <li>查看邮箱</li>
                 </a>
             </ul>
         </aside>
