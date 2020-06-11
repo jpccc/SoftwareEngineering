@@ -19,6 +19,7 @@
 <head>
     <title>成绩修改页面</title>
     <link rel="stylesheet" href="/SoftwareEngineering/jsp/Professor/css/user.css">
+    <link rel="stylesheet" href="/SoftwareEngineering/jsp/Professor/css/scroll.css">
     <script>
         function show() {
             var x = document.getElementById("sideMenu");
@@ -132,8 +133,6 @@
 <div class="bottom">
     <div class="bottom_center">
         ${queryError}
-        <br>
-        欢迎使用教务管理系统!
     </div>
 </div>
 

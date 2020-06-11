@@ -7,6 +7,7 @@
 <head>
     <title>学生课表</title>
     <link rel="stylesheet" href="/SoftwareEngineering/jsp/Student/css/user.css">
+    <link rel="stylesheet" href="/SoftwareEngineering/jsp/Student/css/scroll.css">
     <script>
         function show() {
             var x = document.getElementById("sideMenu");
@@ -41,7 +42,6 @@
         <hr id="line_r">
     </div>
 </div>
-
 <div class="body">
     <div class="table_one">
         <form id="course_form" action="/SoftwareEngineering/SelectCourseServlet?op=delete" method="post">
@@ -106,11 +106,9 @@
         </form>
     </div>
 </div>
-
 <div class="bottom">
     <div class="bottom_center">
         ${message}
-        欢迎使用教务管理系统!
     </div>
 </div>
 <div class="fix_place">
@@ -172,7 +170,7 @@
         }
     %>
 	<center><b>大学生课程表</b></center>
-	<table width="500" height="100" border="1" align="center">
+	<table style="color: #00ff6b" width="500" height="100" border="1" align="center">
 		<%
             for (int i = 0; i < 9; i++) {   //课程表有9行
                 out.print("<tr>");

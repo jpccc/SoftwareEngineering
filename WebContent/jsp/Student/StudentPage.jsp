@@ -22,9 +22,7 @@
         }
     </script>
 </head>
-
 <body>
-
 <div class="head">
     <div class="head_left">
         <hr id="line_l">
@@ -36,10 +34,7 @@
 
         <hr id="line_r">
     </div>
-
 </div>
-
-
 
 <div class="body">
     <div class="table_one">

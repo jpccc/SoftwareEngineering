@@ -76,7 +76,6 @@
         ${close_error}
             ${close_success}
         <br>
-        欢迎使用教务管理系统!
     </div>
 </div>
 <div class="fix_place">

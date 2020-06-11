@@ -7,6 +7,7 @@
 <head>
     <link rel="stylesheet" type="text/css" href="/SoftwareEngineering/jsp/Registrar/css/form.css"/>
     <link rel="stylesheet" href="/SoftwareEngineering/jsp/Registrar/css/user.css">
+    <link rel="stylesheet" href="/SoftwareEngineering/jsp/Registrar/css/scroll.css">
     <script>
         function show() {
             var x = document.getElementById("sideMenu");
