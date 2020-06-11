@@ -14,16 +14,15 @@ public class GradesServlet extends BaseServlet {
     public void queryCourses(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
-        int year = Integer.parseInt(request.getParameter("year"));
-        String semester = request.getParameter("semester");
         RegistrationDAO regDao = new RegistrationDAOImpl();
-        Registration reg = regDao.queryByTime(year, semester);
+        Registration reg = regDao.queryLatest();
         if (reg == null||(reg.getReg_id()==-1)) {
-            request.setAttribute("queryError", "查询此次注册失败，请重新输入");
-            request.getRequestDispatcher("/jsp/Professor/SubmitGrades.jsp").forward(request, response);
+            request.setAttribute("queryError", "登录超时，请重新登录");
+            request.getRequestDispatcher("RegistrarServlet?method=backToIndex")
+                    .forward(request, response);
             return;
         } else if (reg.getStatus()!=null&&!reg.getStatus().equals("closed")){//如果还在选课阶段
-            request.setAttribute("queryError", "本次课程注册还在进行中，请重新查询");
+            request.setAttribute("queryError", "本次课程注册还在进行中");
             request.getRequestDispatcher("/jsp/Professor/SubmitGrades.jsp").forward(request, response);
             return;
         }else  request.removeAttribute("queryError");
@@ -71,9 +70,14 @@ public class GradesServlet extends BaseServlet {
         HttpSession session=request.getSession();
         if(!verifyProfessor(request,response))return;
         List<Grade> grades= getNewGrades(request);
+        if(grades==null){
+            request.getRequestDispatcher("GradesServlet?method=queryCourses")
+                    .forward(request, response);
+            return;
+        }
         CourseDAO courseDAO=new CourseDAOImpl();
         courseDAO.saveGrades(grades);
-        if(grades!=null&&grades.size()>0){
+        if(grades.size()>0){
             Course course=courseDAO.findCourse(grades.get(0).getCourse_id(),grades.get(0).getReg_id());
             course.setStatus("saved");
             try {
@@ -82,11 +86,13 @@ public class GradesServlet extends BaseServlet {
             } catch (Exception e) {
                 e.printStackTrace();
                 request.setAttribute("queryError", "保存失败");
-                request.getRequestDispatcher("/jsp/Professor/SubmitGrades.jsp").forward(request, response);
+                request.getRequestDispatcher("GradesServlet?method=queryCourses")
+                        .forward(request, response);
                 return;
             }
         }
-        request.getRequestDispatcher("/jsp/Professor/SubmitGrades.jsp").forward(request, response);
+        request.getRequestDispatcher("GradesServlet?method=queryCourses")
+                .forward(request, response);
     }
 
     public void submitGrades(HttpServletRequest request,HttpServletResponse response)throws ServletException, IOException{
@@ -95,6 +101,11 @@ public class GradesServlet extends BaseServlet {
         HttpSession session=request.getSession();
         if(!verifyProfessor(request,response))return;
         List<Grade> grades= getNewGrades(request);
+        if(grades==null){
+            request.getRequestDispatcher("GradesServlet?method=queryCourses")
+                    .forward(request, response);
+            return;
+        }
         if(!checkGrades(grades)){
             request.setAttribute("queryError", "非法成绩信息！请检查后重新提交！");
             request.getRequestDispatcher("/jsp/Professor/SubmitGrades.jsp").forward(request, response);
@@ -111,12 +122,14 @@ public class GradesServlet extends BaseServlet {
                 } catch (Exception e) {
                     e.printStackTrace();
                     request.setAttribute("queryError", "提交失败");
-                    request.getRequestDispatcher("/jsp/Professor/SubmitGrades.jsp").forward(request, response);
+                    request.getRequestDispatcher("GradesServlet?method=queryCourses")
+                            .forward(request, response);
                     return;
                 }
             }
         }
-        request.getRequestDispatcher("/jsp/Professor/SubmitGrades.jsp").forward(request, response);
+        request.getRequestDispatcher("GradesServlet?method=queryCourses")
+                .forward(request, response);
     }
     public void backToMainPage(HttpServletRequest request,HttpServletResponse response)throws ServletException, IOException{
         HttpSession session=request.getSession();
@@ -138,7 +151,6 @@ public class GradesServlet extends BaseServlet {
     }
     private boolean checkGrades(List<Grade> grades){
         boolean flag=true;
-        if(grades==null)return false;
         for (Grade value : grades) {
             String grade = value.getGrade();
             if (!(grade.equals("A") ||
