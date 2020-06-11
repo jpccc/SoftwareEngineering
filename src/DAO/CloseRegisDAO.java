@@ -1,3 +1,4 @@
+
 package DAO;
 
 import java.sql.Connection;
@@ -21,8 +22,8 @@ public class CloseRegisDAO {
         }
     }
 	public Connection getConnection() throws SQLException {
-        return DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/course_selection?characterEncoding=utf-8&useSSL=false&useUnicode=true&serverTimezone=UTC", "root",
-                "010233");
+        return DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/registration?characterEncoding=utf-8&useSSL=false&useUnicode=true&serverTimezone=UTC", "root",
+                "123456");
     }
 	public Map<String,Boolean> getCourseList(int reg_id) {
 		try (Connection c = getConnection(); PreparedStatement s = c.prepareStatement("select course_id from course_info where reg_id= ? ;");) {	
@@ -191,4 +192,31 @@ public class CloseRegisDAO {
         }
 		return false;
 	}
+	public int upgradeAlternate(int reg_id) {
+		// TODO Auto-generated method stub
+		try (Connection c = getConnection(); PreparedStatement s = c.prepareStatement("update selection set select_status='primary' where reg_id= ? and select_status='alternate';");) {	
+            s.setInt(1, reg_id);
+            int result=s.executeUpdate();           
+            System.out.println("result:upgradeAlternate count=" + result);
+            return result;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+		return 0;
+	}
+	public int updateStudentCount(String course_id, int count,int reg_id) {
+		// TODO Auto-generated method stub
+		try (Connection c = getConnection(); PreparedStatement s = c.prepareStatement("update course_info set student_count= ? where reg_id= ? and course_id= ? ;");) {	
+            s.setInt(1, count);
+            s.setInt(2, reg_id);
+            s.setString(3, course_id);
+            int result=s.executeUpdate();           
+            System.out.println("result:upgradeAlternate count=" + result);
+            return result;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+		return 0;
+	}
 }
+
