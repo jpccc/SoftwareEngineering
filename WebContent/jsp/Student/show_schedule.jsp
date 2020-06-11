@@ -167,17 +167,21 @@
         //String[][] schedule_flag = new String[8][7];
         schedule = select_course_dao.get_schedule(s_id);
         for (int i = 0; i < schedule.size(); i++) {
-            Course course = select_course_dao.check_course_from_selection(schedule.get(i));
-            int weekday = course.getWeekday();
-            int slot = course.getTimeslot_id();
-            List<List<Boolean>> have_course= Course.parseCourseTime(weekday, slot);
-            for(int m=0;m<7;m++){
-                for(int n=0;n<8;n++){
-                    if(have_course.get(m).get(n)==true){
-                        main[n][m]=course.getCourse_name();
-                    }
-                }
-            }
+        	
+        	if(schedule.get(i).get_select_status().equals("primary")){
+        		System.out.println(schedule.get(i).get_select_status());
+	            Course course = select_course_dao.check_course_from_selection(schedule.get(i));
+	            int weekday = course.getWeekday();
+	            int slot = course.getTimeslot_id();
+	            List<List<Boolean>> have_course= Course.parseCourseTime(weekday, slot);
+	            for(int m=0;m<7;m++){
+	                for(int n=0;n<8;n++){
+	                    if(have_course.get(m).get(n)==true){
+	                        main[n][m]=course.getCourse_name();
+	                    }
+	                }
+	            }
+        	}
         }
     %>
 	<center><b>大学生课程表</b></center>

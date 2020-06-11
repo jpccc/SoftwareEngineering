@@ -120,7 +120,10 @@ public class SelectCourseServlet extends HttpServlet {
 						&& select_course_dao.no_conflict(schedule, course_selection).equals("yes")
 						&&pri_num+in_list_primary<=4) {
 							select_course_dao.add_course_selection(course_selection);
-							select_course_dao.add_student_num(course_id, reg_id);
+							if(type.equals("primary")) {
+								select_course_dao.add_student_num(course_id, reg_id);
+							}
+							
 							request.setAttribute("message", "add success  PRICE="+price +"type="+type);
 						}else {
 							if(select_course_dao.satisfy_prerequire(schedule, course_selection).equals("no")) {
@@ -149,7 +152,12 @@ public class SelectCourseServlet extends HttpServlet {
 						String course_id=schedule.get(i).get_course_id();
 						int reg_id=schedule.get(i).get_reg_id();
 						select_course_dao.delete_course_selection(course_id, reg_id,student_id);
-						select_course_dao.dec_student_num(course_id, reg_id);
+						if(schedule.get(i).get_select_status().equals("primary")) {
+							select_course_dao.dec_student_num(course_id, reg_id);
+						}
+						
+						
+						
 					}
 					request.setAttribute("message", "delete_all success");
 					request.getRequestDispatcher("jsp/Student/show_schedule.jsp").forward(request, response);
@@ -174,7 +182,14 @@ public class SelectCourseServlet extends HttpServlet {
 						System.out.println(reg_id);
 
 						select_course_dao.delete_course_selection(course_id, reg_id,student_id);
-						select_course_dao.dec_student_num(course_id, reg_id);
+						for(int n=0;n<schedule.size();n++) {
+							if(schedule.get(n).get_course_id().equals(course_id)&&schedule.get(n).get_reg_id()==reg_id) {
+								if(schedule.get(n).get_select_status().equals("primary")) {
+									select_course_dao.dec_student_num(course_id, reg_id);
+								}
+							}
+						}
+						
 						request.setAttribute("message", "delete success");
 					}
 
