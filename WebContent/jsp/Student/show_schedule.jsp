@@ -124,6 +124,18 @@
                 <a href="/SoftwareEngineering/jsp/Student/StudentPage.jsp">
                     <li>首页</li>
                 </a>
+                <a href="/SoftwareEngineering/ViewReportCardServlet">
+                    <li>查询成绩</li>
+                </a>
+                <a href="/SoftwareEngineering/jsp/Student/add_course.jsp">
+                    <li>选择课程</li>
+                </a>
+                <a href="/SoftwareEngineering/jsp/Student/show_schedule.jsp">
+                    <li>查询课表</li>
+                </a>
+                <a href="/SoftwareEngineering/BillServlet">
+                    <li>查看邮箱</li>
+                </a>
             </ul>
         </aside>
     </div>
@@ -143,20 +155,17 @@
 
 
         List<CourseSelection> schedule = new ArrayList<CourseSelection>();
-        String[][] schedule_flag = new String[8][7];
+        //String[][] schedule_flag = new String[8][7];
         schedule = select_course_dao.get_schedule(s_id);
         for (int i = 0; i < schedule.size(); i++) {
             Course course = select_course_dao.check_course_from_selection(schedule.get(i));
             int weekday = course.getWeekday();
             int slot = course.getTimeslot_id();
-            for (int m = 0; m < 8; m++) {
-                System.out.print("m=" + m + "\n");
-                if (SelectCourseDAOImpl.get(slot, m) == 1) {
-                    for (int n = 0; n < 7; n++) {
-                        System.out.println("n=" + n);
-                        if (SelectCourseDAOImpl.get(weekday, n) == 1) {
-                            main[m][n] = course.getCourse_name();
-                        }
+            List<List<Boolean>> have_course= Course.parseCourseTime(weekday, slot);
+            for(int m=0;m<7;m++){
+                for(int n=0;n<8;n++){
+                    if(have_course.get(m).get(n)==true){
+                        main[n][m]=course.getCourse_name();
                     }
                 }
             }
