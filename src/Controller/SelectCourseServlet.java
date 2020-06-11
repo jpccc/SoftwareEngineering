@@ -149,7 +149,7 @@ public class SelectCourseServlet extends HttpServlet {
 						String course_id=schedule.get(i).get_course_id();
 						int reg_id=schedule.get(i).get_reg_id();
 						select_course_dao.delete_course_selection(course_id, reg_id,student_id);
-						select_course_dao.add_student_num(course_id, reg_id);
+						select_course_dao.dec_student_num(course_id, reg_id);
 					}
 					request.setAttribute("message", "delete_all success");
 					request.getRequestDispatcher("jsp/Student/show_schedule.jsp").forward(request, response);
@@ -174,7 +174,7 @@ public class SelectCourseServlet extends HttpServlet {
 						System.out.println(reg_id);
 
 						select_course_dao.delete_course_selection(course_id, reg_id,student_id);
-						select_course_dao.add_student_num(course_id, reg_id);
+						select_course_dao.dec_student_num(course_id, reg_id);
 						request.setAttribute("message", "delete success");
 					}
 
