@@ -85,6 +85,7 @@
         	        
                         List<Course> list = new ArrayList<Course>();
                         list = select_course_dao.get_all_courses(reg.getReg_id());
+                        System.out.println("add course.jsp: reg_id="+reg.getReg_id());
                         int name = 0;
                         for (int i = 0; i < list.size(); i++) {
                     %>

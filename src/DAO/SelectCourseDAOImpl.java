@@ -8,18 +8,19 @@ import Beans.CourseSelection;
 public class SelectCourseDAOImpl implements SelectCourseDAO{
     public static char[][] slot_falg=new char[8][7];
     @Override
-    public List<CourseSelection> get_schedule(String s_id) {
+    public List<CourseSelection> get_schedule(String s_id,int reg_id) {
         // TODO Auto-generated method stub
         List<CourseSelection> res=new ArrayList<>();
         Connection conn=null;
         PreparedStatement ps=null;
         ResultSet rs=null;
-        String sql="select * from selection where student_id=?";
+        String sql="select * from selection where student_id=? and reg_id=?";
         try {
             conn=JDBCUtil.getMysqlConnection();
             System.out.println("Success connect Mysql server!");
             ps=conn.prepareStatement(sql);
             ps.setString(1,s_id);
+            ps.setInt(2, reg_id);
             rs=ps.executeQuery();
             while(rs.next()){
                 CourseSelection course_selection=new CourseSelection();
