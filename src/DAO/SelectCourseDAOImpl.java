@@ -262,7 +262,7 @@ public class SelectCourseDAOImpl implements SelectCourseDAO{
 
 
     @Override
-    public String satisfy_prerequire(List<CourseSelection> schedule, CourseSelection course_selection) {
+    public String satisfy_prerequire(String student_id,int reg_id, CourseSelection course_selection) {
         Course res=new Course();
         Connection conn=null;
         PreparedStatement ps=null;
@@ -276,11 +276,18 @@ public class SelectCourseDAOImpl implements SelectCourseDAO{
             while(rs.next()){
                 int flag=0;
                 String prev_course_id=rs.getString("pre_cid");
-                for(int i=0;i<schedule.size();i++) {
-                    String selected_course_id=schedule.get(i).get_course_id();
-                    if(selected_course_id.equals(prev_course_id)) {
-                        flag=1;
-                    }
+                System.out.println("from select course servlet: prev_cid="+prev_course_id);
+                Connection conn2=conn=JDBCUtil.getMysqlConnection();
+                String sql2="select course_id from selection where reg_id<? and student_id=?";
+                PreparedStatement ps2=conn2.prepareStatement(sql2);
+                ps2.setInt(1, reg_id);
+                ps2.setString(2, student_id);
+                ResultSet rs2=ps2.executeQuery();
+                while(rs2.next()) {
+                	String c_id=rs2.getString("course_id");
+                	if(c_id.equals(prev_course_id)) {
+                		flag=1;
+                	}
                 }
                 if(flag==0) {
                     System.out.println("not finished prev_require courses!");
