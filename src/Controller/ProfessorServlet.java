@@ -81,7 +81,7 @@ public class ProfessorServlet extends BaseServlet {
         if (registration.getStatus().equals("open")) {
             String course_id = req.getParameter("course_id");
             CourseDAO courseDAO = new CourseDAOImpl();
-            Course course = courseDAO.findById(course_id);
+            Course course = courseDAO.findCourse(course_id,registration.getReg_id());
             if (!course.getCourse_id().equals("-1")) {
                 //found!
                 Professor professor = (Professor) req.getSession().getAttribute("user");
@@ -114,7 +114,7 @@ public class ProfessorServlet extends BaseServlet {
         if (registration.getStatus().equals("open")) {
             String course_id = req.getParameter("course_id");
             CourseDAO courseDAO = new CourseDAOImpl();
-            Course course = courseDAO.findById(course_id);
+            Course course = courseDAO.findCourse(course_id,registration.getReg_id());
             if (!course.getCourse_id().equals("-1")) {
                 //found!
                 Professor professor = (Professor) req.getSession().getAttribute("user");
@@ -183,6 +183,7 @@ public class ProfessorServlet extends BaseServlet {
         session.removeAttribute("courseList");
         session.removeAttribute("gradeList");
         request.getRequestDispatcher("/index.jsp").forward(request, response);
+        return;
     }
 
 }

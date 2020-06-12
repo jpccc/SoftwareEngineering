@@ -91,23 +91,24 @@ public class CourseDAOImpl implements CourseDAO{
 
     @Override
     public void update(Course course) throws Exception {
-        String sql = "update course_info set reg_id=?,dept_id=?,course_name=?,start_date=?,end_date=?,weekday=?,timeslot_id=?,professor_id=?,student_count=?,status=?,price=? where course_id=?";
+        String sql = "update course_info set dept_id=?,course_name=?,start_date=?,end_date=?,weekday=?,timeslot_id=?,professor_id=?,student_count=?,status=?,price=? where reg_id=? and course_id=?";
         PreparedStatement preparedStatement = null;
         Connection conn = null;
         try {
             conn = JDBCUtil.getMysqlConnection();
             preparedStatement = conn.prepareStatement(sql);
-            preparedStatement.setInt(1,course.getReg_id());
-            preparedStatement.setInt(2,course.getDept_id());
-            preparedStatement.setString(3,course.getCourse_name());
-            preparedStatement.setDate(4,course.getStart_date());
-            preparedStatement.setDate(5,course.getEnd_date());
-            preparedStatement.setInt(6,course.getWeekday());
-            preparedStatement.setInt(7,course.getTimeslot_id());
-            preparedStatement.setString(8,course.getProfessor_id());
-            preparedStatement.setInt(9,course.getStudent_count());
-            preparedStatement.setString(10,course.getStatus());
-            preparedStatement.setFloat(11,course.getPrice());
+
+            preparedStatement.setInt(1,course.getDept_id());
+            preparedStatement.setString(2,course.getCourse_name());
+            preparedStatement.setDate(3,course.getStart_date());
+            preparedStatement.setDate(4,course.getEnd_date());
+            preparedStatement.setInt(5,course.getWeekday());
+            preparedStatement.setInt(6,course.getTimeslot_id());
+            preparedStatement.setString(7,course.getProfessor_id());
+            preparedStatement.setInt(8,course.getStudent_count());
+            preparedStatement.setString(9,course.getStatus());
+            preparedStatement.setFloat(10,course.getPrice());
+            preparedStatement.setInt(11,course.getReg_id());
             preparedStatement.setString(12,course.getCourse_id());
             preparedStatement.executeUpdate();
             preparedStatement.close();
@@ -185,7 +186,7 @@ public class CourseDAOImpl implements CourseDAO{
                 res.setStatus(rs.getString("status"));
                 res.setPrice(rs.getFloat("price"));
             }else{
-                res.setCourse_id("null");
+                res.setCourse_id("-1");
             }
         } catch (SQLException e) {
             e.printStackTrace();

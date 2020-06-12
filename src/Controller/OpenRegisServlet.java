@@ -14,6 +14,8 @@ import javax.servlet.http.HttpSessionListener;
 import java.io.IOException;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -43,9 +45,11 @@ public class OpenRegisServlet extends BaseServlet{
         course.setWeekday(weekday);
         course.setTimeslot_id(timeslot);
         course.setPrice(Float.parseFloat(request.getParameter("price")));
+
         course.setStart_date(Date.valueOf(request.getParameter("beginTime")));
         course.setEnd_date(Date.valueOf(request.getParameter("endTime")));
-
+        System.out.println(course.getStart_date());
+        System.out.println(course.getEnd_date());
         selected.add(course);
         total.remove(index);
 

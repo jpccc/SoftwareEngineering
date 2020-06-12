@@ -168,13 +168,10 @@
                     <li>首页</li>
                 </a>
                 <a href="/SoftwareEngineering/jsp/Professor/SelectToTeach.jsp">
-                    <li>选则课程</li>
+                    <li>选择课程</li>
                 </a>
-                <a href="/SoftwareEngineering/jsp/Professor/SubmitGrades.jsp">
+                <a href="/SoftwareEngineering/GradesServlet?method=queryCourses">
                     <li>提交分数</li>
-                </a>
-                <a href="/SoftwareEngineering/GradesServlet?method=backToIndex">
-                    <li>退出登录</li>
                 </a>
             </ul>
         </aside>

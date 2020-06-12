@@ -64,7 +64,7 @@
                     <th class="text-center">系ID</th>
                 </tr>
                 <tr class="text-value">
-                    <!-- <%Student student = (Student) session.getAttribute("user");%> -->
+                    <%Student student = (Student) session.getAttribute("user");%>
                     <td height="62"><%=student.getS_name()%></td>
                     <td><%=student.getBirthday()%></td>
                     <td><%=student.getIdentify_num()%></td>
@@ -78,6 +78,7 @@
 
 <div class="bottom">
     <div class="bottom_center">
+        ${StudentError}
         欢迎使用教务管理系统!
     </div>
 </div>

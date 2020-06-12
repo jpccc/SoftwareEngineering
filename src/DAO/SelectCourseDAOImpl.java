@@ -241,10 +241,10 @@ public class SelectCourseDAOImpl implements SelectCourseDAO{
             int weekday=course.getWeekday();
             int slot=course.getTimeslot_id();
 
-            if( ( (~(new_weekday^weekday))&weekday )!=0 ) {
+            if( ( (~(new_weekday^weekday))&weekday )!=0x00000000 ) {
                 return "no";
             }
-            if( ( (~(new_slot^slot))&slot )!=0 ) {
+            if( ( (~(new_slot^slot))&slot )!=0x00000000 ) {
                 return "no";
             }
         }
@@ -266,15 +266,15 @@ public class SelectCourseDAOImpl implements SelectCourseDAO{
         Connection conn=null;
         PreparedStatement ps=null;
         ResultSet rs=null;
-        String sql="select prev_course_id from prev_require where post_course_id=?";
+        String sql="select pre_cid from prev_require where post_cid=?";
         try {
-            conn=JDBCUtil.getMysqlConnection();
+            conn=DruidManager.getConnection(DruidManager.OLDSYS_FLAG);
             ps=conn.prepareStatement(sql);
             ps.setString(1,course_selection.get_course_id());
             rs=ps.executeQuery();
             while(rs.next()){
                 int flag=0;
-                String prev_course_id=rs.getString("prev_course_id");
+                String prev_course_id=rs.getString("pre_cid");
                 for(int i=0;i<schedule.size();i++) {
                     String selected_course_id=schedule.get(i).get_course_id();
                     if(selected_course_id.equals(prev_course_id)) {
@@ -358,7 +358,7 @@ public class SelectCourseDAOImpl implements SelectCourseDAO{
         Connection conn=null;
         PreparedStatement ps=null;
         ResultSet rs=null;
-        String sql="select post_course_id from prev_require where prev_course_id=?";
+        String sql="select post_cid from prev_require where pre_cid=?";
         try {
             conn=JDBCUtil.getMysqlConnection();
             ps=conn.prepareStatement(sql);
@@ -366,7 +366,7 @@ public class SelectCourseDAOImpl implements SelectCourseDAO{
             rs=ps.executeQuery();
             while(rs.next()){
 
-                String post_course_id=rs.getString("post_course_id");
+                String post_course_id=rs.getString("post_cid");
                 res=post_course_id;
                 break;
             }

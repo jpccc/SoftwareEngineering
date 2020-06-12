@@ -66,13 +66,18 @@
                             <td>${Course.course_name}</td>
                             <td>${CostList[st.index]}</td>
                         </tr>
-                        <tr>
-                            <th>total_cost</th>
-                            <td colspan="2">${TotalCost}</td>
-                        </tr>
-                    </c:forEach>
-                </c:if>
 
+                    </c:forEach>
+                    <tr>
+                        <th>total_cost</th>
+                        <td colspan="2">${TotalCost}</td>
+                    </tr>
+                </c:if>
+                <c:if test="${empty CourseList}">
+                    <tr>
+                       当前没有账单信息
+                    </tr>
+                </c:if>
             </div>
         </table>
     </div>
@@ -85,7 +90,6 @@
 </div>
 <div class="fix_place">
     <button class="function" onclick="show()">功能</button>
-    <button class="button_submit" onclick="submit()">提交</button>
     <input type="checkbox" id="sideMenu">
     <div class="navigate">
         <aside id="list">

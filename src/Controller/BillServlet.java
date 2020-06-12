@@ -45,6 +45,8 @@ public class BillServlet extends HttpServlet {
 		//check if registration is open
 		if(reg.getStatus().equals("open")) {
 			System.out.println("registration is still open");
+			request.setAttribute("StudentError", "本次课程注册还在进行中");
+			request.getRequestDispatcher("/jsp/Student/StudentPage.jsp").forward(request, response);
 			return;
 		}
 		//获取学生id

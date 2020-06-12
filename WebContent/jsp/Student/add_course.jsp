@@ -77,8 +77,8 @@
         	                    .forward(request, response);
         	            return;
         	        } else if (reg.getStatus()!=null&&!reg.getStatus().equals("open")){//如果不在注册阶段
-        	            request.setAttribute("message", "本次课程注册已经结束");
-        	            request.getRequestDispatcher("/jsp/Student/add_course.jsp").forward(request, response);
+        	            request.setAttribute("StudentError", "本次课程注册已经结束");
+        	            request.getRequestDispatcher("/jsp/Student/StudentPage.jsp").forward(request, response);
         	            return;
         	        }else { request.removeAttribute("message");}
         	        
