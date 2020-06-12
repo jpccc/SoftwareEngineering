@@ -80,6 +80,20 @@ public class CloseRegisServlet extends HttpServlet {
 			List<String> primary=entry.getValue().getPrimary();
 			List<String> alternate=entry.getValue().getAlternate();
 			int j=primary.size();//防止因为元素增减变化影响遍历过程
+			if(j>4) {
+				request.setAttribute("close_error", "primary count>4");
+				request.getRequestDispatcher("/jsp/Registrar/RegistrarPage.jsp").forward(request, response);
+				return;
+			}
+			for(int i=j;i<4;i++) {
+					if(alternate.size()>0) {
+						String selectedCourse=alternate.get(0);
+						primary.add(selectedCourse);
+						int count=StudentCountList.get(selectedCourse);
+						StudentCountList.put(selectedCourse, count+1);
+						alternate.remove(0);					
+					}				
+			}
 			for(int i=0;i<j;i++) {
 				String primaryCourse=primary.get(i);
 				if(courseList.get(primaryCourse)==false) {
