@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" import="DAO.SelectCourseDAO" import="DAO.SelectCourseDAOImpl" import="java.util.List"
          import="java.util.ArrayList" import="Beans.Course" import="Beans.CourseSelection" import="Beans.Student" %>
-<%@ page import="java.util.Date" %>
+<%@ page import="java.util.Date" import="DAO.RegistrationDAO" import="DAO.RegistrationDAOImpl" import="Beans.Registration"%>
 <%@ page import="java.text.SimpleDateFormat" %>
 <html>
 <head>
@@ -81,7 +81,23 @@
                         List<CourseSelection> list = new ArrayList<CourseSelection>();
                         Student student = (Student) session.getAttribute("user");
                         String s_id = student.getS_id();
-                        list = select_course_dao.get_schedule(s_id);
+                        
+                        RegistrationDAO regDao = new RegistrationDAOImpl();
+            			Registration reg = regDao.queryLatest();
+            	        if (reg == null||(reg.getReg_id()==-1)) {
+            	            request.setAttribute("queryError", "登录超时，请重新登录");
+            	            request.getRequestDispatcher("RegistrarServlet?method=backToIndex")
+            	                    .forward(request, response);
+            	            return;
+            	        } else if (reg.getStatus()!=null&&!reg.getStatus().equals("open")){//如果不在注册阶段
+            	            request.setAttribute("message", "本次课程注册已经结束");
+            	            request.getRequestDispatcher("/jsp/Student/add_course.jsp").forward(request, response);
+            	            return;
+            	        }else { request.removeAttribute("message");}
+            	        
+            	        
+                        list = select_course_dao.get_schedule(s_id, reg.getReg_id());
+                       
                         int name = 0;
                         for (int i = 0; i < list.size(); i++) {
                             Course course = select_course_dao.check_course_from_selection(list.get(i));
@@ -165,7 +181,7 @@
 
         List<CourseSelection> schedule = new ArrayList<CourseSelection>();
         //String[][] schedule_flag = new String[8][7];
-        schedule = select_course_dao.get_schedule(s_id);
+        schedule = select_course_dao.get_schedule(s_id,reg.getReg_id());
         for (int i = 0; i < schedule.size(); i++) {
         	
         	if(schedule.get(i).get_select_status().equals("primary")){

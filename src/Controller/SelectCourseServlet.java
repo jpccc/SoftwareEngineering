@@ -53,10 +53,23 @@ public class SelectCourseServlet extends HttpServlet {
 			String op=request.getParameter("op");
 			response.getWriter().println(op);
 			String id=(String)request.getParameter("op");
-
+			
+			RegistrationDAO regDao = new RegistrationDAOImpl();
+			Registration reg = regDao.queryLatest();
+	        if (reg == null||(reg.getReg_id()==-1)) {
+	            request.setAttribute("queryError", "登录超时，请重新登录");
+	            request.getRequestDispatcher("RegistrarServlet?method=backToIndex")
+	                    .forward(request, response);
+	            return;
+	        } else if (reg.getStatus()!=null&&!reg.getStatus().equals("open")){//如果不在注册阶段
+	            request.setAttribute("message", "本次课程注册已经结束");
+	            request.getRequestDispatcher("/jsp/Student/add_course.jsp").forward(request, response);
+	            return;
+	        }else { request.removeAttribute("message");}
+	        
 			
 			List<CourseSelection> schedule=new ArrayList<CourseSelection>();
-			schedule=select_course_dao.get_schedule(student_id);
+			schedule=select_course_dao.get_schedule(student_id,reg.getReg_id());
 		
 
 			if( op!=null&& op.equals("check")){
