@@ -28,9 +28,8 @@ public class GlobalFilter implements Filter {
                 !(str.contains(".js")&&!str.contains(".jsp"))&&
                 !str.contains("index.jsp")&&
                 session.getAttribute("user")==null){
-            System.out.println("");
-            req.setAttribute("error","µÇÂ¼³¬Ê±£¬ÇëÖØÐÂµÇÂ¼");
-            req.getRequestDispatcher("/").forward(req,res);
+            session.setAttribute("error","µÇÂ¼³¬Ê±£¬ÇëÖØÐÂµÇÂ¼");
+            res.sendRedirect("/SoftwareEngineering/");
         }
         else filterChain.doFilter(servletRequest, servletResponse);
     }

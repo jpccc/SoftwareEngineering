@@ -89,11 +89,7 @@
             	            request.getRequestDispatcher("RegistrarServlet?method=backToIndex")
             	                    .forward(request, response);
             	            return;
-            	        } else if (reg.getStatus()!=null&&!reg.getStatus().equals("open")){//如果不在注册阶段
-            	            request.setAttribute("message", "本次课程注册已经结束");
-            	            request.getRequestDispatcher("/jsp/Student/add_course.jsp").forward(request, response);
-            	            return;
-            	        }else { request.removeAttribute("message");}
+            	        } else { request.removeAttribute("message");}
             	        
             	        
                         list = select_course_dao.get_schedule(s_id, reg.getReg_id());

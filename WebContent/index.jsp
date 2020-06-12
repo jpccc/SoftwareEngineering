@@ -71,7 +71,7 @@
         </div>
     </form>
 </main>
-
+<%session.removeAttribute("error");%>
 <script  src="js/login_index.js"></script>
 </body>
 </html>
