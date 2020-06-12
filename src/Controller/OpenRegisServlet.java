@@ -46,6 +46,9 @@ public class OpenRegisServlet extends BaseServlet{
         course.setTimeslot_id(timeslot);
         course.setPrice(Float.parseFloat(request.getParameter("price")));
 
+
+        System.out.println("beginTime:"+request.getParameter("beginTime"));
+        System.out.println("endTime:"+request.getParameter("endTime"));
         course.setStart_date(Date.valueOf(request.getParameter("beginTime")));
         course.setEnd_date(Date.valueOf(request.getParameter("endTime")));
         System.out.println(course.getStart_date());

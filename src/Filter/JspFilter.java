@@ -7,7 +7,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.net.URL;
 
-public class GlobalFilter implements Filter {
+public class JspFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
 
@@ -15,19 +15,10 @@ public class GlobalFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-
         HttpServletRequest req= (HttpServletRequest) servletRequest;
         HttpServletResponse res= (HttpServletResponse) servletResponse;
-        URL url=new URL(req.getRequestURL().toString());
-        String str=url.getPath();
-        str=str.substring(str.lastIndexOf('/')+1);
         HttpSession session=req.getSession();
-        if(!str.equals("")&&
-                !str.contains("LoginServlet")&&
-                !str.contains(".css")&&
-                !str.contains(".js")&&
-                !str.contains("index.jsp")&&
-                session.getAttribute("user")==null){
+        if(session.getAttribute("user")==null){
             req.setAttribute("error","µÇÂ¼³¬Ê±£¬ÇëÖØÐÂµÇÂ¼");
             req.getRequestDispatcher("/").forward(req,res);
         }
