@@ -25,13 +25,14 @@ public class GlobalFilter implements Filter {
         if(!str.equals("")&&
                 !str.contains("LoginServlet")&&
                 !str.contains(".css")&&
-                !str.contains(".js")&&
+                !(str.contains(".js")&&!str.contains(".jsp"))&&
                 !str.contains("index.jsp")&&
                 session.getAttribute("user")==null){
+            System.out.println("");
             req.setAttribute("error","µÇÂ¼³¬Ê±£¬ÇëÖØÐÂµÇÂ¼");
             req.getRequestDispatcher("/").forward(req,res);
         }
-        filterChain.doFilter(servletRequest, servletResponse);
+        else filterChain.doFilter(servletRequest, servletResponse);
     }
 
     @Override

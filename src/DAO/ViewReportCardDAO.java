@@ -27,6 +27,7 @@ public class ViewReportCardDAO {
             	String grade=rs.getString("grade");
             	ReportCard.put(course, grade);
             }
+            rs.close();
             return ReportCard;
         } catch (SQLException e) {
             e.printStackTrace();

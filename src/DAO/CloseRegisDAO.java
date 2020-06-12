@@ -28,7 +28,7 @@ public class CloseRegisDAO {
             	course.setCourse_id(rs.getString(1));
             	courseList.put(course.getCourse_id(),false);
             }
-            
+            rs.close();
             return courseList;
         } catch (SQLException e) {
             e.printStackTrace();
