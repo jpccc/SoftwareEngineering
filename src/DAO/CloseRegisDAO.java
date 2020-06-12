@@ -13,17 +13,10 @@ import java.util.Map;
 
 import Beans.Course;
 import Beans.Schedule;
+import DAO.DruidManager;
 public class CloseRegisDAO {
-	public CloseRegisDAO() {
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
 	public Connection getConnection() throws SQLException {
-        return DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/course_selection?characterEncoding=utf-8&useSSL=false&useUnicode=true&serverTimezone=UTC", "root",
-                "010233");
+        return DruidManager.getConnection();
     }
 	public Map<String,Boolean> getCourseList(int reg_id) {
 		try (Connection c = getConnection(); PreparedStatement s = c.prepareStatement("select course_id from course_info where reg_id= ? ;");) {	
