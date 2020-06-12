@@ -124,16 +124,16 @@ public class SelectCourseServlet extends HttpServlet {
 								select_course_dao.add_student_num(course_id, reg_id);
 							}
 							
-							request.setAttribute("message", "add success  PRICE="+price +"type="+type);
+							request.setAttribute("message_select", "add success  PRICE="+price +"type="+type);
 						}else {
 							if(select_course_dao.satisfy_prerequire(schedule, course_selection).equals("no")) {
-								request.setAttribute("message", "not satisfy prev_require courses!");
+								request.setAttribute("message_select", "not satisfy prev_require courses!");
 							}
 							if(select_course_dao.no_conflict(schedule, course_selection).equals("no")) {
-								request.setAttribute("message", "time slot conflict!");
+								request.setAttribute("message_select", "time slot conflict!");
 							}
 							if(pri_num+in_list_primary>4) {
-								request.setAttribute("message", "over 4 primary courses!");
+								request.setAttribute("message_select", "over 4 primary courses!");
 							}
 							break;
 						}

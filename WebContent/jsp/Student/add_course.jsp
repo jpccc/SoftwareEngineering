@@ -125,7 +125,7 @@
 </div>
 <div class="bottom">
     <div class="bottom_center">
-        ${message}
+        ${message_select}
     </div>
 </div>
 <div class="fix_place">
