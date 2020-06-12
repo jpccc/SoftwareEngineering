@@ -81,8 +81,7 @@
                         List<CourseSelection> list = new ArrayList<CourseSelection>();
                         Student student = (Student) session.getAttribute("user");
                         String s_id = student.getS_id();
-                        boolean isOpen=false;
-
+                        
                         RegistrationDAO regDao = new RegistrationDAOImpl();
             			Registration reg = regDao.queryLatest();
             	        if (reg == null||(reg.getReg_id()==-1)) {
@@ -90,8 +89,12 @@
             	            request.getRequestDispatcher("RegistrarServlet?method=backToIndex")
             	                    .forward(request, response);
             	            return;
-            	        }
-                        if (reg.getStatus()!=null&&!reg.getStatus().equals("open"))isOpen=true;
+            	        } else if (reg.getStatus()!=null&&!reg.getStatus().equals("open")){//如果不在注册阶段
+            	            request.setAttribute("message", "本次课程注册已经结束");
+            	            request.getRequestDispatcher("/jsp/Student/add_course.jsp").forward(request, response);
+            	            return;
+            	        }else { request.removeAttribute("message");}
+            	        
             	        
                         list = select_course_dao.get_schedule(s_id, reg.getReg_id());
                        
@@ -112,14 +115,12 @@
                         </td>
                         <td><%=course.getStudent_count()%>
                         </td>
-                        <%if(isOpen){%>
                         <td>
                             <input type="radio"
                                    value="<%=list.get(i).get_course_id()%> <%=list.get(i).get_reg_id() %> <%=list.get(i).get_student_id() %> <%=list.get(i).get_select_status() %>"
                                    name=<%=name%> 
                             />删除
                         </td>
-                        <%}%>
                     </tr>
                     <%
                             name++;
@@ -137,9 +138,8 @@
 </div>
 <div class="fix_place">
     <button class="function" onclick="show()">功能</button>
-    <%if(isOpen){%>
     <button class="button_submit" onclick="submit()">提交</button>
-    <%}%>
+    
     
     <input type="checkbox" id="sideMenu">
     <div class="navigate">

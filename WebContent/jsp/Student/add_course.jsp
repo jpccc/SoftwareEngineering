@@ -109,7 +109,7 @@
                                    name=<%=name%>
                             />首选
                             <input type="radio"
-                                   value="<%=list.get(i).getCourse_id() %>  <%=list.get(i).getReg_id() %> second  <%=list.get(i).getPrice() %>"
+                                   value="<%=list.get(i).getCourse_id() %>  <%=list.get(i).getReg_id() %> alternate  <%=list.get(i).getPrice() %>"
                                    name=<%=name%>
                             />
                             备选
