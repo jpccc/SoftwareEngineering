@@ -91,6 +91,7 @@ public class SelectCourseServlet extends HttpServlet {
 
 			if(op!=null&& op.contentEquals("add")) {
 				int in_list_primary=0;
+				int in_list_alternate=0;
 				for(int i=0;i<100;i++){
 					String str=request.getParameter(String.valueOf(i));
 					System.out.println(request.getParameter(String.valueOf(i)));
@@ -104,6 +105,9 @@ public class SelectCourseServlet extends HttpServlet {
 						String type=arr[2];
 						if(type.equals("primary")) {
 							in_list_primary+=1;
+						}
+						if(type.equals("alternate")) {
+							in_list_alternate+=1;
 						}
 						float price=Float.valueOf(arr[3]);
 						System.out.println("price= "+price);
@@ -129,9 +133,31 @@ public class SelectCourseServlet extends HttpServlet {
 								pri_num+=1;
 							}
 						}
+						
+						int alter_num=0;
+						for(int c=0;c<schedule.size();c++) {
+							if(schedule.get(c).get_select_status().equals("alternate")) {
+								alter_num+=1;
+							}
+						}
+						String over_ten="false";
+						Course course=select_course_dao.check_course(course_id, reg_id);
+						System.out.println("select course servlet info: course.student_num="+course.getStudent_count());
+						if(type.equals("primary")&&course.getStudent_count()>=9) {
+							over_ten="true";
+						}
+						
+						String over_two_alt="false";
+						System.out.println("select course info:course.alternate_num="+alter_num);
+						if(alter_num+in_list_alternate>2) {
+							over_two_alt="true";
+						}
+						
 						if(select_course_dao.satisfy_prerequire(schedule, course_selection).equals("yes")
 						&& select_course_dao.no_conflict(schedule, course_selection).equals("yes")
-						&&pri_num+in_list_primary<=4) {
+						&&pri_num+in_list_primary<=4
+						&&over_ten.equals("false")
+						&&over_two_alt.equals("false")) {
 							select_course_dao.add_course_selection(course_selection);
 							if(type.equals("primary")) {
 								select_course_dao.add_student_num(course_id, reg_id);
@@ -147,6 +173,12 @@ public class SelectCourseServlet extends HttpServlet {
 							}
 							if(pri_num+in_list_primary>4) {
 								request.setAttribute("message_select", "over 4 primary courses!");
+							}
+							if(over_ten.equals("true")) {
+								request.setAttribute("message_select", "over 10 student has selected it!");
+							}
+							if(over_two_alt.equals("true")) {
+								request.setAttribute("message_select", "over 2 alternate courses!");
 							}
 							break;
 						}

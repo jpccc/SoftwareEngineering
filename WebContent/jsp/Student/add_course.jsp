@@ -111,8 +111,7 @@
                             <input type="radio"
                                    value="<%=list.get(i).getCourse_id() %>  <%=list.get(i).getReg_id() %> alternate  <%=list.get(i).getPrice() %>"
                                    name=<%=name%>
-                            />
-                            备选
+                            />备选                               
                         </td>
                     </tr>
                     <%
