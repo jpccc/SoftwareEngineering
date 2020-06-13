@@ -22,9 +22,7 @@
         }
     </script>
 </head>
-
 <body>
-
 <div class="head">
     <div class="head_left">
         <hr id="line_l">
@@ -38,9 +36,6 @@
     </div>
 
 </div>
-
-
-
 <div class="body">
     <div class="table_one">
         <table class="table_info" border="1">
@@ -69,20 +64,19 @@
                     <td><%=student.getBirthday()%></td>
                     <td><%=student.getIdentify_num()%></td>
                     <td><%=student.getStatus()%></td>
-                    <td>系ID</td>
+                    <td><%=student.getDept_id()%></td>
                 </tr>
             </div>
         </table>
     </div>
 </div>
-
 <div class="bottom">
     <div class="bottom_center">
         ${StudentError}
+        <br>
         欢迎使用教务管理系统!
     </div>
 </div>
-
 <div class="fix_place">
     <button class="function" onclick="show()">功能</button>
     <input type="checkbox" id="sideMenu">

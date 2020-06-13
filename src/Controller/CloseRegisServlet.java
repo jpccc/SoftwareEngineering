@@ -48,7 +48,7 @@ public class CloseRegisServlet extends HttpServlet {
 			request.getRequestDispatcher("/jsp/Registrar/RegistrarPage.jsp").forward(request, response);
         	return;
         }
-        if(onLineCount>5) {
+        if(onLineCount>1) {
 			request.setAttribute("close_error", "Someone online!");
 			request.getRequestDispatcher("/jsp/Registrar/RegistrarPage.jsp").forward(request, response);
         	return;

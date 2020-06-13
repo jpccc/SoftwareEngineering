@@ -444,7 +444,7 @@ public class RegistrarServlet extends BaseServlet {
         session.removeAttribute("registration");
         session.removeAttribute("selectedC");
         session.removeAttribute("allC");
-        request.getRequestDispatcher("/").forward(request,response);
+        request.getRequestDispatcher("/index.jsp").forward(request,response);
     }
     public String generateID(HttpServletRequest req){
         HttpSession sessions=req.getSession();

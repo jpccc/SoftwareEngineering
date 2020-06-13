@@ -103,7 +103,7 @@ public class SelectCourseDAOImpl implements SelectCourseDAO{
         Connection conn=null;
         PreparedStatement ps=null;
         ResultSet rs=null;
-        String sql="select * from course_info where reg_id=?";
+        String sql="select * from course_info where reg_id=? ";
         try {
             conn=JDBCUtil.getMysqlConnection();
             ps=conn.prepareStatement(sql);
@@ -137,7 +137,47 @@ public class SelectCourseDAOImpl implements SelectCourseDAO{
         return res;
     }
 
-
+    @Override
+    public List<Course> get_all_courses(int reg_id,String stu_id) {
+        List<Course> res=new ArrayList<>();
+        Connection conn=null;
+        PreparedStatement ps=null;
+        ResultSet rs=null;
+        String sql="select * from course_info where reg_id=? and course_id not in(select course_id from selection where student_id=? and reg_id=?)";
+        try {
+            conn=JDBCUtil.getMysqlConnection();
+            ps=conn.prepareStatement(sql);
+            ps.setInt(1, reg_id);
+            ps.setString(2,stu_id);
+            ps.setInt(3,reg_id);
+            rs=ps.executeQuery();
+            while(rs.next()){
+                Course course=new Course();
+                if(rs.getObject("reg_id")!=null)course.setReg_id(rs.getInt("reg_id"));
+                course.setCourse_id(rs.getString("course_id"));
+                course.setDept_id(rs.getInt("dept_id"));
+                course.setCourse_name(rs.getString("course_name"));
+                course.setStart_date(rs.getDate("start_date"));
+                course.setEnd_date(rs.getDate("end_date"));
+                course.setWeekday(rs.getInt("weekday"));
+                course.setTimeslot_id(rs.getInt("timeslot_id"));
+                course.setProfessor_id(rs.getString("professor_id"));
+                course.setStudent_count(rs.getInt("student_count"));
+                course.setStatus(rs.getString("status"));
+                course.setPrice(rs.getFloat("price"));
+                res.add(course);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }finally {
+            try {
+                DruidManager.close(conn,ps,rs);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return res;
+    }
 
     @Override
     public List<Course> check_course(String course_id) {
@@ -241,18 +281,18 @@ public class SelectCourseDAOImpl implements SelectCourseDAO{
             Course course=check_course_from_selection(schedule.get(i));
             int weekday=course.getWeekday();
             int slot=course.getTimeslot_id();
-
-            if( ( (~(new_weekday^weekday))&weekday )!=0x00000000 ) {
-                return "no";
-            }
-            if( ( (~(new_slot^slot))&slot )!=0x00000000 ) {
-                return "no";
+            if(new_course.getStart_date().before(course.getEnd_date())&&
+                    course.getStart_date().before(new_course.getEnd_date())){
+                if( ( (~(new_weekday^weekday))&weekday )!=0x00000000 ) {
+                    return "no";
+                }
+                if( ( (~(new_slot^slot))&slot )!=0x00000000 ) {
+                    return "no";
+                }
             }
         }
 
         return "yes";
-
-
     }
 
 

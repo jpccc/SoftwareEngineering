@@ -6,6 +6,7 @@
 <head>
     <title>开启注册</title>
     <link rel="stylesheet" href="/SoftwareEngineering/jsp/Registrar/css/user.css">
+    <link rel="stylesheet" href="/SoftwareEngineering/jsp/Registrar/css/scroll.css">
     <script>
         function show() {
             var x = document.getElementById("sideMenu");
@@ -33,8 +34,6 @@
         <hr id="line_r">
     </div>
 </div>
-
-
 <div class="body">
     <div class="table_one">
         <table class="table_info" border="1">
@@ -113,13 +112,10 @@
         </table>
     </div>
 </div>
-
-
 <div class="bottom">
     <div class="bottom_center">
         ${RegistrarError}
         <br>
-        欢迎使用教务管理系统!
     </div>
 </div>
 <div class="fix_place">

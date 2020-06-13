@@ -90,9 +90,9 @@ public class SelectCourseServlet extends HttpServlet {
 			}
 
 			if(op!=null&& op.contentEquals("add")) {
-				int in_list_primary=0;
-				int in_list_alternate=0;
 				for(int i=0;i<100;i++){
+                    int in_list_primary=0;
+                    int in_list_alternate=0;
 					String str=request.getParameter(String.valueOf(i));
 					System.out.println(request.getParameter(String.valueOf(i)));
 					if(str!=null) {
@@ -143,7 +143,7 @@ public class SelectCourseServlet extends HttpServlet {
 						String over_ten="false";
 						Course course=select_course_dao.check_course(course_id, reg_id);
 						System.out.println("select course servlet info: course.student_num="+course.getStudent_count());
-						if(type.equals("primary")&&course.getStudent_count()>=9) {
+						if(type.equals("primary")&&course.getStudent_count()>9) {
 							over_ten="true";
 						}
 						
@@ -159,26 +159,27 @@ public class SelectCourseServlet extends HttpServlet {
 						&&over_ten.equals("false")
 						&&over_two_alt.equals("false")) {
 							select_course_dao.add_course_selection(course_selection);
+							schedule.add(course_selection);
 							if(type.equals("primary")) {
 								select_course_dao.add_student_num(course_id, reg_id);
 							}
 							
-							request.setAttribute("message_select", "add success  PRICE="+price +"type="+type);
+							request.setAttribute("message_select", "添加成功!");
 						}else {
 							if(select_course_dao.satisfy_prerequire(student_id,reg.getReg_id(), course_selection).equals("no")) {
-								request.setAttribute("message_select", "not satisfy prev_require courses!");
+								request.setAttribute("message_select", "请先选择该课程先修课!");
 							}
 							if(select_course_dao.no_conflict(schedule, course_selection).equals("no")) {
-								request.setAttribute("message_select", "time slot conflict!");
+								request.setAttribute("message_select", "课程时间冲突!");
 							}
 							if(pri_num+in_list_primary>4) {
-								request.setAttribute("message_select", "over 4 primary courses!");
+								request.setAttribute("message_select", "超过4科首选课!");
 							}
 							if(over_ten.equals("true")) {
-								request.setAttribute("message_select", "over 10 student has selected it!");
+								request.setAttribute("message_select", "课程人数已满(10人)!");
 							}
 							if(over_two_alt.equals("true")) {
-								request.setAttribute("message_select", "over 2 alternate courses!");
+								request.setAttribute("message_select", "备选课超过2科!!");
 							}
 							break;
 						}

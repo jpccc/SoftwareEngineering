@@ -4,6 +4,7 @@
          import="Beans.Registration"%>
 <%@ page import="java.util.Date" %>
 <%@ page import="java.text.SimpleDateFormat" %>
+<%@ page import="Beans.Student" %>
 <html>
 <head>
     <title>学生选课页面</title>
@@ -60,7 +61,6 @@
                         <th height="57" class="text-center">课程名</th>
                         <th class="text-center">课程起始时间</th>
                         <th class="text-center">课程结束时间</th>
-                        <th class="text-center">WeekDay</th>
                         <th class="text-center">教师ID</th>
                         <th class="text-center">已选人数</th>
                         <th class="text-center">选课种类</th>
@@ -81,10 +81,10 @@
         	            request.getRequestDispatcher("/jsp/Student/StudentPage.jsp").forward(request, response);
         	            return;
         	        }else { request.removeAttribute("message");}
-        	        
-        	        
+
+        	            Student student = (Student) session.getAttribute("user");
                         List<Course> list = new ArrayList<Course>();
-                        list = select_course_dao.get_all_courses(reg.getReg_id());
+                        list = select_course_dao.get_all_courses(reg.getReg_id(),student.getS_id().toString());
                         System.out.println("add course.jsp: reg_id="+reg.getReg_id());
                         int name = 0;
                         for (int i = 0; i < list.size(); i++) {
@@ -96,7 +96,6 @@
                         </td>
                         <td><%=list.get(i).getEnd_date()%>
                         </td>
-                        <td><%=list.get(i).getWeekday()%>
                         </td>
                         <td><%=list.get(i).getProfessor_id()%>
                         </td>

@@ -50,6 +50,7 @@ public class OpenRegisServlet extends BaseServlet{
         System.out.println("beginTime:"+request.getParameter("beginTime"));
         System.out.println("endTime:"+request.getParameter("endTime"));
         course.setStart_date(Date.valueOf(request.getParameter("beginTime")));
+        System.out.print("123"+Date.valueOf(request.getParameter("beginTime")));
         course.setEnd_date(Date.valueOf(request.getParameter("endTime")));
         System.out.println(course.getStart_date());
         System.out.println(course.getEnd_date());
@@ -94,7 +95,7 @@ public class OpenRegisServlet extends BaseServlet{
             request.getRequestDispatcher("jsp/Registrar/RegistrarPage.jsp").forward(request,response);
             return;
         }
-        if(count>5){//TODO: change to 1 before use
+        if(count>1){//TODO: change to 1 before use
             request.setAttribute("RegistrarError","当前有其他用户在线，开启注册失败");
             request.getRequestDispatcher("jsp/Registrar/RegistrarPage.jsp").forward(request,response);
             return;

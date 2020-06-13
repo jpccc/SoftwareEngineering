@@ -71,7 +71,6 @@
                         <th height="57" class="text-center">课程名</th>
                         <th class="text-center">课程起始时间</th>
                         <th class="text-center">课程结束时间</th>
-                        <th class="text-center">WeekDay</th>
                         <th class="text-center">教师ID</th>
                         <th class="text-center">已选人数</th>
                         <th class="text-center">删除课程</th>
@@ -104,8 +103,6 @@
                         <td><%=course.getStart_date()%>
                         </td>
                         <td><%=course.getEnd_date()%>
-                        </td>
-                        <td><%=course.getWeekday()%>
                         </td>
                         <td><%=course.getProfessor_id()%>
                         </td>

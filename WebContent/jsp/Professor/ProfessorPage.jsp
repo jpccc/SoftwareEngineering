@@ -94,7 +94,7 @@
                 <a href="/SoftwareEngineering/jsp/Professor/ProfessorPage.jsp">
                     <li>首页</li>
                 </a>
-                <a href="/SoftwareEngineering/jsp/Professor/SelectToTeach.jsp">
+                <a href="/SoftwareEngineering/ProfessorServlet?method=getCourseList">
                     <li>选择课程</li>
                 </a>
                 <a href="/SoftwareEngineering/GradesServlet?method=queryCourses">
