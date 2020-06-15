@@ -14,7 +14,7 @@ import java.util.HashMap;
  * 资源包括ResultSet，Statement和Connection释放时按顺序释放
  * 利用数据库连接池增加并发�?
  *
- * 使用时请自行修改其中的数据库用户名，url和密�?
+ * 使用时请自行修改其中的数据库用户名，url和密码
  */
 public class DruidManager {
     private static final String DB_URL = "jdbc:mysql://127.0.0.1:3306/course_selection?characterEncoding=utf-8&useSSL=false&serverTimezone=UTC"; // 鏁版嵁搴撹繛鎺RL
